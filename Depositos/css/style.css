@@ -1,0 +1,236 @@
+html, body {  
+ 
+ height: 100%; padding: 0; margin: 0;
+ background-color: #284775;  
+ background-image:url('../img/Marco.jpg');
+ background-repeat: no-repeat;
+ background-attachment: fixed;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover; 
+ background-size: cover; 
+ text-align: center;}
+
+div{
+
+	 float: left; margin-top: 0.5%; margin-bottom: 0.5%;  border: 1px solid #3399FF;
+	 border-radius: 10px;
+	 background: #FFFFFF;
+	 text-align:0.5%;  
+
+}
+
+
+
+#contenedor1{
+
+	width: 60%; height: 100%;
+
+}
+
+#contenedor2{
+
+	width: 40%; height: 100%;
+	
+}
+
+#contenedor3{
+
+	width: 90%; height: 99%;
+
+}
+
+#div1 { width: 90%; height: 99%; 
+	display:none; 
+
+	}
+
+#div2{
+		width: 10%; height: 99%;
+		background-color: transparent ;
+		font-family: serif;
+		font-size: 14px;
+		color: #FFF;
+		text-align: center;
+		padding-top: 1%;
+		/*background-color: none;*/ 
+		border: 1px solid #004577;
+
+
+		/*position:relative;*/
+}
+
+#div22{
+      font-family= :
+      margin-left
+}
+
+th{
+	background-color: #447CB5;
+	color: #FFFFFF;
+	font-size: 15px;
+
+}
+
+
+tr{
+	font-size: 13px;
+	
+	
+}
+
+/*#div1 { background: #FFFFFF;
+		margin-left:0.5%;
+		margin-right: 0.25%;
+	  }*/
+
+
+
+
+
+#frame2 { width: 100%;
+		 height:100%;}
+
+#tabla { 
+
+		 width: 100%;
+		 height:99.5%;
+		 -webkit-height:98%;
+		 -moz-height:98%;
+		 -o-height:98%;
+		 -xv-height:98%;
+		 -wap-height:98%;
+		 -ms-height:98%;
+
+		 min-height:98%;
+		 -webkit-min-height:98%;
+		 -moz-min-height:98%;
+		 -o-min-height:98%;
+		 -xv-min-height:98%;
+		 -wap-min-height:98%;
+		 -ms-min-height:98%;
+		 margin-top: 0.2%;
+	   }
+
+.grafica{
+	height: 90%;
+	width: 100%;
+	/*max-width: 560 px;*/
+	padding-top: 56.25%;
+	position: relative;
+	border-style:hidden;
+
+}
+iframe{
+
+    /*position:absolute;*/
+    height:97%;
+    width:97%; 
+    top:0px;
+    left:0px;
+
+}
+
+.trTotal{
+	background-color: #447CB5;
+	color: #FFFFFF;
+	font-size: 15px;
+
+}
+
+.trSubTotal{
+	background-color: #689ED5;
+	color: #FFFFFF;
+	font-size: 15px;
+
+}
+
+.rVerde{
+	background-color: #00ff30;
+	font-weight: bold;
+
+}
+
+.rRojo{
+	background-color: #ff0000;
+	font-weight: bold;
+}
+
+.rAmarillo{
+	background-color: #fff600;
+	font-weight: bold;
+}
+
+.burbujas {
+width: 100%;
+height: 10px;
+background-color:transparent;
+border-style:hidden
+}
+
+@keyframes myfirst
+{
+	0%   {left:0px; top:0px;}
+	10%  {left: 2; top: -30px;}
+	25%  {left:4px; top:-50px;}
+	40% {left: -2; top: -75;}
+	50%  {left:-4px; top:-100px;}
+	60% { left: 2px; top: -125px;}
+	75%  {left:4px; top:-150px;}
+	90% { left: 2px; top: -175px;}
+	100% {left:0px; top:-200px;}
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+	0%   {left:0px; top:0px;}
+	10%  {left: 2; top: -30px;}
+	25%  {left:4px; top:-50px;}
+	40% {left: -2; top: -75;}
+	50%  {left:-4px; top:-100px;}
+	60% { left: 2px; top: -125px;}
+	75%  {left:4px; top:-150px;}
+	90% { left: 2px; top: -175px;}
+	100% {left:0px; top:-200px;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+	0%   {left:0px; top:0px;}
+	10%  {left: 2; top: -30px;}
+	25%  {left:4px; top:-50px;}
+	40% {left: -2; top: -75;}
+	50%  {left:-4px; top:-100px;}
+	60% { left: 2px; top: -125px;}
+	75%  {left:4px; top:-150px;}
+	90% { left: 2px; top: -175px;}
+	100% {left:0px; top:-200px;}
+}
+
+.cuadrado
+{
+	position:relative;
+	animation-name:myfirst;
+	animation-duration:3s;
+	animation-timing-function:linear;
+	animation-delay:3s;
+	animation-iteration-count:infinite;
+	animation-play-state:running;
+	/*Firefox:*/
+	-moz-animation-name:myfirst;
+	-moz-animation-duration:3s;
+	-moz-animation-timing-function:linear;
+	-moz-animation-delay:3s;
+	-moz-animation-iteration-count:infinite;
+	-moz-animation-play-state:running;
+	/* Safari and Chrome: */
+	-webkit-animation-name:myfirst;
+	-webkit-animation-duration: 3s;
+	-webkit-animation-timing-function:linear;
+	-webkit-animation-delay:3s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-play-state:running
+}
+
+
+

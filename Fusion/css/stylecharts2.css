@@ -1,0 +1,115 @@
+html, body { height: 100%; padding: 0; margin: 0; text-align: center; overflow:hidden;}
+
+div{
+
+	 float: left; margin-top: 0.25%; margin-bottom: 0.25%;  border: 1px solid #3399FF;
+	 border-radius: 10px;
+	 background: #FFFFFF;
+	 margin-left:0.25%;
+	 margin-right: 0.25%;
+}
+
+
+#contenedor1{
+
+	width: 70%; height: 100%;
+	border: 0px;
+	 margin-left:0%;
+	 margin-right: 0%; 
+
+}
+
+#contenedor2{
+
+	width: 30%; height: 100%;
+	border: 0px;
+	 margin-left:0%;
+	 margin-right: 0%; 
+	
+}
+
+#div1 { width: 99%; height: 99%; 
+		
+
+	}
+
+#div2{
+		width: 49%; height: 49%;
+		/*position:relative; */
+}
+
+#div3{
+		width: 49%; height: 49%;
+		/*position:relative;*/
+}
+
+#div4{
+		width: 49%; height: 49%;
+		/*position:relative; */
+}
+
+#div5{
+		width: 49%; height: 49%;
+		/*position:relative; */ 
+}
+
+#div6{
+		width: 99%; height: 99%;
+		/*position:relative; */
+}
+
+th{
+	background-color: #3399FF;
+	color: #FFFFFF;
+	font-size: 15px;
+}
+
+tr{
+	font-size: 15px;
+	
+}
+
+/*#div1 { background: #FFFFFF;
+		margin-left:0.5%;
+		margin-right: 0.25%;
+	  }*/
+
+.div { /*background: #FFFFFF;*/
+		margin-right: 0.25%;
+		margin-left: 0.5%;
+	  }
+
+
+#frame2 { width: 100%;
+		 height:100%;}
+
+#tabla { 
+
+		 width: 100%;
+		 height:98%;
+		 -webkit-height:98%;
+		 -moz-height:98%;
+		 -o-height:98%;
+		 -xv-height:98%;
+		 -wap-height:98%;
+		 -ms-height:98%;
+
+		 min-height:98%;
+		 -webkit-min-height:98%;
+		 -moz-min-height:98%;
+		 -o-min-height:98%;
+		 -xv-min-height:98%;
+		 -wap-min-height:98%;
+		 -ms-min-height:98%;
+		 margin-top: 0.5%;
+	   }
+
+iframe{
+
+    /*position:absolute;*/
+    height:97%;
+    width:97%; 
+    top:0px;
+    left:0px;
+}
+
