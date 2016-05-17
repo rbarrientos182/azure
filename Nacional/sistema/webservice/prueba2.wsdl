@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:prueba" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:prueba">
+	<types>
+		<xsd:schema targetNamespace="urn:prueba">
+			<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+		</xsd:schema>
+	</types>
+	<message name="setOrdenRequest">
+		<part name="archivo" type="xsd:string"/>
+	</message>
+	<message name="setOrdenResponse">
+		<part name="return" type="xsd:string"/>
+	</message>
+	<portType name="pruebaPortType">
+		<operation name="setOrden">
+			<documentation>Leemos el archivo y guardamos en la data base</documentation>
+			<input message="tns:setOrdenRequest"/>
+			<output message="tns:setOrdenResponse"/>
+		</operation>
+	</portType>
+	<binding name="pruebaBinding" type="tns:pruebaPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="setOrden">
+		<soap:operation soapAction="urn:prueba#setOrden" style="rpc"/>
+			<input>
+				<soap:body use="encoded" namespace="urn:prueba" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:prueba" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="prueba">
+		<port name="pruebaPort" binding="tns:pruebaBinding">
+			<soap:address location="http://localhost:8080/gepp/pagina/sistema/webservice/prueba.php"/>
+		</port>
+	</service>
+</definitions>

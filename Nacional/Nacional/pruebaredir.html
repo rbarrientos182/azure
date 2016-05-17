@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Marker animations with <code>setTimeout()</code></title>
+    <script>
+    function redireccionar()
+    {
+      alert('entro a redireccionar');
+      setTimeout(function(){
+        $(location).attr('href','tablaClientes.php');
+      },2000);
+    }  
+  </script>
+  <script src="js/jquery.min.js"></script>
+  </head>
+  <body onload="redireccionar()">
+    <div id="map-canvas"></div>
+  </body>
+</html>

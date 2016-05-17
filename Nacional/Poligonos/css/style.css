@@ -1,0 +1,103 @@
+html, body {  
+ 
+ height: 100%; padding: 0; margin: 0;
+ background-color: #284775;  
+ background-image:url('../img/Marco.jpg');
+ background-repeat: no-repeat;
+ background-attachment: fixed;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover; 
+ background-size: cover; 
+ text-align: center;}
+
+.div{
+
+	 float: left; margin-top: 0.5%; margin-bottom: 0.5%;  border: 1px solid #3399FF;
+	 border-radius: 10px;
+	 background: #FFFFFF;
+
+}
+
+#div1 { width:85%; height: 99%; 
+	background-color: #FFFFFF ;
+	font-family: serif;
+	font-size: 14px;
+	color: #FFF;
+	text-align: center;
+	padding-top: 1%;
+	border: 1px solid #004577;
+
+}
+
+#div2{
+		width: 15%; height: 99%;
+		background-color: transparent ;
+		font-family: serif;
+		font-size: 14px;
+		color: #FFF;
+		text-align: center;
+		/*padding-top: 1%;*/
+		border: 1px solid #004577;
+}
+
+th{
+	background-color: #447CB5;
+	color: #FFFFFF;
+	font-size: 15px;
+
+}
+
+
+tr{
+	font-size: 13px;
+	
+	
+}
+
+ iframe{
+        /*position: absolute;*/
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+}
+
+@keyframes myfirst
+{
+	0%   {left:0px; top:0px;}
+	10%  {left: 2; top: -30px;}
+	25%  {left:4px; top:-50px;}
+	40% {left: -2; top: -75;}
+	50%  {left:-4px; top:-100px;}
+	60% { left: 2px; top: -125px;}
+	75%  {left:4px; top:-150px;}
+	90% { left: 2px; top: -175px;}
+	100% {left:0px; top:-200px;}
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+	0%   {left:0px; top:0px;}
+	10%  {left: 2; top: -30px;}
+	25%  {left:4px; top:-50px;}
+	40% {left: -2; top: -75;}
+	50%  {left:-4px; top:-100px;}
+	60% { left: 2px; top: -125px;}
+	75%  {left:4px; top:-150px;}
+	90% { left: 2px; top: -175px;}
+	100% {left:0px; top:-200px;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+	0%   {left:0px; top:0px;}
+	10%  {left: 2; top: -30px;}
+	25%  {left:4px; top:-50px;}
+	40% {left: -2; top: -75;}
+	50%  {left:-4px; top:-100px;}
+	60% { left: 2px; top: -125px;}
+	75%  {left:4px; top:-150px;}
+	90% { left: 2px; top: -175px;}
+	100% {left:0px; top:-200px;}
+}
