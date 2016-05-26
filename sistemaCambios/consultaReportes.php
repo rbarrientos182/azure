@@ -24,30 +24,39 @@ $idoperacion = $_SESSION['idoperacion'];
 					<div class="box-content">
 						<form class="form-horizontal" id="registro" action="reportes/consultarReportes.php" method="post" target="_blank">
 							<fieldset>
-							  <div class="control-group">
-								<label class="control-label" for="selectError">Fecha Preventa</label>
-								<div class="controls">
-									<input type="text" class="input-xlarge uneditable-input datepicker" id="fechaPre" name="fechaPre" value="<?php echo date('Y-m-d')?>">
-								</div>
-							  </div>
-							  <div class="control-group">
-								<label class="control-label" for="selectError">Tipo de Reporte</label>
-								<div class="controls">
-									<select id="tipoR" name="tipoR" data-validation-engine="validate[required]">
-										<!--<?php if($nivel==1 || $nivel==4){?><option value="0">Reporte Supervisor (por producto)</option><?php }?>-->
-										<option value="1">Reporte Vendedor (por producto)</option>
-										<option value="2">Reporte Bodega (por producto)</option>
-										<option value="5">Reporte Bodega (por producto Excel)</option>
-										<option value="3">Reporte Administración (por Motivo)</option>
-										<option value="4">Reporte Administración (Detallado)</option>
-										<option value="6">Reporte Indicadores</option>
-									</select>
-								</div>
-							  </div>
-							  <div class="form-actions">
-								<button type="submit" id="btn_consultaR" name="btn_consultaR" class="btn btn-primary">Consultar</button>
-								<button type="reset" class="btn">Cancelar</button>
-							  </div>
+								<div class="control-group">
+									<label class="control-label" for="selectError">Tipo de Reporte</label>
+									<div class="controls">
+										<select id="tipoR" name="tipoR" data-validation-engine="validate[required]">
+											<!--<?php if($nivel==1 || $nivel==4){?><option value="0">Reporte Supervisor (por producto)</option><?php }?>-->
+											<option value="1">Reporte Vendedor (por producto)</option>
+											<option value="2">Reporte Bodega (por producto)</option>
+											<option value="5">Reporte Bodega (por producto Excel)</option>
+											<option value="3">Reporte Administración (por Motivo Excel)</option>
+											<option value="4">Reporte Administración (Detallado Excel)</option>
+											<!--<option value="6">Reporte Indicadores (Excel)</option>-->
+											<option value="7">Reporte Indicadores (por Segmento Excel)</option>
+											<option value="8">Reporte Indicadores (por Motivo Excel)</option>
+											<option value="9">Reporte Indicadores (por Presentación Excel)</option>
+										</select>
+									</div>
+							  	</div>
+							  	<div class="control-group">
+									<label class="control-label" for="selectError">Fecha Inicio</label>
+									<div class="controls">
+										<input type="text" class="input-xlarge uneditable-input datepicker" id="fechaIni" name="fechaIni" value="<?php echo date('Y-m-d')?>">
+									</div>
+							  	</div>
+							  	<div id="divFechaFin" class="control-group" style="visibility: hidden;">
+									<label class="control-label" for="selectError">Fecha Fin</label>
+									<div class="controls">
+										<input type="text" class="input-xlarge uneditable-input datepicker" id="fechaFin" name="fechaFin" value="<?php echo date('Y-m-d')?>">
+									</div>
+							  	</div>
+								  	<div class="form-actions">
+									<button type="submit" id="btn_consultaR" name="btn_consultaR" class="btn btn-primary">Consultar</button>
+									<button type="reset" class="btn">Cancelar</button>
+							  	</div>
 							</fieldset>
 						  </form>
 					</div>

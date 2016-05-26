@@ -7,7 +7,8 @@ require_once('../clases/class.MySQL.php');
 $db = new MySQL();
 
 $idoperacion = $_SESSION['idoperacion'];
-$fechaPreventa = $_POST['fechaPre'];
+$fechaIni = $_POST['fechaIni'];
+$fechaFin = $_POST['fechaFin'];
 $tipoReporte = $_POST['tipoR'];
 
 // reporte supervisor 
@@ -46,5 +47,17 @@ elseif ($tipoReporte==5) {
 elseif ($tipoReporte==6) {
 
 	include('reportesIndicadoresXLS.php');
+}
+elseif ($tipoReporte==7) {
+
+	include('reportesIndicadoresSXLS.php');
+}
+elseif ($tipoReporte==8) {
+
+	include('reportesIndicadoresMXLS.php');
+}
+elseif ($tipoReporte==9) {
+
+	include('reportesIndicadoresPXLS.php');
 }
 ?>

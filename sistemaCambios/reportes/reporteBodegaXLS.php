@@ -5,10 +5,11 @@ if (!isset($_SESSION))
 }
 date_default_timezone_set('America/Mexico_City');
 $idoperacion = $_SESSION['idoperacion'];
-$fechaPreventa = $_POST['fechaPre'];
+$fechaIni = $_POST['fechaIni'];
+$fechaFin = $_POST['fechaFin'];
 
 header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=reporteBodega_".$fechaPreventa.'_'.date('H:i:s').".xls");
+header("Content-Disposition: attachment; filename=reporteBodega_".$fechaIni.'_'.date('H:i:s').".xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
@@ -18,14 +19,14 @@ $db = new MySQL();
 /** array dias **/
 $dias = array('','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
 
-$fechaDia = $dias[date('N', strtotime($fechaPreventa))];
+$fechaDia = $dias[date('N', strtotime($fechaIni))];
 
 	if($fechaDia=='Sabado'){
-		$fechaEntrega = strtotime ('+2 day', strtotime ($fechaPreventa));
+		$fechaEntrega = strtotime ('+2 day', strtotime ($fechaIni));
 	}
 	else
 	{
-		$fechaEntrega = strtotime ('+1 day', strtotime ($fechaPreventa));
+		$fechaEntrega = strtotime ('+1 day', strtotime ($fechaIni));
 	}
 
 	$fechaEntrega = date('Y-m-d', $fechaEntrega);
@@ -60,13 +61,13 @@ $encabezado = '<tr>
 			    </tr>
 			    <tr>
 			      <td><tt></tt></td>
-			      <td><tt>Fecha Preventa</tt></td>
-			      <td><tt>'.$fechaPreventa.'</tt></td>
+			      <td><tt>Fecha Inicio</tt></td>
+			      <td><tt>'.$fechaIni.'</tt></td>
 			    </tr>
 			    <tr>
 			      <td><tt></tt></td>
-			      <td><tt>Fecha Entrega</tt></td>
-			      <td><tt>'.$fechaEntrega.'</tt></td>
+			      <td><tt>Fecha Fin</tt></td>
+			      <td><tt>'.$fechaFin.'</tt></td>
 			    </tr>';
 
 	$consulta = "SELECT 
@@ -86,7 +87,7 @@ $encabezado = '<tr>
             INNER JOIN 
         productos p ON pc.skuConver = p.sku
     WHERE
-        cc.FechaCambio = '$fechaPreventa'
+        cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
         AND cc.idoperacion = $idoperacion
         AND estatusDis !=0
     GROUP BY pc.skuconver

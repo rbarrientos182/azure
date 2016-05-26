@@ -17,19 +17,20 @@ class PDF extends FPDF
         $idoperacion = $_SESSION['idoperacion'];
         $fechaPreventa = $_POST['fechaPre'];
         $tipoReporte = $_POST['tipoR'];
-        $tArchivo = $_POST['optionsRadios'];
+        $fechaIni = $_POST['fechaIni'];
+        $fechaFin = $_POST['fechaFin'];
 
         /** array dias **/
         $dias = array('','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
 
-        $fechaDia = $dias[date('N', strtotime($fechaPreventa))];
+        $fechaDia = $dias[date('N', strtotime($fechaIni))];
 
         if($fechaDia=='Sabado'){
-            $fechaEntrega = strtotime ('+2 day', strtotime ($fechaPreventa));
+            $fechaEntrega = strtotime ('+2 day', strtotime ($fechaIni));
         }
         else
         {
-            $fechaEntrega = strtotime ('+1 day', strtotime ($fechaPreventa));
+            $fechaEntrega = strtotime ('+1 day', strtotime ($fechaIni));
         }
 
         $fechaEntrega = date('Y-m-d', $fechaEntrega);
@@ -65,7 +66,7 @@ class PDF extends FPDF
         $this->Cell(15);
         $this->Cell(40,5,'',0,0,'L');
         $this->Cell(50,5,utf8_decode('Fecha Preventa'),0,0,'L');
-        $this->Cell(50,5,$fechaPreventa,0,1,'L');
+        $this->Cell(50,5,$fechaIni,0,1,'L');
         // Movernos a la derecha
         $this->Cell(15);
         $this->Cell(40,5,'',0,0,'L');
@@ -185,7 +186,7 @@ $consulta = "SELECT
         presentacion pr ON pr.idpresentacion = p.idpresentacion
           
     WHERE
-        cc.FechaCambio = '$fechaPreventa'
+        cc.FechaCambio = '$fechaIni'
         AND cc.idoperacion = $idoperacion
         AND estatusDis !=0
     GROUP BY cc.idruta, pc.skuconver
@@ -303,5 +304,5 @@ if($row['idruta']!=''){
     $pdf->Cell($w[8],6,'',0,0,'C');
     $pdf->Ln();
 }// fin de if validacion
-$pdf->Output('reporteBodega_'.$fechaPreventa.'_'.date('H:i:s').'.pdf','D');
+$pdf->Output('reporteBodega_'.$fechaIni.'_'.date('H:i:s').'.pdf','D');
 ?>

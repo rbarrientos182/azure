@@ -5,10 +5,11 @@ if (!isset($_SESSION))
 } 
 date_default_timezone_set('America/Mexico_City');
 $idoperacion = $_SESSION['idoperacion'];
-$fechaPreventa = $_POST['fechaPre'];
+$fechaIni = $_POST['fechaIni'];
+$fechaFin = $_POST['fechaFin'];
 
 header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=reporteAdministracionDetallado_".$fechaPreventa.'_'.date('H:i:s').".xls");
+header("Content-Disposition: attachment; filename=reporteAdministracionDetallado_".$fechaIni.'_'.date('H:i:s').".xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
@@ -19,14 +20,14 @@ $db = new MySQL();
 /** array dias **/
 $dias = array('','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
 
-$fechaDia = $dias[date('N', strtotime($fechaPreventa))];
+$fechaDia = $dias[date('N', strtotime($fechaIni))];
 
 	if($fechaDia=='Sabado'){
-		$fechaEntrega = strtotime ('+2 day', strtotime ($fechaPreventa));
+		$fechaEntrega = strtotime ('+2 day', strtotime ($fechaIni));
 	}
 	else
 	{
-		$fechaEntrega = strtotime ('+1 day', strtotime ($fechaPreventa));
+		$fechaEntrega = strtotime ('+1 day', strtotime ($fechaIni));
 	}
 
 	$fechaEntrega = date('Y-m-d', $fechaEntrega);
@@ -57,12 +58,12 @@ $encabezado = '<tr>
 			      <td><tt>'.$rowDep['idDeposito'].' '.$rowDep['deposito'].'</tt></td>
 			    </tr>
 			    <tr>
-			      <td><tt>Fecha Preventa</tt></td>
-			      <td><tt>'.$fechaPreventa.'</tt></td>
+			      <td><tt>Fecha Inicio</tt></td>
+			      <td><tt>'.$fechaIni.'</tt></td>
 			    </tr>
 			    <tr>
-			      <td><tt>Fecha Entrega</tt></td>
-			      <td><tt>'.$fechaEntrega.'</tt></td>
+			      <td><tt>Fecha Fin</tt></td>
+			      <td><tt>'.$fechaFin.'</tt></td>
 			    </tr>';
 			
 				
@@ -77,7 +78,8 @@ $encabezado = '<tr>
 					    pc.DescripcionInterna,
 					    pc.skuconver,
 					    p.descripcion AS desp,
-					    cc.cantidad
+					    cc.cantidad,
+					    cc.fechaCambio
 					FROM
 					    CapturaCambios cc
 					        INNER JOIN
@@ -95,7 +97,7 @@ $encabezado = '<tr>
 					        AND cc.idoperacion = mo.idoperacion
 					WHERE
 					    c.iddeposito = $idDeposito
-					        AND cc.FechaCambio = '$fechaPreventa'
+					        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 					        AND cc.idoperacion = $idoperacion
 					        AND estatusDis != 0
 					ORDER BY cc.idruta , pc.sku";
@@ -106,6 +108,7 @@ $encabezado = '<tr>
 				do{
 					
 					$tdBody  .= '<tr>
+									<td><tt>'.$row['fechaCambio'].'</tt></td>
 								    <td><tt>'.$row['idruta'].'</tt></td>
 								    <td><tt>'.$row['ppp'].'</tt></td>
 								    <td><tt>'.$row['nud'].'</tt></td>
@@ -139,16 +142,17 @@ $encabezado = '<tr>
 			<table width="750" height="112" border="0">
 			  <tbody>
 			    <tr>
-			      <td width="20"><tt>VPP</tt></td>
-			      <td width="20"><tt>PPP</tt></td>
-			      <td width="20"><tt>Nud</tt></td>
-			      <td width="20"><tt>Cliente</tt></td>
-			      <td width="20"><tt>Motivo</tt></td>
-			      <td width="20"><tt>SKU</tt></td>
-			      <td width="20"><tt>Producto</tt></td>
-			      <td width="20"><tt>SKU Conversión</tt></td>
-			      <td width="20"><tt>Producto Conversión</tt></td>
-			      <td width="20"><tt>Cantidad</tt></td>
+			    	<td width="20"><tt>Fecha Cambio</tt></td>
+			      	<td width="20"><tt>VPP</tt></td>
+			      	<td width="20"><tt>PPP</tt></td>
+			      	<td width="20"><tt>Nud</tt></td>
+			      	<td width="20"><tt>Cliente</tt></td>
+			      	<td width="20"><tt>Motivo</tt></td>
+			      	<td width="20"><tt>SKU</tt></td>
+			      	<td width="20"><tt>Producto</tt></td>
+			      	<td width="20"><tt>SKU Conversión</tt></td>
+			      	<td width="20"><tt>Producto Conversión</tt></td>
+			      	<td width="20"><tt>Cantidad</tt></td>
 			    </tr>
 			    <?php echo $tdBody; ?>
 			  </tbody>

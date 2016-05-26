@@ -2,10 +2,15 @@
 class MySQL
 {  
     private $conexion = null;
-    private $host = "tcp:kt0zwd4lnf.database.windows.net,1433";
-    private $user = "geppadmin@kt0zwd4lnf";
-    private $pass = "Gepp2015@";
-    private $db = "geppdinamico";
+    private $host = "portal.pgdweb.com:4406";
+    private $user = "mercadeo";
+    private $pass = "Eideud94@3";
+    private $db = "gepp";
+
+    /*private $host = "cedex";
+    private $user = "gepp";
+    private $pass = "gepp";
+    private $db = "gepp";*/
 
      	 
 	 //funcion de coneccion con la base de datos
@@ -14,7 +19,7 @@ class MySQL
 	 	if(!isset($this->conexion))
 		{  
 
-		$this->conexion = mysqli_connect($this->host,$this->user,$this->pass,$this->db) or die("Error " . mysqli_error($this->conexion));
+		$this->conexion = mysqli_connect($this->host,$this->user,$this->pass,$this->db) or die("Error de MySQL ".mysqli_error($this->conexion));
 
 		}  
 		

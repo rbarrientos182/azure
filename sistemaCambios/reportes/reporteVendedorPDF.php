@@ -16,21 +16,19 @@ class PDF extends FPDF
         $db = new MySQL();
 
         $idoperacion = $_SESSION['idoperacion'];
-        $fechaPreventa = $_POST['fechaPre'];
-        $tipoReporte = $_POST['tipoR'];
-        $tArchivo = $_POST['optionsRadios'];
+        $fechaIni = $_POST['fechaIni'];
 
         /** array dias **/
         $dias = array('','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
 
-        $fechaDia = $dias[date('N', strtotime($fechaPreventa))];
+        $fechaDia = $dias[date('N', strtotime($fechaIni))];
 
         if($fechaDia=='Sabado'){
-            $fechaEntrega = strtotime ('+2 day', strtotime ($fechaPreventa));
+            $fechaEntrega = strtotime ('+2 day', strtotime ($fechaIni));
         }
         else
         {
-            $fechaEntrega = strtotime ('+1 day', strtotime ($fechaPreventa));
+            $fechaEntrega = strtotime ('+1 day', strtotime ($fechaIni));
         }
 
         $fechaEntrega = date('Y-m-d', $fechaEntrega);
@@ -90,7 +88,7 @@ class PDF extends FPDF
         $this->Cell(30);
         $this->Cell(60,5,'',0,0,'L');
         $this->Cell(60,5,utf8_decode('Fecha Preventa'),0,0,'L');
-        $this->Cell(80,5,$fechaPreventa,0,1,'L');
+        $this->Cell(80,5,$fechaIni,0,1,'L');
         // Movernos a la derecha
         $this->Cell(30);
         $this->Cell(60,5,'',0,0,'L');
@@ -155,7 +153,7 @@ $consulta = "SELECT
         Clientes c ON c.nud = cc.nud and op.iddeposito=c.iddeposito
 	WHERE
 	    c.iddeposito = $idDeposito
-	        AND cc.FechaCambio = '$fechaPreventa'
+	        AND cc.FechaCambio = '$fechaIni'
 	        AND cc.idoperacion = $idoperacion
             AND estatusdis !=0
     GROUP BY ppp,nud,sku
@@ -256,5 +254,5 @@ if($row['idruta']!='')
     $pdf->Cell($w[9],6,'Firma del Cliente','T',0,'C',false);
     $pdf->Ln();
 }//fin de if validacion
-$pdf->Output('reporteVendedor_'.$fechaPreventa.'_'.date('H:i:s').'.pdf','D');
+$pdf->Output('reporteVendedor_'.$fechaIni.'_'.date('H:i:s').'.pdf','D');
 ?>

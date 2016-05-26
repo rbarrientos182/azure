@@ -9,7 +9,7 @@ class Clientes
 	function __construct()
 	{
 
-		$this->mysqli = new mysqli('10.50.4.5','gepp','gepp','gepp');
+		$this->mysqli = new mysqli('portal.pgdweb.com:4406','mercadeo','Eideud94@3','gepp');
 
 
 	}
@@ -25,7 +25,7 @@ class Clientes
 
 		/*** Leemos el archivo a insertar en orden ****/
 
-		$consulta ="LOAD DATA LOCAL INFILE 'C:\\\wamp\\\www\\\gepp\\\pagina\\\sistemaCambios\\\clientes\\\\".$this->archivo."' REPLACE INTO TABLE  clientes FIELDS TERMINATED BY '\,'";
+		$consulta ="LOAD DATA LOCAL INFILE 'D:\\\home\\\site\\\wwwroot\\\sitio\\\sistema\\\clientes\\\\".$this->archivo."' REPLACE INTO TABLE  clientes FIELDS TERMINATED BY '\,'";
 
 	
 		if(!$this->mysqli->query($consulta)){

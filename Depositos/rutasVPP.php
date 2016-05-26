@@ -127,6 +127,10 @@ $row = $mysqli->fetch_assoc($resultado);
 			</thead>
 			<tbody>
 				<?php
+				$totalKmReal=0;
+				$totaldif= 0;
+				$totalDesv = 0;
+				$contador = 0;
 				do{
 					$desv = $row['desviacion'];
 					$classDesv = $row['classDesviacion'];
@@ -138,6 +142,13 @@ $row = $mysqli->fetch_assoc($resultado);
 						$classDesv = 'rRojo';
 						$row['KM_Dif']='';
 						$row['KM_Real']='';
+						
+					}
+					else{
+						$totalKmReal = $totalKmReal + $row['KM_Real'];
+						$totaldif = $totaldif + $row['Dif'];
+						$totalDesv = $totalDesv + $desv;
+						$contador++;
 					}
 				?>
 					<tr style='background-color:<?php echo $row['color']?>'>
@@ -157,7 +168,7 @@ $row = $mysqli->fetch_assoc($resultado);
 						<td class="<?php echo $row['classm2c']?>"><?php echo $row['M2C'];?></td>-->
 						<!--<td><?php ?></td>-->
 						<td><?php echo $row['KM_Teorico'];?></td>
-						<td class="<?php //echo $claseDif;?>"><?php echo $row['KM_Real']; ?></td>
+						<td class="<?php //echo $claseDif;?>"><?php echo $row['KM_Real']?></td>
 						<td class="<?php //echo $claseDif;?>"><?php echo $row['KM_Dif']; ?></td>
 						<td class="<?php echo $classDesv;?>"><?php echo $desv;?></td>
 					</tr>
@@ -189,8 +200,7 @@ $row = $mysqli->fetch_assoc($resultado);
 						</tr>";
 			    	}
 			    }
-
-			         $consulta2 = "SELECT 
+			        $consulta2 = "SELECT 
 					    COUNT(idruta),
 						FORMAT(SUM(clientesprog), 0) AS cprog,
 					    IF(ISNULL(FORMAT(SUM(clientesvp), 0)),
@@ -282,10 +292,57 @@ $row = $mysqli->fetch_assoc($resultado);
 					WHERE
 					    rr.iddeposito = $iddeposito
 					        AND fechaOperacion = CURDATE()
-					        AND tiporuta = 6 
+					        AND tiporuta = 6
+					        AND ((odometrofin - odometroini) -km) BETWEEN -200 AND  200 
 					GROUP BY rr.iddeposito";
 					$resultado3 = $mysqli->consulta($consulta3);
 					$row3 = $mysqli->fetch_assoc($resultado3);
+
+
+					$consulta4 = "SELECT DISTINCT
+					    COUNT((rr.idruta)),
+					    FORMAT(SUM(clientesprog), 0) AS cprog,
+					    IF(ISNULL(FORMAT(SUM(clientesvp), 0)),
+					        0,
+					        FORMAT(SUM(clientesvp), 0)) AS tpppVNP,
+					    CONCAT(FORMAT(AVG((rr.clientesvp / rr.clientesProg) * 100),
+					                1),
+					            '%') AS evisita,
+					    CONCAT(FORMAT(AVG((rr.clientescv / rr.clientesProg) * 100),
+					                1),
+					            '%') AS eentrega,
+					    CONCAT(FORMAT(AVG((rr.cajasef / rr.cajaspfp) * 100),
+					                1),
+					            '%') AS eentregac,
+					    (clientescv / clientesprog) AS EfectividadDeEntrega,
+					    SEC_TO_TIME(AVG(TIME_TO_SEC(salidaCedis))) AS salidaCedis,
+					    SEC_TO_TIME(AVG(TIME_TO_SEC(llegadaCedis))) AS llegadaCedis,
+					    FORMAT(SUM(km), 1) AS KM_Teorico,
+					    FORMAT(SUM((odometrofin - odometroini)),
+					        1) AS KM_Real,
+						FORMAT(SUM((odometrofin - odometroini) - km),1) AS KM_Dif,
+					    CONCAT(FORMAT(AVG((((rr.odometrofin - rr.odometroini) / km) - 1) * 100),
+					                1),
+					            '%') AS desviacion
+					FROM
+					    resumen_ruta rr
+					        LEFT JOIN
+					    (SELECT DISTINCT
+					        (idruta), iddeposito, op.idoperacion, km
+					    FROM
+					        orden ord
+					    INNER JOIN Operaciones op ON ord.idoperacion = op.idoperacion
+					    WHERE
+					        fecha = CURDATE()
+					            AND op.iddeposito = $iddeposito) a ON rr.idruta = a.idruta
+					        AND rr.iddeposito = a.iddeposito
+					WHERE
+					    rr.iddeposito = $iddeposito
+					        AND fechaOperacion = CURDATE()
+					        AND tiporuta = 6 
+					GROUP BY rr.iddeposito";
+					$resultado4 = $mysqli->consulta($consulta4);
+					$row4 = $mysqli->fetch_assoc($resultado4);
 			    ?>
 				<tr class="trSubTotal">
 					<td>SubTotal</td>
@@ -303,26 +360,26 @@ $row = $mysqli->fetch_assoc($resultado);
 					<td><?php echo $row2['m2c'];?></td>-->
 					<!--<td><?php ?></td>-->
 					<td><?php echo $row2['KM_Teorico']?></td>
-					<td><?php echo $row2['KM_Real'];?></td>
-					<td><?php echo $row2['KM_Dif']?></td>
-					<td><?php echo $row2['desviacion']?></td>
+					<td><?php echo number_format(round($totalKmReal,1),1);?></td>
+					<td><?php echo number_format(round($totaldif,1),1);?></td>
+					<td><?php echo number_format(round($totalDesv / $contador,1),1).'%';?></td>
 				</tr>
 				<tr class="trTotal">
 					<td>Total</td>
-					<td><?php echo $row3['cprog'];?></td>
-					<td><?php echo $row3['tpppVNP']?></td>
+					<td><?php echo $row4['cprog'];?></td>
+					<td><?php echo $row4['tpppVNP']?></td>
 					<!--<td><?php echo $row3['tvppVNP'];?></td>-->
-					<td><?php echo $row3['evisita'];?></td>
-					<td><?php echo $row3['eentrega'];?></td>
+					<td><?php echo $row4['evisita'];?></td>
+					<td><?php echo $row4['eentrega'];?></td>
 				    <!--<td><?php echo $row3['eentregac'];?></td>-->
-					<td><?php echo $row3['salidaCedis'];?></td>
-					<td><?php echo $row3['llegadaCedis'];?></td>
+					<td><?php echo $row4['salidaCedis'];?></td>
+					<td><?php echo $row4['llegadaCedis'];?></td>
 					<!--<td><?php echo $row3['cajaspfp'];?></td>-->
 					<!--<td><?php echo $row3['cajasef'];?></td>-->
 					<!--<td><?php echo $row3['rechazo'];?></td>
 					<td><?php echo $row3['m2c'];?></td>-->
 					<!--<td><?php ?></td>-->
-					<td><?php echo $row3['KM_Teorico']?></td>
+					<td><?php echo $row4['KM_Teorico']?></td>
 					<td><?php echo $row3['KM_Real'];?></td>
 					<td><?php echo $row3['KM_Dif']?></td>
 					<td><?php echo $row3['desviacion']?></td>

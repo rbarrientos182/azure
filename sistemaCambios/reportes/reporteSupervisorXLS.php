@@ -19,19 +19,20 @@ $db = new MySQL();
 $idoperacion = $_SESSION['idoperacion'];
 $numempleado = $_SESSION['NumEmpleado'];
 $nivel = $_SESSION['nivel'];
-$fechaPreventa = $_POST['fechaPre'];
+$fechaIni = $_POST['fechaIni'];
+$fechaFin = $_POST['fechaFin'];
 
 /** array dias **/
 $dias = array('','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
 
-$fechaDia = $dias[date('N', strtotime($fechaPreventa))];
+$fechaDia = $dias[date('N', strtotime($fechaIni))];
 
 	if($fechaDia=='Sabado'){
-		$fechaEntrega = strtotime ('+2 day', strtotime ($fechaPreventa));
+		$fechaEntrega = strtotime ('+2 day', strtotime ($fechaIni));
 	}
 	else
 	{
-		$fechaEntrega = strtotime ('+1 day', strtotime ($fechaPreventa));
+		$fechaEntrega = strtotime ('+1 day', strtotime ($fechaIni));
 	}
 
 	$fechaEntrega = date('Y-m-d', $fechaEntrega);
@@ -62,12 +63,12 @@ $encabezado = '<tr>
 			      <td><tt>'.$rowDep['idDeposito'].' '.$rowDep['deposito'].'</tt></td>
 			    </tr>
 			    <tr>
-			      <td><tt>Fecha Preventa</tt></td>
-			      <td><tt>'.$fechaPreventa.'</tt></td>
+			      <td><tt>Fecha Inicio</tt></td>
+			      <td><tt>'.$fechaIni.'</tt></td>
 			    </tr>
 			    <tr>
-			      <td><tt>Fecha Entrega</tt></td>
-			      <td><tt>'.$fechaEntrega.'</tt></td>
+			      <td><tt>Fecha Fin</tt></td>
+			      <td><tt>'.$fechaFin.'</tt></td>
 			    </tr>';
 
 			/** Query para obtener los productos en los cambios **/
@@ -91,7 +92,7 @@ $encabezado = '<tr>
 				gruposupervision gp ON gp.idoperacion = ru.idoperacion
 				AND gp.idgruposupervision = ru.idgruposupervision
 				WHERE
-				fechacambio = '$fechaPreventa' AND cc.idoperacion = $idoperacion AND gp.numempleado = 50104987
+				fechacambio BETWEEN '$fechaIni' AND '$fechaFin' AND cc.idoperacion = $idoperacion AND gp.numempleado = 50104987
 				GROUP BY pc.idProductoCambio";
 			}
 			//si no preguntamos si es admin
@@ -114,7 +115,7 @@ $encabezado = '<tr>
 				gruposupervision gp ON gp.idoperacion = ru.idoperacion
 				AND gp.idgruposupervision = ru.idgruposupervision
 				WHERE
-				fechacambio = '$fechaPreventa' AND cc.idoperacion = $idoperacion
+				fechacambio BETWEEN '$fechaIni' AND '$fechaFin' AND cc.idoperacion = $idoperacion
 				GROUP BY pc.idProductoCambio";
 			}
 			$resultadoPro = $db->consulta($consultaPro);
@@ -152,7 +153,7 @@ $encabezado = '<tr>
 					        AND gp.idgruposupervision = ru.idgruposupervision
 					WHERE
 					    gp.numempleado = $numempleado
-					        AND fechacambio = '$fechaPreventa'
+					        AND fechacambio BETWEEN '$fechaIni' AND '$fechaFin'
 					        AND cc.idoperacion = $idoperacion
 					GROUP BY ppp
 					ORDER BY ppp";
@@ -171,7 +172,7 @@ $encabezado = '<tr>
 					    rutascambios ru ON ru.idoperacion = cc.idoperacion
 					        AND ru.ruta = us.ppp
 					WHERE
-					    fechacambio = '$fechaPreventa'
+					    fechacambio BETWEEN '$fechaIni' AND '$fechaFin'
 					        AND cc.idoperacion = $idoperacion
 					GROUP BY ppp
 					ORDER BY ppp";	
@@ -195,7 +196,7 @@ $encabezado = '<tr>
 							    INNER JOIN usrcambios u ON  cc.NumEmpleado = u.NumEmpleado
 							WHERE
 							    cc.idoperacion = $idoperacion
-							AND cc.FechaCambio = '$fechaPreventa'
+							AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 							AND u.ppp = ".$row['idruta']."
 							AND pc.idProductoCambio =".$arrayProductos[$i]." LIMIT 1";
 							$resultado3 = $db->consulta($consulta3);
