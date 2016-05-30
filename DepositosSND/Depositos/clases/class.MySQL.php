@@ -2,15 +2,15 @@
 class MySQL
 {  
     private $conexion = null;
-    /*private $host = "portal.pgdweb.com:4406";
+    private $host = "portal.pgdweb.com:4406";
     private $user = "mercadeo";
     private $pass = "Eideud94@3";
-    private $db = "gepp";*/
+    private $db = "gepp";
 
-    private $host = "cedex";
+    /*private $host = "cedex";
     private $user = "gepp";
     private $pass = "gepp";
-    private $db = "gepp";
+    private $db = "gepp";*/
 
      	 
 	 //funcion de coneccion con la base de datos

@@ -8,8 +8,13 @@ header("Pragma: no-cache");
 set_time_limit(0);
 
 require_once("clases/class.MySQL.php");
+require_once("clases/class.Utilidades.php");
+
 
 $mysqli = new MySQL();
+$tool = new Utilidades();
+
+$diaL = $tool->obtenerDia();
 
 $inicio = $_POST['inicio'];
 $fin = $_POST['fin'];
@@ -76,7 +81,8 @@ FROM
     FROM
         km_fijos ord
     WHERE
-        ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+        ord.no_deposito = $iddeposito
+        AND ord.dia = '$diaL') a ON rr.idruta = a.ruta
         AND rr.iddeposito = a.no_deposito
 WHERE
     rr.iddeposito = $iddeposito
@@ -238,11 +244,13 @@ $row = $mysqli->fetch_assoc($resultado);
 					    FROM
 					        km_fijos ord
 					    WHERE
-							ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+							ord.no_deposito = $iddeposito
+							AND  ord.dia = '$diaL') a ON rr.idruta = a.ruta
 					        AND rr.iddeposito = a.no_deposito
 					    WHERE
 					        rr.iddeposito = $iddeposito
 					            AND fechaOperacion = CURDATE()
+
 					            AND tiporuta = 6 LIMIT $inicio,$fin) a
 					GROUP BY a.iddeposito";
 					$resultado2 = $mysqli->consulta($consulta2);
@@ -281,7 +289,8 @@ $row = $mysqli->fetch_assoc($resultado);
 					    FROM
 					        km_fijos ord
 					    WHERE
-					        ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+					        ord.no_deposito = $iddeposito
+					        AND ord.dia = '$diaL') a ON rr.idruta = a.ruta
 					        AND rr.iddeposito = a.no_deposito
 					WHERE
 					    rr.iddeposito = $iddeposito
@@ -326,7 +335,8 @@ $row = $mysqli->fetch_assoc($resultado);
 					    FROM
 					        km_fijos ord
 					    WHERE
-					        ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+					        ord.no_deposito = $iddeposito
+					        AND ord.dia = '$diaL') a ON rr.idruta = a.ruta
 					        AND rr.iddeposito = a.no_deposito
 					WHERE
 					    rr.iddeposito = $iddeposito

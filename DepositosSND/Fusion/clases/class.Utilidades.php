@@ -65,5 +65,17 @@ class Utilidades
 
 	}
 
+	public function obtenerDia(){
+
+		////creamos un array de los dias de la semana
+		$arrayDias = array('D','L','M','R','J','V','S');
+		$diaSemana =  date('w');
+
+		$dia = $arrayDias[$diaSemana];
+
+		return $dia;
+
+	}
+
 }
 ?>

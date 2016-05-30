@@ -13,6 +13,8 @@ $mysqli = new MySQL();
 $uti = new Utilidades();
 
 $intervalo = $uti->obtenerIntervalo();
+$diaL = $uti->obtenerDia();
+
 $inicio = $_POST['inicio'];
 $fin = $_POST['fin'];
 $iddeposito = $_POST['iddeposito'];
@@ -78,7 +80,8 @@ FROM
     FROM
         km_fijos ord
     WHERE
-        ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+        ord.no_deposito = $iddeposito
+        AND ord.dia = '$diaL') a ON rr.idruta = a.ruta
         AND rr.iddeposito = a.no_deposito
 WHERE
     rr.iddeposito = $iddeposito
@@ -107,7 +110,8 @@ $row = $mysqli->fetch_assoc($resultado);
 					<th class="text-center">Ruta</th>
 					<th class="text-center">Ctes Prog</th>
 					<!--<th class="text-center">Ctes VNP Pvta</th>-->
-					<th class="text-center">Ctes VNP Ent</th>
+					<!--<th class="text-center">Ctes VNP Ent</th>-->
+					<th class="text-center">Ctes V Prog</th>
 					<th class="text-center">Efectividad<br> Visita</th>
 					<th class="text-center">Efectividad <br>Entrega Clientes</th>
 					<!--<th class="text-center">Efectividad <br>Entrega Cajas</th>-->
@@ -240,7 +244,8 @@ $row = $mysqli->fetch_assoc($resultado);
 					    FROM
 					        km_fijos ord
 					    WHERE
-							ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+							ord.no_deposito = $iddeposito
+							AND ord.dia = '$diaL') a ON rr.idruta = a.ruta
 					        AND rr.iddeposito = a.no_deposito
 					    WHERE
 					        rr.iddeposito = $iddeposito
@@ -283,7 +288,8 @@ $row = $mysqli->fetch_assoc($resultado);
 					    FROM
 					        km_fijos ord
 					    WHERE
-					        ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+					        ord.no_deposito = $iddeposito
+					        AND ord.dia = '$diaL') a ON rr.idruta = a.ruta
 					        AND rr.iddeposito = a.no_deposito
 					WHERE
 					    rr.iddeposito = $iddeposito
@@ -327,7 +333,8 @@ $row = $mysqli->fetch_assoc($resultado);
 					    FROM
 					        km_fijos ord
 					    WHERE
-					        ord.no_deposito = $iddeposito) a ON rr.idruta = a.ruta
+					        ord.no_deposito = $iddeposito
+					        AND ord.dia = '$diaL') a ON rr.idruta = a.ruta
 					        AND rr.iddeposito = a.no_deposito
 					WHERE
 					    rr.iddeposito = $iddeposito
