@@ -1,5 +1,5 @@
 <div id="uploadFile">
-	Subiendo Ordenes no cierre la ventana<img src="img/ajax-loaders/ajax-loader-7.gif" title="img/ajax-loaders/ajax-loader-7.gif">
+	Subiendo Rutas no cierre la ventana<img src="img/ajax-loaders/ajax-loader-7.gif" title="img/ajax-loaders/ajax-loader-7.gif">
 </div>
 <?php
 if (!isset($_SESSION))

@@ -9,7 +9,7 @@ class Productos
 	function __construct()
 	{
 
-		$this->mysqli = new mysqli('pgdweb.cloudapp.net:4406','mercadeo','Eideud94@3','gepp');
+		$this->mysqli = new mysqli('localhost','gepp','gepp','gepp');
 
 
 	}

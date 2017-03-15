@@ -1,8 +1,8 @@
 <div id="uploadFile">
-	Subiendo Ordenes no cierre la ventana<img src="img/ajax-loaders/ajax-loader-7.gif" title="img/ajax-loaders/ajax-loader-7.gif">
+	Subiendo Productos no cierre la ventana<img src="img/ajax-loaders/ajax-loader-7.gif" title="img/ajax-loaders/ajax-loader-7.gif">
 </div>
 <?php
-if (!isset($_SESSION)) 
+if (!isset($_SESSION))
 {
 	session_start();
 }
@@ -21,10 +21,10 @@ $producto = new Productos();
 $estatus = NULL;
 
 if($_POST['action']=='upload'){
-	
+
 	/*** Recibo archivo y fecha ***/
 	$total = count($_FILES['fileInput']['name']);
-	
+
 	/** Comprobamos que se haya enviado un archivo **/
 	if($total>0)
 	{
@@ -41,12 +41,12 @@ if($_POST['action']=='upload'){
 			//echo 'archivo: ';
 			//echo $archivo;
 			$destino = 'productos/'.$archivo;
-		
+
 			if($archivo!=""){
-				//guardamos el archivo a la carpeta			
+				//guardamos el archivo a la carpeta
 				if(move_uploaded_file($_FILES['fileInput']['tmp_name'], $destino)){
 				    $estatus = "Archivo subido <b>".$archivo."</b>";
-					
+
 					/*** Llamamos a la clase orden ***/
 					$producto->setArchivo($archivo);
 					$producto->leerArchivo();
@@ -62,7 +62,7 @@ if($_POST['action']=='upload'){
 
 			header('Location: sProductos.php?a=1,'.$archivo);
 
-			
+
 		}
 	}
 	else{

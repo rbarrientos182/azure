@@ -9,7 +9,7 @@ class GruposSupervisores
 	function __construct()
 	{
 
-		$this->mysqli = new mysqli('pgdweb.cloudapp.net:4406','mercadeo','Eideud94@3','gepp');
+		$this->mysqli = new mysqli('localhost','gepp','gepp','gepp');
 
 
 	}
@@ -24,7 +24,7 @@ class GruposSupervisores
 	{
 
 		/*** Leemos el archivo a insertar en gruposupervision ****/
-		$consulta ="LOAD DATA LOCAL INFILE 'D:\\\home\\\site\\\wwwroot\\\sitio\\\sistemaCambios\\\grupossupervisores\\\\".$this->archivo."' REPLACE INTO TABLE  gruposupervision FIELDS TERMINATED BY '\,'";
+		$consulta ="LOAD DATA LOCAL INFILE 'C:\\\\xampp\\\sistemaCambios\\\grupossupervisores\\\\".$this->archivo."' REPLACE INTO TABLE  gruposupervision FIELDS TERMINATED BY '\,'";
 
 
 		if(!$this->mysqli->query($consulta)){
