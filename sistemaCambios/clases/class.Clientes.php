@@ -23,8 +23,7 @@ class Clientes
 	public function leerArchivo()
 	{
 
-		/*** Leemos el archivo a insertar en orden ****/
-
+		/*** Leemos el archivo a insertar en clientes ****/
 		$consulta ="LOAD DATA LOCAL INFILE 'D:\\\home\\\site\\\wwwroot\\\sitio\\\sistemaCambios\\\clientes\\\\".$this->archivo."' REPLACE INTO TABLE  clientes FIELDS TERMINATED BY '\,'";
 
 
@@ -39,7 +38,7 @@ class Clientes
 			$mensaje = 'Clientes afectados fueron '.$this->mysqli->affected_rows;
 		}
 
-	return $mensaje;
+		return $mensaje;
 
 	}
 }

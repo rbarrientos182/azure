@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Productos
 {
 
@@ -24,15 +24,21 @@ class Productos
 	{
 
 		/*** Leemos el archivo a insertar en productos ****/
-
 		$consulta ="LOAD DATA LOCAL INFILE 'C:\\\wamp\\\www\\\gepp\\\pagina\\\sistemaCambios\\\productos\\\\".$this->archivo."' REPLACE INTO TABLE productoscambios FIELDS TERMINATED BY '\,'";
 
 		if(!$this->mysqli->query($consulta)){
 
-			printf("Errormessage: %s\n", $this->mysqli->error);
+			//printf("Errormessage: %s\n", $this->mysqli->error);
+			$mensaje = $this->mysqli->error;
 
 		}
-	}	
+		else{
+
+			$mensaje = 'Productos afectados fueron '.$this->mysqli->affected_rows;
+		}
+
+		return $mensaje;
+	}
 
 }
 ?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Rutas
 {
 
@@ -23,16 +23,22 @@ class Rutas
 	public function leerArchivo()
 	{
 
-		/*** Leemos el archivo a insertar en productos ****/
-
+		/*** Leemos el archivo a insertar en rutas ****/
 		$consulta ="LOAD DATA LOCAL INFILE 'C:\\\wamp\\\www\\\gepp\\\pagina\\\sistemaCambios\\\\rutas\\\\".$this->archivo."' REPLACE INTO TABLE rutascambios FIELDS TERMINATED BY '\,'";
 
 		if(!$this->mysqli->query($consulta)){
 
-			printf("Errormessage: %s\n", $this->mysqli->error);
+			//printf("Errormessage: %s\n", $this->mysqli->error);
+			$mensaje = $this->mysqli->error;
 
 		}
-	}	
+		else{
+
+			$mensaje = 'Rutas afectadas fueron '.$this->mysqli->affected_rows;
+		}
+
+		return $mensaje;
+	}
 
 }
 ?>

@@ -1,5 +1,5 @@
 <div id="uploadFile">
-	Subiendo Productos no cierre la ventana<img src="img/ajax-loaders/ajax-loader-7.gif" title="img/ajax-loaders/ajax-loader-7.gif">
+	Subiendo Depósitos no cierre la ventana<img src="img/ajax-loaders/ajax-loader-7.gif" title="img/ajax-loaders/ajax-loader-7.gif">
 </div>
 <?php
 if (!isset($_SESSION))
@@ -13,10 +13,10 @@ ini_set('max_execution_time','1000');
 ini_set('max_input_time','1000');
 
 
-require_once('clases/class.Productos.php');
+require_once('clases/class.Depositos.php');
 
 /** obtengo la variable de sesion del deposito **/
-$producto = new Productos();
+$deposito = new Depositos();
 
 $estatus = NULL;
 
@@ -28,7 +28,8 @@ if($_POST['action']=='upload'){
 	/** Comprobamos que se haya enviado un archivo **/
 	if($total>0)
 	{
-		for($i=0;$i<$total;$i++){
+		for($i=0;$i<$total;$i++)
+		{
 
 			//obtenemos los datos del archivo
 			//echo '<br>';
@@ -40,34 +41,41 @@ if($_POST['action']=='upload'){
 			//echo '<br>';
 			//echo 'archivo: ';
 			//echo $archivo;
-			$destino = 'productos/'.$archivo;
+			$destino = 'depositos/'.$archivo;
 
-			if($archivo!=""){
+			if($archivo!="")
+			{
 				//guardamos el archivo a la carpeta
-				if(move_uploaded_file($_FILES['fileInput']['tmp_name'], $destino)){
-				    $estatus = "Archivo subido <b>".$archivo."</b>";
+				if(move_uploaded_file($_FILES['fileInput']['tmp_name'], $destino))
+				{
 
-					/*** Llamamos a la clase orden ***/
-					$producto->setArchivo($archivo);
-					$mensaje = $producto->leerArchivo();
+
+					/*** Llamamos a la clase depositos ***/
+					$deposito->setArchivo($archivo);
+					$mensaje = $deposito->leerArchivo();
 					$mensaje = "Archivo subido <b>".$archivo." y ".$mensaje."</b>";
+
 				}
-				else{
-					echo $estatus = "Error al subir el archivo 1";
+				else
+				{
+					 $mensaje = "Error al subir el archivo, no se pudo guardar el archivo";
 				}
 
 			}
-			else{
-				echo $estatus = "Error al subir el archivo 2";
+
+			else
+			{
+				 $mensaje = "Error al subir el archivo, no existe el archivo";
 			}
 
-			header('Location: sProductos.php?a=1&f='.$archivo);
-
+			header('Location: sDepositos.php?a=1&f='.$mensaje);
 
 		}
 	}
-	else{
-		header('Location: sProductos.php?a=0&f='.$archivo);
+	else
+	{
+		$mensaje = "No selecciono ningun archivo";
+		header('Location: sDepositos.php?a=0&f='.$mensaje);
 	}
 }
 ?>

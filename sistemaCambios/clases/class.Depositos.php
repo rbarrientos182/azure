@@ -1,5 +1,5 @@
 <?php
-class GruposSupervisores
+class Depositos
 {
 
 	private $archivo = NULL;
@@ -23,8 +23,8 @@ class GruposSupervisores
 	public function leerArchivo()
 	{
 
-		/*** Leemos el archivo a insertar en gruposupervision ****/
-		$consulta ="LOAD DATA LOCAL INFILE 'D:\\\home\\\site\\\wwwroot\\\sitio\\\sistemaCambios\\\grupossupervisores\\\\".$this->archivo."' REPLACE INTO TABLE  gruposupervision FIELDS TERMINATED BY '\,'";
+		/*** Leemos el archivo a insertar en depositos ****/
+		$consulta ="LOAD DATA LOCAL INFILE 'D:\\\home\\\site\\\wwwroot\\\sitio\\\sistemaCambios\\\depositos\\\\".$this->archivo."' REPLACE INTO TABLE  deposito FIELDS TERMINATED BY '\,'";
 
 
 		if(!$this->mysqli->query($consulta)){
@@ -35,7 +35,7 @@ class GruposSupervisores
 		}
 		else{
 
-			$mensaje = 'Grupo de Supervisores afectados fueron '.$this->mysqli->affected_rows;
+			$mensaje = 'Depositos afectados fueron '.$this->mysqli->affected_rows;
 		}
 
 	return $mensaje;

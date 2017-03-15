@@ -179,6 +179,7 @@ WHERE
 						<li><a class="ajax-link" href="index.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
 						<?php if($NumEmpleado=='999999'){ ?>
 							<li class="nav-header hidden-tablet">Alta Depósito</li>
+							<li><a class="ajax-link" href="sDepositos.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Depósitos</span></a></li>
 							<li><a class="ajax-link" href="sProductos.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Productos</span></a></li>
 							<li><a class="ajax-link" href="sSupervisores.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Grupos Supervisores</span></a></li>
 							<li><a class="ajax-link" href="sUsuarios.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Usuarios</span></a></li>

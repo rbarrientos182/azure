@@ -23,8 +23,7 @@ class Usuarios
 	public function leerArchivo()
 	{
 
-		/*** Leemos el archivo a insertar en gruposupervision ****/
-
+		/*** Leemos el archivo a insertar en usuarios cambios ****/
 		$consulta ="LOAD DATA LOCAL INFILE 'D:\\\home\\\site\\\wwwroot\\\sitio\\\sistemaCambios\\\usuarios\\\\".$this->archivo."' REPLACE INTO TABLE  usrcambios FIELDS TERMINATED BY '\,'";
 
 
@@ -36,7 +35,7 @@ class Usuarios
 		}
 		else{
 
-			$mensaje = 'Grupo de Supervisores afectados fueron '.$this->mysqli->affected_rows;
+			$mensaje = 'Usuarios afectados fueron '.$this->mysqli->affected_rows;
 		}
 
 	return $mensaje;
