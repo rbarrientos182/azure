@@ -62,7 +62,7 @@ $row = $mysqli->fetch_assoc($resultado);
 
 					setTimeout(function(){
 						//alert('entro a redireccionar');
-			    		$(location).attr('href','charts.php?iddeposito='+iddeposito);
+			    		$(location).attr('href','tablaGS.php?iddeposito='+iddeposito);
 					},120000);
 				}
 			);

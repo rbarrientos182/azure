@@ -12,7 +12,7 @@ $intervalo = $uti->obtenerIntervalo();
 $iddeposito = $_POST['iddeposito'];
 $tipoRuta = $_POST['tipoRuta'];
 
-$consulta = "SELECT count(idRuta) AS cuantos FROM resumen_ruta  WHERE iddeposito = $iddeposito AND tipoRuta = $tipoRuta AND fechaOperacion = DATE_SUB(CURRENT_DATE,INTERVAL $intervalo DAY)";
+$consulta = "SELECT COUNT(idRuta) AS cuantos FROM resumen_ruta  WHERE iddeposito = $iddeposito AND tipoRuta = $tipoRuta AND fechaOperacion = DATE_SUB(CURRENT_DATE,INTERVAL $intervalo DAY)";
 
 $resultado = $mysqli->consulta($consulta);
 $row = $mysqli->fetch_assoc($resultado);

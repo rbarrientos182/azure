@@ -7,31 +7,56 @@ if (!isset($_SESSION))
 date_default_timezone_set('America/Mexico_City');
 
 header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=reporteIndicadores_".$fechaIni.'_'.date('H:i:s').".xls");
+header("Content-Disposition: attachment; filename=rIndicadores_Segmento".$fechaIni.'_'.date('H:i:s').".xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
 require_once('../clases/class.MySQL.php');
 $db = new MySQL();
 
-$idoperacion = $_SESSION['idoperacion'];
-$fechaIni = $_POST['fechaIni'];
-$fechaFin = $_POST['fechaFin'];
-
-// Query para saber los grupos y supervisores
-
-$consulta = "SELECT 
-    gs.numgrupo, uc.Nombre, gs.idgruposupervision
+//Query para obtener el total general por segmento
+$consultaTotalGeneral = "SELECT 
+	SUM(cc.cantidad) AS total, s.descripcion AS segmento
 FROM
-    gruposupervision gs
+	productos p
+		INNER JOIN
+	segmento s ON p.idsegmento = s.idsegmento
+		INNER JOIN
+	ProductosCambios pc ON p.sku = pc.sku
+		INNER JOIN
+	capturacambios cc ON pc.idProductoCambio = cc.idProductoCambio
+		AND cc.idruta IS NOT NULL
+		AND cc.idoperacion = $idoperacion
+		AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
+GROUP BY segmento
+ORDER BY segmento";
+$resultadoTotalGeneral = $db->consulta($consultaTotalGeneral);
+$rowTotalGeneral = $db->fetch_assoc($resultadoTotalGeneral);
+$totalTotal = 0;
+do{ 
+	$tdTotalGeneral .= "<td>".utf8_encode($rowTotalGeneral['total'])."</td>";
+	$totalTotal = $rowTotalGeneral['total'] + $totalTotal;
+}while($rowTotalGeneral = $db->fetch_assoc($resultadoTotalGeneral));
+									
+// Query para saber los grupos y supervisores
+$consulta = "SELECT 
+    gs.idgruposupervision, us.Nombre, gs.numgrupo
+FROM
+    capturacambios cc
         INNER JOIN
-    usrcambios uc ON gs.NumEmpleado = uc.NumEmpleado
-        AND gs.idoperacion = $idoperacion
-ORDER BY gs.numgrupo";
+    usrcambios usr ON cc.numempleado = usr.numempleado
+        INNER JOIN
+    rutascambios ru ON usr.ppp = ru.ruta
+    	INNER JOIN
+    gruposupervision gs ON gs.idgruposupervision = ru.idgruposupervision
+		INNER JOIN 
+    usrcambios us ON us.numempleado = gs.numempleado
+WHERE
+    cc.idoperacion = $idoperacion AND usr.idoperacion = $idoperacion AND gs.idoperacion=$idoperacion
+        AND fechacambio BETWEEN '$fechaIni' AND '$fechaFin'
+GROUP BY gs.idgruposupervision ORDER BY gs.numgrupo";
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado); 
-
-
 
 /** array dias **/
 $dias = array('','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo');
@@ -59,7 +84,6 @@ $rowDep = $db->fetch_assoc($resultadoDep);
 
 $idDeposito = $rowDep['idDeposito'];
 
-
 $encabezado = '<tr>
 			      <td width="250"><tt>Gepp</tt></td>
 			    <!--  <td width="250"><tt>Compañía:</tt></td>
@@ -67,7 +91,7 @@ $encabezado = '<tr>
 			      <td width="250"><tt>'.date('Y-m-d H:i:s').'</tt></td>
 			    </tr>
 			    <tr>
-			      <td><tt>Reporte de Indicadores</tt></td>
+			      <td><tt>Reporte Indicadores Segmento</tt></td>
 			    </tr>
 			    <tr>
 			      <td><tt>Deposito:</tt></td>
@@ -82,12 +106,11 @@ $encabezado = '<tr>
 			      <td><tt>'.$fechaFin.'</tt></td>
 			    </tr>';  
 ?>
-
-<!doctype html>
+<!DOCTYPE html>
 	<html>
 		<head>
 			<meta charset="UTF-8">
-			<title>Reporte Indicadores</title>
+			<title>Reporte Indicadores Segmento</title>
 		</head>
 		<body>
 			<center>
@@ -108,10 +131,9 @@ $encabezado = '<tr>
 										</tr>
 										<tr>
 											<td>Grupo <?php echo $row['numgrupo'];?></td>
-											<td><?php echo $row['Nombre'];?></td>
+											<td><?php echo ucwords(strtolower($row['Nombre']));?></td>
 										</tr>
 										<?php 
-											//$consultaR = "SELECT ruta FROM rutasCambios WHERE idoperacion = $idoperacion AND idgruposupervision = ".$row['idgruposupervision']." ORDER BY ruta";
 											$consultaR = "SELECT 
 											    ruta
 											FROM
@@ -120,6 +142,7 @@ $encabezado = '<tr>
 											    usrcambios u ON rc.ruta = u.PPP
 											        INNER JOIN
 											    capturacambios cc ON u.NumEmpleado = cc.NumEmpleado
+											    	AND cc.idruta IS NOT NULL
 											        AND rc.idoperacion = $idoperacion
 											        AND idgruposupervision = ".$row['idgruposupervision']."
 											        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
@@ -156,10 +179,11 @@ $encabezado = '<tr>
 											    ProductosCambios pc ON p.sku = pc.sku
 													INNER JOIN
 												capturacambios cc ON pc.idProductoCambio = cc.idProductoCambio
+													AND cc.idruta IS NOT NULL
 											        AND cc.idoperacion = $idoperacion
 											        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 											GROUP BY segmento
-											ORDER BY segmento;";
+											ORDER BY segmento";
 											$resultadoS = $db->consulta($consultaS);
 											$rowS = $db->fetch_assoc($resultadoS);
 											$contador = 0;
@@ -185,6 +209,7 @@ $encabezado = '<tr>
 													usrcambios u ON cc.NumEmpleado = u.NumEmpleado
 														INNER JOIN 
 													rutasCambios rc ON rc.ruta = u.PPP
+														AND cc.idruta IS NOT NULL
 														AND rc.idgruposupervision = ".$row['idgruposupervision']."
 												        AND cc.idoperacion = $idoperacion
 												        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
@@ -227,6 +252,7 @@ $encabezado = '<tr>
 															segmento s ON p.idsegmento = s.idsegmento
 														WHERE
 														    cc.idoperacion = $idoperacion AND uc.ppp =  ".$arrayRuta[$i]."
+														    	AND cc.idruta IS NOT NULL
 														        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 														        AND s.descripcion = '".$arraySegmento[$z]."'
 														GROUP BY s.descripcion
@@ -253,9 +279,20 @@ $encabezado = '<tr>
 										</tr>
 									</table>
 								</td>
-								<td></td>
 							</tr>
+							<tr></tr>
 						<?php }while($row = $db->fetch_assoc($resultado));?>
+						<tr>
+							<td></td>
+							<td>
+								<table border="1">
+									<tr>
+										<?php echo $tdTotalGeneral;?>
+										<td><?php echo $totalTotal;?></td>
+									</tr>
+								</table>	
+							</td>	
+						</tr>
 					</tbody>
 				</table>
 			</center>

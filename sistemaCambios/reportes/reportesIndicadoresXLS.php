@@ -120,6 +120,7 @@ $encabezado = '<tr>
 											    usrcambios u ON rc.ruta = u.PPP
 											        INNER JOIN
 											    capturacambios cc ON u.NumEmpleado = cc.NumEmpleado
+											    	AND cc.idruta IS NOT NULL
 											        AND rc.idoperacion = $idoperacion
 											        AND idgruposupervision = ".$row['idgruposupervision']."
 											        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
@@ -156,6 +157,7 @@ $encabezado = '<tr>
 											    ProductosCambios pc ON p.sku = pc.sku
 													INNER JOIN
 												capturacambios cc ON pc.idProductoCambio = cc.idProductoCambio
+													AND cc.idruta IS NOT NULL
 											        AND cc.idoperacion = $idoperacion
 											        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 											GROUP BY segmento
@@ -185,6 +187,7 @@ $encabezado = '<tr>
 													usrcambios u ON cc.NumEmpleado = u.NumEmpleado
 														INNER JOIN 
 													rutasCambios rc ON rc.ruta = u.PPP
+														AND cc.idruta IS NOT NULL
 														AND rc.idgruposupervision = ".$row['idgruposupervision']."
 												        AND cc.idoperacion = $idoperacion
 												        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
@@ -227,6 +230,7 @@ $encabezado = '<tr>
 															segmento s ON p.idsegmento = s.idsegmento
 														WHERE
 														    cc.idoperacion = $idoperacion AND uc.ppp =  ".$arrayRuta[$i]."
+														    	AND cc.idruta IS NOT NULL
 														        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 														        AND s.descripcion = '".$arraySegmento[$z]."'
 														GROUP BY s.descripcion
@@ -263,6 +267,7 @@ $encabezado = '<tr>
 											    cambiosmotivos cm
 													INNER JOIN
 											    capturacambios cc ON cm.idCambiosMotivos = cc.idCambiosMotivos
+											    AND cc.idruta IS NOT NULL
 												AND cc.idoperacion = $idoperacion
 											    AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 											GROUP BY Descripcion
@@ -287,6 +292,7 @@ $encabezado = '<tr>
 													usrcambios u ON cc.NumEmpleado = u.NumEmpleado
 														INNER JOIN 
 													rutasCambios rc ON rc.ruta = u.PPP
+														AND cc.idruta IS NOT NULL
 														AND rc.idgruposupervision = ".$row['idgruposupervision']."
 												        AND cc.idoperacion = $idoperacion
 												        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
@@ -325,6 +331,7 @@ $encabezado = '<tr>
 														INNER JOIN
 													cambiosmotivos cm ON cc.idCambiosMotivos = cm.idCambiosMotivos
 												    WHERE cc.idoperacion = $idoperacion AND uc.ppp = ".$arrayRuta[$i]." AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin' AND cm.idCambiosMotivos = '".$arrayMotivo[$z]."'
+													AND cc.idruta IS NOT NULL
 													GROUP BY cm.idCambiosMotivos
 												    ORDER BY cm.descripcion";
 												$resultadoMotivo = $db->consulta($consultaMotivo);
@@ -363,6 +370,7 @@ $encabezado = '<tr>
 											    ProductosCambios pc ON p.sku = pc.sku
 											        INNER JOIN
 											    capturacambios cc ON pc.idProductoCambio = cc.idProductoCambio
+											    	AND cc.idruta IS NOT NULL
 											        AND cc.idoperacion = $idoperacion
 											        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 											GROUP BY pr.descripcion
@@ -391,6 +399,7 @@ $encabezado = '<tr>
 													usrcambios u ON cc.NumEmpleado = u.NumEmpleado
 														INNER JOIN 
 													rutasCambios rc ON rc.ruta = u.PPP
+														AND cc.idruta IS NOT NULL
 														AND rc.idgruposupervision =  ".$row['idgruposupervision']."
 												        AND cc.idoperacion = $idoperacion
 												        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
@@ -434,6 +443,7 @@ $encabezado = '<tr>
 													presentacion pr ON p.idpresentacion = pr.idpresentacion
 												WHERE
 												    cc.idoperacion = $idoperacion AND uc.ppp = ".$arrayRuta[$i]."
+												    	AND cc.idruta IS NOT NULL
 												        AND cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
 												        AND pr.descripcion = '".$arrayPresentacion[$z]."'
 												GROUP BY pr.descripcion

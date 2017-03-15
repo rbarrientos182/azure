@@ -1,4 +1,4 @@
-<?php include('header.php'); 
+<?php include('header.php');
 $idoperacion = $_SESSION['idoperacion'];
 $idProductoCambio = $_GET['id'];
 $sku = $_GET['id2'];
@@ -15,7 +15,7 @@ $resultado2 = $db->consulta($consulta2);
 $row2 = $db->fetch_assoc($resultado2);
 
 /** Query para saber el producto falta inner join con grupo supervision**/
-$consultaPr = "SELECT  pc.sku,pc.DescripcionInterna, pc.skuConver, pc.tmercado, pc.estatus FROM ProductosCambios pc 
+$consultaPr = "SELECT  pc.sku,pc.DescripcionInterna, pc.skuConver, pc.tmercado, pc.estatus FROM ProductosCambios pc
 INNER JOIN Productos p ON pc.sku = p.sku AND pc.idProductoCambio = $idProductoCambio AND pc.idoperacion = $idoperacion AND pc.sku = $sku";
 $resultadoPr = $db->consulta($consultaPr);
 $rowPr = $db->fetch_assoc($resultadoPr);
@@ -33,7 +33,7 @@ $rowPr = $db->fetch_assoc($resultadoPr);
 					</li>
 				</ul>
 			</div>
-			
+
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
@@ -55,8 +55,8 @@ $rowPr = $db->fetch_assoc($resultadoPr);
 							  		<select id="idP" name="idP" data-rel="chosen" data-validation-engine="validate[required]" disabled>
 										<?php do{?>
 											<option value="<?php echo $row['sku']; ?>" <?php if($row['sku']==$rowPr['sku']){ echo "selected = 'selected'";}?>><?php echo $row['sku'].' - '.$row['Descripcion']; ?></option>
-										<?php 
-										}while($row = $db->fetch_assoc($resultado));	
+										<?php
+										}while($row = $db->fetch_assoc($resultado));
 										?>
 									</select>
 							  	</div>
@@ -65,18 +65,6 @@ $rowPr = $db->fetch_assoc($resultadoPr);
 							  	<label class="control-label" for="focusedInput">Descripción Interna</label>
 							  	<div class="controls">
 							  		<input class="input-xlarge focused" data-validation-engine="validate[required]" name="desIn" id="desIn" type="text" value="<?php echo $rowPr['DescripcionInterna'];?>"></input>
-							  	</div>
-							  </div>
-							  <div class="control-group">
-							  	<label class="control-label" for="focusedInput">Producto Conversion</label>
-							  	<div class="controls">
-							  		<select class="input-xlarge focused" name="idPc" id="idPc" data-rel="chosen" data-validation-engine="validate[required]">
-										<?php do{?>
-											<option value="<?php echo $row2['sku']; ?>" <?php if($row2['sku']==$rowPr['skuConver']){ echo "selected = 'selected'";}?>><?php echo $row2['sku'].' - '.$row2['Descripcion']; ?></option>
-										<?php 
-										}while($row2 = $db->fetch_assoc($resultado2));	
-										?>
-									</select>
 							  	</div>
 							  </div>
 							  <div class="control-group">
@@ -101,10 +89,10 @@ $rowPr = $db->fetch_assoc($resultadoPr);
 							  <div class="form-actions">
 							  	<button type="submit" id="btn_Guardar" name="btn_Guardar" class="btn btn-primary">Guardar</button>
 							  	<button type="reset" class="btn">Cancelar</button>
-							  </div>	
+							  </div>
 							</fieldset>
 						</form>
 					</div>
-				</div><!--/span-->			
+				</div><!--/span-->
 			</div><!--/row-->
 <?php include('footer.php'); ?>

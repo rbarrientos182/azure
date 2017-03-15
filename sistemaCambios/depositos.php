@@ -1,8 +1,30 @@
-<?php include('header.php'); 
+<?php include('header.php');
 
-$consulta = "SELECT o.idoperacion as idoperacion, r.Region as region, z.Zona as zona, d.iddeposito as iddeposito, d.Deposito as deposito, if(mercado,'Moderno','Tradicional') as Mercado, count(distinct ru.idruta) as Rutas, count(nud) as Clientes FROM region r, zona z, deposito d, operaciones o, ruta ru, clientes c 
-where r.idregion = z.idRegion and z.idZona=d.idZona and d.iddeposito=o.iddeposito and o.idoperacion=ru.idoperacion and ru.estatus=1 and c.vpp=ru.idruta and d.iddeposito=c.iddeposito
-group by o.idoperacion order by r.idregion, deposito";
+$consulta = "SELECT
+    o.idoperacion AS idoperacion,
+    r.Region AS region,
+    z.Zona AS zona,
+    d.iddeposito AS iddeposito,
+    d.Deposito AS deposito,
+    IF(mercado, 'Moderno', 'Tradicional') AS Mercado,
+    COUNT(DISTINCT ru.idruta) AS Rutas,
+    COUNT(nud) AS Clientes
+FROM
+    region r,
+    zona z,
+    deposito d,
+    operaciones o,
+    ruta ru,
+    clientes c
+WHERE
+    r.idregion = z.idRegion
+        AND z.idZona = d.idZona
+        AND d.iddeposito = o.iddeposito
+        AND d.iddeposito = ru.iddeposito
+        AND c.vpp = ru.idruta
+        AND d.iddeposito = c.iddeposito
+GROUP BY o.idoperacion
+ORDER BY r.idregion , deposito";
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
 ?>
@@ -16,8 +38,8 @@ $row = $db->fetch_assoc($resultado);
 					</li>
 				</ul>
 			</div>
-			
-			<div class="row-fluid sortable">		
+
+			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
 						<h2><i class="icon-align-justify"></i> Depositos</h2>
@@ -32,7 +54,7 @@ $row = $db->fetch_assoc($resultado);
 						  <thead>
 						  	  <tr>
 						  	  	<th colspan="5" style="text-align:left">Agregar Deposito <a href="faDeposito.php" class="icon icon-darkgray icon-add"></a></th>
-						  	  </tr>	
+						  	  </tr>
 							  <tr>
 								  <th>Region</th>
 								  <th>Zona</th>
@@ -43,7 +65,7 @@ $row = $db->fetch_assoc($resultado);
 								  <th>Mercado</th>
 								  <th>Acciones</th>
 							  </tr>
-						  </thead>   
+						  </thead>
 						  <tbody>
 						  	<?php do{?>
 								<tr>
@@ -54,32 +76,20 @@ $row = $db->fetch_assoc($resultado);
 									<td class="center"><?php echo $row['Rutas'];?></td>
 									<td class="center"><?php echo $row['Clientes'];?></td>
 									<td class="center"><?php echo $row['Mercado'];?></td>
-									
+
 									<td class="center">
-										<!--<a class="btn btn-success" href="fdDeposito.php?id=<?php echo $row['idDeposito']?>">
-											<i class="icon-zoom-in icon-white"></i>  
-											Detalles                                            
-										</a>-->
 										<a class="btn btn-info" href="fmDeposito.php?id=<?php echo $row['iddeposito']; ?>">
-											<i class="icon-edit icon-white"></i>  
-											Editar                                           
+											<i class="icon-edit icon-white"></i>
+											Editar
 										</a>
-										<a class="btn btn-info ajax-popup-link" href="mapaDeposito.php?id=<?php echo $row['iddeposito']; ?>">
-											<i class="icon-map-marker icon-white"></i>  
-											Ver en Mapa                                           
-										</a>
-										<!--<a class="btn btn-danger" href="Edeposito.php?id=<?php echo $row['idDeposito']; ?>">
-											<i class="icon-trash icon-white"></i> 
-											Eliminar
-										--></a>
 									</td>
 								</tr>
 							<?php }while($row = $db->fetch_assoc($resultado)); ?>
 						  </tbody>
-					  </table>            
+					  </table>
 					</div>
 				</div><!--/span-->
-			
+
 			</div><!--/row-->
 
 <?php include('footer.php'); ?>

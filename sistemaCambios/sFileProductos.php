@@ -49,7 +49,8 @@ if($_POST['action']=='upload'){
 					
 					/*** Llamamos a la clase orden ***/
 					$producto->setArchivo($archivo);
-					$producto->leerArchivo();
+					$mensaje = $producto->leerArchivo();
+					$mensaje = "Archivo subido <b>".$archivo." y ".$mensaje."</b>";
 				}
 				else{
 					echo $estatus = "Error al subir el archivo 1";

@@ -20,7 +20,6 @@ $inicio = $_POST['inicio'];
 $fin = $_POST['fin'];
 $idoperacion = $_POST['idoperacion'];
 
-//$idoperacion = 2;
 
 $consulta = "SELECT 
     r.iddeposito,
@@ -83,7 +82,7 @@ WHERE
         AND o.fecha = DATE_SUB(CURDATE(),INTERVAL $intervalo DAY)
         AND CURRENT_TIME < '13:00:00'
 GROUP BY o.fecha , o.idoperacion , o.idruta
-LIMIT ".$inicio." , ".$fin;
+LIMIT $inicio ,$fin";
 $resultado = $mysqli->consulta($consulta);
 $row = $mysqli->fetch_assoc($resultado);
 ?>
@@ -98,7 +97,6 @@ $row = $mysqli->fetch_assoc($resultado);
 		<table id="tabla" class="table table-condensed table-bordered">
 			<thead>
 				<tr>
-					<!--<th class="text-center">Deposito</th>-->
 					<th class="text-center">Ruta</th>
 					<th class="text-center">Clientes</th>
 					<th class="text-center">Cajas SIO</th>
@@ -113,7 +111,6 @@ $row = $mysqli->fetch_assoc($resultado);
 				do{
 				?>
 					<tr>
-						<!--<td><?php echo $row['deposito'] ?></td>-->
 						<td><?php echo $row['Ruta']?></td>
 						<td><?php echo $row['Clientes']?></td>
 						<td><?php echo $row['CSIO'] ?></td>

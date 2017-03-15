@@ -1,9 +1,12 @@
 <?php
 class MySQL
 {  
-    
+	private $conexion = null;
+    private $host = "cedex";
+    private $user = "gepp";
+    private $pass = "gepp";
+    private $db = "gepp";
 
-     	 
 	 //funcion de coneccion con la base de datos
 	public function __construct()
 	{  

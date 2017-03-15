@@ -44,7 +44,7 @@ header('Location: ../Depositos/tablaRutasVPP.php?iddeposito='.$iddeposito);
 						//alert('entro a redireccionar');
 			    		/*$(location).attr('href','imagen.php?iddeposito='+iddeposito);
 					},60000);*/
-					$(location).attr('href','tablaRutas2.php?iddeposito='+<?php echo $iddeposito?>);
+					$(location).attr('href','tablaRutasVPP.php?iddeposito='+<?php echo $iddeposito?>);
 					},60000);
 
 				}

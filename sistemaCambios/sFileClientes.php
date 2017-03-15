@@ -2,7 +2,7 @@
 	Subiendo Ordenes no cierre la ventana<img src="img/ajax-loaders/ajax-loader-7.gif" title="img/ajax-loaders/ajax-loader-7.gif">
 </div>
 <?php
-if (!isset($_SESSION)) 
+if (!isset($_SESSION))
 {
 	session_start();
 }
@@ -21,10 +21,10 @@ $cliente = new Clientes();
 $estatus = NULL;
 
 if($_POST['action']=='upload'){
-	
+
 	/*** Recibo archivo y fecha ***/
 	$total = count($_FILES['fileInput']['name']);
-	
+
 	/** Comprobamos que se haya enviado un archivo **/
 	if($total>0)
 	{
@@ -42,19 +42,19 @@ if($_POST['action']=='upload'){
 			//echo 'archivo: ';
 			//echo $archivo;
 			$destino = 'clientes/'.$archivo;
-		
+
 			if($archivo!="")
 			{
-				//guardamos el archivo a la carpeta			
+				//guardamos el archivo a la carpeta
 				if(move_uploaded_file($_FILES['fileInput']['tmp_name'], $destino))
 				{
-				    
-					
-					/*** Llamamos a la clase orden ***/
+
+
+					/*** Llamamos a la clase clientes ***/
 					$cliente->setArchivo($archivo);
 					$mensaje = $cliente->leerArchivo();
 					$mensaje = "Archivo subido <b>".$archivo." y ".$mensaje."</b>";
-					
+
 				}
 				else
 				{
@@ -69,7 +69,7 @@ if($_POST['action']=='upload'){
 			}
 
 			header('Location: sClientes.php?a=1&f='.$mensaje);
-			
+
 		}
 	}
 	else

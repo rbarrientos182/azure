@@ -2,9 +2,14 @@
 $idoperacion = $_SESSION['idoperacion'];
 
 /** Query del catalogo de motivos **/
-$consulta = "SELECT idCambiosMotivos,  Descripcion FROM CambiosMotivos WHERE idoperacion=$idoperacion ORDER BY Descripcion";
+$consulta = "SELECT idCambiosMotivos,Descripcion,agrupador  FROM CambiosMotivos WHERE agrupador='Defecto Produccion' ORDER BY Descripcion";
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
+
+/** Query para sacar los agrupamientos **/
+$consultaA = "SELECT agrupador FROM CambiosMotivos WHERE agrupador IS NOT NULL GROUP BY agrupador  ORDER BY agrupador";
+$resultadoA = $db->consulta($consultaA);
+$rowA = $db->fetch_assoc($resultadoA);
 
 /** Query del catalogo de los productos por CEDIS **/
 $consulta2 = "SELECT 
@@ -94,13 +99,13 @@ else{
 							  </div>
 
 							  <div class="control-group">
-								<label class="control-label" for="selectError">Producto</label>
+								<label class="control-label" for="selectError3">Agrupador de Merma</label>
 								<div class="controls">
-									<select id="idP" name="idP" data-rel="chosen" data-validation-engine="validate[required]">
+									<select id="idAM" name="idAM" data-validation-engine="validate[required]">
 										<?php do{?>
-											<option value="<?php echo $row2['idProductoCambio']; ?>"><?php echo $row2['sku'].' - '.$row2['DescripcionInterna']; ?></option>
+											<option value="<?php echo $rowA['agrupador']; ?>"><?php echo $rowA['agrupador']; ?></option>
 										<?php 
-										}while($row2 = $db->fetch_assoc($resultado2));	
+										}while($rowA = $db->fetch_assoc($resultadoA));	
 										?>
 									</select>
 								</div>
@@ -114,6 +119,19 @@ else{
 											<option value="<?php echo $row['idCambiosMotivos']; ?>"><?php echo $row['Descripcion']; ?></option>
 										<?php 
 										}while($row = $db->fetch_assoc($resultado));	
+										?>
+									</select>
+								</div>
+							  </div>
+
+							  <div class="control-group">
+								<label class="control-label" for="selectError">Producto</label>
+								<div class="controls">
+									<select id="idP" name="idP" data-rel="chosen" data-validation-engine="validate[required]">
+										<?php do{?>
+											<option value="<?php echo $row2['idProductoCambio']; ?>"><?php echo $row2['sku'].' - '.$row2['DescripcionInterna']; ?></option>
+										<?php 
+										}while($row2 = $db->fetch_assoc($resultado2));	
 										?>
 									</select>
 								</div>

@@ -1,12 +1,12 @@
 <?php
-
 date_default_timezone_set('America/Mexico_City');
-header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=reporteAdministracion_".$fechaIni.'_'.date('H:i:s').".xls");
+
 header("Pragma: no-cache");
 header("Expires: 0");
 
 require_once('../clases/class.MySQL.php');
+require_once('../dompdf/dompdf_config.inc.php');
+
 $db = new MySQL();
 
 ///////////////////////////////array dias
@@ -38,12 +38,10 @@ $idDeposito = $rowDep['idDeposito'];
 
 $encabezado = '<tr>
 			      <td width="250"><tt>Gepp</tt></td>
-<!--  <td width="250"><tt>Compañía:</tt></td>
-  <td width="250"><tt>Gepp S de RL de CV</tt></td> -->
-  <td width="250"><tt>'.date('Y-m-d H:i:s').'</tt></td>
+  <td width="250>"<tt>'.date('Y-m-d H:i:s').'</tt></td>
 </tr>
 <tr>
-  <td><tt>Reporte de Cambios</tt></td>
+  <td><tt>Reporte Bodega Administración Motivo</tt></td>
 </tr>
 <tr>
   <td><tt>Deposito:</tt></td>
@@ -57,6 +55,7 @@ $encabezado = '<tr>
   <td><tt>Fecha Entrega</tt></td>
   <td><tt>'.$fechaEntrega.'</tt></td>
 </tr>';
+
 //////////////////////Query para obtener los motivos dados de alta en el deposito
 $consultaMo = "SELECT 
     cm.idCambiosMotivos, cm.Descripcion
@@ -162,45 +161,49 @@ if($rowMo['idCambiosMotivos']!=''){
 		$tdCM = NULL;
 	}while($row = $db->fetch_assoc($resultado));
 }//fin de if validacion
-?>
-	<!doctype html>
-		<html>
-		<head>
-		<meta charset="UTF-8">
-		<title>Documento sin título</title>
-		</head>
 
-		<body>
-		<center>
-			<table width="750" height="112" border="0">
-			  <tbody>
-			    <?php echo  $encabezado ?>
-			  </tbody>
-			</table>
-			<hr>
-			<table width="750" height="112" border="0">
-			  <tbody>
-			    <tr>
-			      <td width="20"><tt>Ruta</tt></td>
-			      <td width="20"><tt>Clientes</tt></td>
-			      <?php echo $tdMo; ?>
-			      <td width="20"><tt>Total</tt></td>
-			      <!--<td width="20"><tt>Cajas Fisicas</tt></td>-->
-			    </tr>
-			    <?php //echo $consultaMo; ?>
-			    <?php echo $tdBody; ?>
-			    <!--<tr>
-			      <td><tt></tt></td>
-			      <td><tt>Totales</tt></td>
-			      <td><tt>Totales</tt></td>
-			      <td><tt>Totales</tt></td>
-			      <td><tt>Totales</tt></td>
-			      <td><tt>Totales</tt></td>
-			      <td><tt>Totales</tt></td>
-			      <td><tt>Totales</tt></td>
-			    </tr>-->
-			  </tbody>
-			</table>
-		</center>
-		</body>
-		</html>
+	$html='<!doctype html>
+				<html>
+				<head>
+				<meta charset="UTF-8">
+				<title>Reporte Bodega Administación Motivo</title>
+				</head>
+				<body>
+				<center>
+					<table width="750" height="112" border="0">
+					  <tbody>
+					    '.$encabezado.'
+					  </tbody>
+					</table>
+					<hr>
+					<table width="750" height="112" border="0">
+					  <tbody>
+					    <tr>
+					      <td width="20"><tt>Ruta</tt></td>
+					      <td width="20"><tt>Clientes</tt></td>
+					      '.$tdMo.'
+					      <td width="20"><tt>Total</tt></td>
+					    </tr>
+					    '.$tdBody.'
+					  </tbody>
+					</table>
+				</center>
+				</body>
+				</html>';
+
+//Instanciamos un objeto de la clase DOMPDF.
+$mipdf = new DOMPDF();
+
+//Definimos el tamaño y orientación del papel que queremos.
+//O por defecto cogerá el que está en el fichero de configuración.
+$mipdf->set_paper("A4", "landscape");
+
+//Cargamos el contenido HTML.
+$mipdf->load_html(utf8_decode($html));
+
+//Renderizamos el documento PDF.
+$mipdf->render();
+
+//Enviamos el fichero PDF al navegador.
+$mipdf->stream("reporteAdministracion_".$fechaIni.'_'.date('H:i:s').".pdf");
+?>

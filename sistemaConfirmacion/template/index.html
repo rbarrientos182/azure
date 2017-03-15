@@ -1,0 +1,100 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="utf-8" />
+	<title>Sistema Confirmación</title>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="all" href="css/metro.css" />
+	<link rel="icon" type="image/png" href="../img/Pepsi-logo.ico" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	<div class="metro-layout vertical">
+		<!--<div class="header">
+			<h1>Sistema de Confirmación</h1>
+			<div class="controls">
+				<span class="down" title="Scroll down"></span>
+				<span class="up" title="Scroll up"></span>
+				<span class="next" title="Scroll left"></span>
+				<span class="prev" title="Scroll right"></span>
+				<span class="toggle-view" title="Toggle layout"></span>
+			</div>
+		</div>-->
+		<div id="contenido" class="content clearfix">
+				<!-- Acá va el contenido de los cuadros -->
+		</div>
+	</div>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.plugins.min.js"></script>
+	<script type="text/javascript" src="js/metro.js"></script>
+	<script type="text/javascript">
+		const LIMIT = 15;
+		$(document).ready(
+			function ()
+			{
+					console.log('cargo dom página');
+					//alert('cargo dom página');
+					var request = $.ajax({
+						url:'../Controlador/totalDepositos.php'
+					});
+
+					request.done(function(data, textStatus, jqXHR) {
+						//alert(data);
+						mostrarConfirmaciones(data,0,LIMIT);
+					});
+
+					request.fail(function(jqXHR, textStatus, errorThrown) {
+						console.log( "La solicitud a fallado: " +  textStatus);
+					});
+
+			});
+
+			function mostrarConfirmaciones(nregistros,inicio,fin) {
+				console.log(nregistros+" "+inicio+" "+fin);
+
+				if(inicio>=nregistros){
+					inicio = 0;
+					fin = 0;
+					fin = LIMIT;
+				}
+
+				var content = '';
+				var variables = "inicio="+inicio+"&fin="+fin;
+				var request = $.ajax({
+					url:"../Controlador/confirmaciones.php",
+					type:'POST',
+					dataType:"json",
+					data:variables
+				});// fin de ajax
+				request.done(function(data, textStatus, jqXHR){
+					if(console && console.log){
+						 console.log( "La solicitud se ha completado correctamente." );
+						 var dataJson = eval(data);
+						 content = '<div class="items">';
+						 for(var i in data){
+								content += '<a class="box '+dataJson[i].style+'" href="#" style="background: '+dataJson[i].statuscolor+';" ><span>'+dataJson[i].cedis+'</span><p>'+dataJson[i].hora+'</p></a>';
+						 }
+						 content +='</div>';
+						 $("#contenido").html(content);
+						 inicio = fin;
+				 	 	 fin = fin+LIMIT;
+						 setTimeout(function(){
+						 mostrarConfirmaciones(nregistros,inicio,fin);
+						 },30000);
+					}
+				});// fin de donde
+				request.fail(function(jqXHR, textStatus, errorThrown){
+					if(console && console.log){
+						 console.log( "La solicitud a fallado: " +  textStatus);
+						 //alert( "La solicitud a fallado: "+textStatus);
+				  }
+				});// fin de fail
+			}//fin de función mostrarConfirmaciones
+</script>
+	<!--[if lt IE 9]>
+		<script src="js/respond.min.js"></script>
+	<![endif]-->
+</body>
+</html>

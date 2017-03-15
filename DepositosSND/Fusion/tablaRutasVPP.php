@@ -6,13 +6,16 @@ error_reporting(0);
 if(date("H:i:s") > 13){
 	header('Location: ../Depositos/tablaRutasVPP.php?iddeposito='.$iddeposito);
 }
+
 require_once("clases/class.MySQL.php");
+require_once("clases/class.Utilidades.php");
 
 $mysqli = new MySQL();
+$uti = new Utilidades();
 
+$intervalo = $uti->obtenerIntervalo();
 
 $iddeposito = $_GET['iddeposito'];
-
 
 $consulta = "SELECT deposito FROM deposito WHERE iddeposito = $iddeposito LIMIT 1";
 $resultado = $mysqli->consulta($consulta);
@@ -60,7 +63,7 @@ $row = $mysqli->fetch_assoc($resultado);
 
 					setTimeout(function(){
 						//alert('entro a redireccionar');
-			    		$(location).attr('href','charts.php?iddeposito='+iddeposito);
+			    		$(location).attr('href','tablaGS.php?iddeposito='+iddeposito);
 					},120000);
 				}
 			);
@@ -114,7 +117,12 @@ $row = $mysqli->fetch_assoc($resultado);
 			TIPO RUTA <br>
 			<b>ENTREGA </b> <br><br>
 			<b>FECHA</b> <br>
-            <?php echo $fecha=date('Y-m-d');?>
+            <?php 
+            	$fecha = date("Y-m-d");
+				$nuevafecha = strtotime ("-$intervalo day", strtotime($fecha));
+				$nuevafecha = date ("Y-m-d",$nuevafecha);
+				echo $nuevafecha;
+            ?>
 			</CENTER> 
 
 			<div class="burbujas">

@@ -26,7 +26,7 @@ idRuta,
 (TIME_TO_SEC(trasladoUltimoCliente)/60)/60 AS trasladoUltimoCliente,
 (TIME_TO_SEC(llegadaCedis)/60)/60 AS llegadaCedis
 FROM resumen_ruta 
-WHERE fechaOperacion = DATE_SUB(CURRENT_DATE,INTERVAL $intervalo DAY) AND iddeposito = $iddeposito AND tipoRuta = 6 AND CURRENT_TIME < '13:00:00' ORDER BY tiempoCedis";
+WHERE fechaOperacion = DATE_SUB(CURRENT_DATE,INTERVAL $intervalo DAY) AND iddeposito = $iddeposito AND tipoRuta = 6 AND CURRENT_TIME < '13:00:00' ORDER BY trasladoUltimoCliente";
 
 $resultado = $mysqli->consulta($consulta);
 $row = $mysqli->fetch_assoc($resultado);

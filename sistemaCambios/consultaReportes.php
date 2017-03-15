@@ -1,4 +1,4 @@
-<?php include('header.php'); 
+<?php include('header.php');
 $idoperacion = $_SESSION['idoperacion'];
 ?>
 			<div>
@@ -11,7 +11,7 @@ $idoperacion = $_SESSION['idoperacion'];
 					</li>
 				</ul>
 			</div>
-			
+
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
@@ -31,8 +31,8 @@ $idoperacion = $_SESSION['idoperacion'];
 											<!--<?php if($nivel==1 || $nivel==4){?><option value="0">Reporte Supervisor (por producto)</option><?php }?>-->
 											<option value="1">Reporte Vendedor (por producto)</option>
 											<option value="2">Reporte Bodega (por producto)</option>
-											<option value="5">Reporte Bodega (por producto Excel)</option>
-											<option value="3">Reporte Administración (por Motivo Excel)</option>
+											<option value="5">Reporte Bodega (acumulado)</option>
+											<!--<option value="3">Reporte Administración (por Motivo)</option>-->
 											<option value="4">Reporte Administración (Detallado Excel)</option>
 											<!--<option value="6">Reporte Indicadores (Excel)</option>-->
 											<option value="7">Reporte Indicadores (por Segmento Excel)</option>
@@ -62,7 +62,7 @@ $idoperacion = $_SESSION['idoperacion'];
 					</div>
 					<div class="box-content" id="div_consultaR" name="div_consultaR"></div>
 				</div><!--/span-->
-					
+
 			</div><!--/row-->
-			
+
 <?php include('footer.php'); ?>

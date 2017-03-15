@@ -7,7 +7,7 @@ error_reporting(0);
 
 if(date("H:i:s") < 15){
 
-header('Location: ../Fusion/tablaRutas2.php?iddeposito='.$iddeposito);
+header('Location: ../Fusion/tablaRutasVPP.php?iddeposito='.$iddeposito);
 
 
 }

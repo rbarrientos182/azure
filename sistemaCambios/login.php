@@ -1,5 +1,7 @@
 <?php
 $no_visible_elements=true;
+//Header("Location: index.html");
+
 include('header2.php'); ?>
 
 			<div class="row-fluid" style="text-align:center">
@@ -7,7 +9,7 @@ include('header2.php'); ?>
 					<h2>Welcome to Charisma</h2>
 				</div><!--/span-->
 			<!--</div><!--/row-->
-				<img src="img/logo_gepp.jpg" alt="Gepp Pepsi" title="Gepp Pepsi">
+				<img src="img/Pepsi-logo.png" alt="Gepp Pepsi" title="Gepp Pepsi">
 			<div class="row-fluid">
 				<div class="well span5 center login-box">
 					<div id="d_aviso" class="alert alert-info">

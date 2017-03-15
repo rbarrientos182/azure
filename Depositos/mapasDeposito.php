@@ -11,7 +11,7 @@ echo "-1 hora: ".date("H:i:s",strtotime("-6 hour"));*/
 
 if(date("H:i:s",strtotime("-6 hour")) < 15){
 
-header('Location: ../Fusion/tablaRutas2.php?iddeposito='.$iddeposito);
+header('Location: ../Fusion/tablaRutasVPP.php?iddeposito='.$iddeposito);
 
 
 }

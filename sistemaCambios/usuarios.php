@@ -27,10 +27,11 @@ FROM
     WHERE
         usr.NumEmpleado = $NumEmpleado
         AND usr.idoperacion = $idoperacion) r ON usc.ppp = r.ruta
-        AND usc.idoperacion = r.idoperacion";
+        AND usc.idoperacion = r.idoperacion
+        AND estatus=1";
 }
 else if($nivel==4){
-	$consulta = "SELECT NumEmpleado, Nombre,  nivel, CASE(nivel) WHEN 1 THEN 'Supervisor' WHEN 2 THEN 'Promotor' WHEN 3 THEN 'Consulta' WHEN 4 THEN 'Administrador' END  AS tnivel,PPP FROM UsrCambios WHERE idoperacion = $idoperacion ";	
+	$consulta = "SELECT NumEmpleado, Nombre,  nivel, CASE(nivel) WHEN 1 THEN 'Supervisor' WHEN 2 THEN 'Promotor' WHEN 3 THEN 'Consulta' WHEN 4 THEN 'Administrador' END  AS tnivel,PPP FROM UsrCambios WHERE idoperacion = $idoperacion AND estatus=1";	
 }
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);

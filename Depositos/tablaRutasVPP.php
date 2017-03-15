@@ -7,7 +7,7 @@ error_reporting(0);
 
 if(date("H:i:s") < 15){
 
-header('Location: ../Fusion/tablaRutas2.php?iddeposito='.$iddeposito);
+header('Location: ../Fusion/tablaRutasVPP.php?iddeposito='.$iddeposito);
 
 
 }
@@ -62,7 +62,8 @@ $row = $mysqli->fetch_assoc($resultado);
 
 					setTimeout(function(){
 						//alert('entro a redireccionar');
-			    		$(location).attr('href','charts.php?iddeposito='+iddeposito);
+						$(location).attr('href','tablaGS.php?iddeposito='+iddeposito);
+			    		//$(location).attr('href','charts.php?iddeposito='+iddeposito);
 					},120000);
 				}
 			);

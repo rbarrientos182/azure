@@ -77,5 +77,22 @@ class Utilidades
 
 	}
 
+	public function obtenerDiaMenos(){
+
+		////creamos un array de los dias de la semana
+		$arrayDias = array('D','L','M','R','J','V','S');
+		$diaSemana =  date('w');
+		$diaSemana = $diaSemana-1;
+
+		$dia = $arrayDias[$diaSemana];
+
+		if($dia=='D'){
+			$dia='L';
+		}
+		
+		return $dia;
+
+	}
+
 }
 ?>

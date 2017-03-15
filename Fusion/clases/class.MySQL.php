@@ -1,7 +1,16 @@
 <?php
 class MySQL
 {  
-   
+    private $conexion = null;
+    /*private $host = "pgdweb.cloudapp.net:4406";
+    private $user = "mercadeo";
+    private $pass = "Eideud94@3";
+    private $db = "gepp";*/
+
+    private $host = "cedex";
+    private $user = "gepp";
+    private $pass = "gepp";
+    private $db = "gepp";
 
      	 
 	 //funcion de coneccion con la base de datos

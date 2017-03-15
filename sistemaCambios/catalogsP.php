@@ -1,15 +1,13 @@
-<?php include('header.php'); 
+<?php include('header.php');
 
 $idoperacion = $_SESSION['idoperacion'];
 
 $consulta = "SELECT
-	pc.idProductoCambio, 
+	pc.idProductoCambio,
     pc.SKU AS sku,
     p.Descripcion AS Descripcion,
     pc.DescripcionInterna AS DescripcionInterna,
-    pc.skuConver AS SkuConver,
     pr.descripcion AS dempaque,
-    pd.Descripcion AS DescripcionConver,
     IF(pc.estatus,'label-success','label-important') AS estatusP,
     IF(pc.estatus,'Habilitado','Inahabilitado') AS estatuss,
     CASE(pc.tmercado) WHEN 0 THEN 'Tradicional' WHEN 1 THEN 'Moderno' WHEN 2 THEN 'Híbrido' END AS TMercado
@@ -19,7 +17,7 @@ FROM
     productos p ON pc.sku = p.sku
         INNER JOIN
     productos pd ON pc.skuConver = pd.sku
-		INNER JOIN 
+		INNER JOIN
 	presentacion pr ON pr.idpresentacion = p.idpresentacion
 WHERE
     pc.idoperacion = $idoperacion ORDER BY pc.tmercado,pc.sku";
@@ -36,8 +34,8 @@ $row = $db->fetch_assoc($resultado);
 					</li>
 				</ul>
 			</div>
-			
-			<div class="row-fluid sortable">		
+
+			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
 						<h2><i class="icon-align-justify"></i>Productos Cambios</h2>
@@ -56,24 +54,20 @@ $row = $db->fetch_assoc($resultado);
 								  <th>SKU</th>
 								  <th>Producto</th>
 								  <th>Descripción Interna</th>
-								  <th>SKU Conversion</th>
-								  <th>Producto Conversion</th>
 								  <th>Empaque</th>
 								  <th>Mercado</th>
 								  <th>Estatus</th>
 								  <th>Acciones</th>
 							  </tr>
-						  </thead>   
+						  </thead>
 						  <tbody>
 						  	<?php do{
-						  				
+
 						  		?>
 								<tr>
 									<td class="center"><?php echo $row['sku']?></td>
 									<td class="center"><?php echo $row['Descripcion'];?></td>
 									<td class="center"><?php echo $row['DescripcionInterna'];?></td>
-									<td class="center"><?php echo $row['SkuConver'];?></td>
-									<td class="center"><?php echo $row['DescripcionConver'];?></td>
 									<td class="center"><?php echo $row['dempaque'];?></td>
 									<td class="center"><?php echo $row['TMercado'];?></td>
 									<td class="center">
@@ -81,16 +75,16 @@ $row = $db->fetch_assoc($resultado);
 									</td>
 									<td class="center">
 										<a class="btn btn-info" href="fmProductos.php?id=<?php echo $row['idProductoCambio'];?>&id2=<?php echo $row['sku'];?>">
-											<i class="icon-edit icon-white"></i>  
-											Editar                                           
+											<i class="icon-edit icon-white"></i>
+											Editar
 										</a>
 									</td>
 								</tr>
 							<?php }while($row = $db->fetch_assoc($resultado)); ?>
 						  </tbody>
-					  </table>            
+					  </table>
 					</div>
 				</div><!--/span-->
-			
-			</div><!--/row-->   
+
+			</div><!--/row-->
 <?php include('footer.php'); ?>

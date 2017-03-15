@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION)) 
+if (!isset($_SESSION))
 {
 	session_start();
 }
@@ -10,7 +10,6 @@ $db = new MySQL();
 $idoperacion = $_SESSION['idoperacion'];
 $idP = $_POST['idP'];
 $desIn = $_POST['desIn'];
-$idPc = $_POST['idPc'];
 $tipoM = $_POST['Mer'];
 
 /*** Comprobamos si ya existe ese producto en esa operacion y en ese mercado ***/
@@ -20,8 +19,8 @@ $row = $db->fetch_assoc($resultado);
 
 /** si no existe se inserta como nuevo **/
 if($row['cuantos']==0){
-	$consulta = "INSERT INTO ProductosCambios (idoperacion,sku,DescripcionInterna,skuConver,tmercado)
-	VALUES ($idoperacion,$idP,'$desIn',$idPc,$tipoM)";
+	$consulta = "INSERT INTO ProductosCambios (idoperacion,sku,DescripcionInterna,tmercado,skuConver)
+	VALUES ($idoperacion,$idP,'$desIn',$tipoM,$idP)";
 	$db->consulta($consulta);
 }
 

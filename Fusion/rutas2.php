@@ -22,7 +22,7 @@ $idoperacion = $_POST['idoperacion'];
 
 //$idoperacion = 2;
 
-$consulta = "SELECT 
+echo $consulta = "SELECT 
     r.iddeposito,
     deposito,
     o.idoperacion AS idoperacion,

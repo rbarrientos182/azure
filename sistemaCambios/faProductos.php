@@ -1,4 +1,4 @@
-<?php include('header.php'); 
+<?php include('header.php');
 
 $idoperacion = $_SESSION['idoperacion'];
 
@@ -7,10 +7,6 @@ $consulta = "SELECT sku, Descripcion FROM Productos  ORDER BY sku";
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
 
-/** Query del catalogo de los productos por CEDIS **/
-$consulta2 = "SELECT sku, Descripcion FROM Productos  ORDER BY sku";
-$resultado2 = $db->consulta($consulta2);
-$row2 = $db->fetch_assoc($resultado2);
 ?>
 			<div>
 				<ul class="breadcrumb">
@@ -25,7 +21,7 @@ $row2 = $db->fetch_assoc($resultado2);
 					</li>
 				</ul>
 			</div>
-			
+
 			<div class="row-fluid sortable">
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
@@ -46,29 +42,16 @@ $row2 = $db->fetch_assoc($resultado2);
 									<select id="idP" name="idP" data-rel="chosen" data-validation-engine="validate[required]">
 										<?php do{?>
 											<option value="<?php echo $row['sku']; ?>"><?php echo $row['sku'].' - '.$row['Descripcion']; ?></option>
-										<?php 
-										}while($row = $db->fetch_assoc($resultado));	
+										<?php
+										}while($row = $db->fetch_assoc($resultado));
 										?>
 									</select>
 								</div>
 							  </div>
-
 							   <div class="control-group">
 								<label class="control-label" for="focusedInput">Descripcion Interna</label>
 								<div class="controls">
 								  <input class="input-xlarge focused" id="desIn" name="desIn" data-validation-engine="validate[required]" type="text">
-								</div>
-							  </div>
-							  <div class="control-group">
-								<label class="control-label" for="selectError">Producto Conversion</label>
-								<div class="controls">
-									<select id="idPc" name="idPc" data-rel="chosen" data-validation-engine="validate[required]">
-										<?php do{?>
-											<option value="<?php echo $row2['sku']; ?>"><?php echo $row2['sku'].' - '.$row2['Descripcion']; ?></option>
-										<?php 
-										}while($row2 = $db->fetch_assoc($resultado2));	
-										?>
-									</select>
 								</div>
 							  </div>
 							   <div class="control-group">
@@ -90,7 +73,7 @@ $row2 = $db->fetch_assoc($resultado2);
 					</div>
 					<div class="box-content" id="div_motivos" name="div_motivos"></div>
 				</div><!--/span-->
-					
+
 			</div><!--/row-->
-			
+
 <?php include('footer.php'); ?>

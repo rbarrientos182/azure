@@ -1,5 +1,5 @@
-<?php 
-if (!isset($_SESSION)) 
+<?php
+if (!isset($_SESSION))
 {
 	session_start();
 }
@@ -60,7 +60,7 @@ date_default_timezone_set('America/Mexico_City');
 
 	<!-- The fav icon -->
 	<link rel="shortcut icon" href="img/logo.ico">
-		
+
 </head>
 
 <body>
@@ -74,8 +74,8 @@ date_default_timezone_set('America/Mexico_City');
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.php"> <img alt="Charisma Logo" src="img/logo_distribucion.jpg" /></a>
-				
+				<a class="brand" href="index.php"> <img alt="Logo GEPP" src="img/Pepsi-logo.png" /></a>
+
 				<!-- theme selector starts -->
 				<div class="btn-group pull-right theme-container" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -95,19 +95,46 @@ date_default_timezone_set('America/Mexico_City');
 					</ul>
 				</div>
 				<!-- theme selector ends -->
-				
+
 				<!-- user dropdown starts -->
-				<?php 
+				<?php
 	                $NumEmpleado = $_SESSION['NumEmpleado'];
 	                $nivel = $_SESSION['nivel'];
 	                $idoperacion = $_SESSION['idoperacion'];
-					$consulta = "SELECT nombre,deposito FROM UsrCambios usr INNER JOIN Operaciones o ON usr.idoperacion = O.idoperacion INNER JOIN Deposito d ON o.idDeposito=d.idDeposito WHERE NumEmpleado = $NumEmpleado AND o.idoperacion = $idoperacion";
+					$consulta = "SELECT
+    NumEmpleado,
+    Nombre,
+    IF(PPP=0,'',PPP) AS PPP,
+    nivel AS niv,
+    CASE nivel
+        WHEN 1 THEN 'Supervisor'
+        WHEN 2 THEN 'Promotor'
+        WHEN 3 THEN 'Consulta'
+        WHEN 4 THEN 'Administrador'
+    END AS nivel,
+    d.idDeposito,
+    deposito,
+    region
+FROM
+    UsrCambios usr
+        INNER JOIN
+    Operaciones o ON usr.idoperacion = O.idoperacion
+        INNER JOIN
+    Deposito d ON o.idDeposito = d.idDeposito
+        INNER JOIN
+    zona z ON d.idzona = z.idzona
+        INNER JOIN
+    region r ON z.idRegion = r.idRegion
+WHERE
+    NumEmpleado = $NumEmpleado
+        AND o.idoperacion = $idoperacion";
+
 					$resultado = $db->consulta($consulta);
 					$row = $db->fetch_assoc($resultado);
 				?>
-					<?php echo $row['deposito']?><br><br>
-					<?php echo $NumEmpleado." - ".$row['nombre']; ?>
-					
+					<?php echo $row['region']," - ".$row['idDeposito']." - ".$row['deposito']?><br><br>
+					<?php echo $row['nivel']." - ".$row['PPP']." - ".$NumEmpleado." - ".$row['Nombre']; ?>
+
 
 						<!--<p><b>All pages in the menu are functional, take a look at all, please share this with your followers.</b></p>-->
 				<div class="clearfix"></div>
@@ -124,7 +151,7 @@ date_default_timezone_set('America/Mexico_City');
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
-				
+
 				<div class="top-nav nav-collapse">
 					<ul class="nav">
 						<li><a href="#">Visita el Sitio</a></li>
@@ -143,24 +170,31 @@ date_default_timezone_set('America/Mexico_City');
 	<div class="container-fluid">
 		<div class="row-fluid">
 		<?php if(!isset($no_visible_elements) || !$no_visible_elements) { ?>
-		
+
 			<!-- left menu starts -->
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">Menú</li>
 						<li><a class="ajax-link" href="index.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
+						<?php if($NumEmpleado=='999999'){ ?>
+							<li class="nav-header hidden-tablet">Alta Depósito</li>
+							<li><a class="ajax-link" href="sProductos.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Productos</span></a></li>
+							<li><a class="ajax-link" href="sSupervisores.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Grupos Supervisores</span></a></li>
+							<li><a class="ajax-link" href="sUsuarios.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Usuarios</span></a></li>
+							<li><a class="ajax-link" href="sRutas.php"><i class="icon-file"></i><span class="hidden-tablet">Importar Rutas</span></a></li>
+						<?php }?>
 						<li class="nav-header hidden-tablet">Cambios</li>
 						<?php if($nivel==1 || $nivel==4){?>
 							<li><a class="ajax-link" href="usuarios.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Usuarios</span></a></li>
-						<?php }?>	
+						<?php }?>
 							<li><a class="ajax-link" href="fmContrasena.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Cambio Contraseña</span></a></li>
 						<?php if($nivel==4){?>
 							<li><a class="ajax-link" href="rutas.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Rutas</span></a></li>
-							<li><a class="ajax-link" href="Motivos.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Catalogo Motivos</span></a></li>
+							<!--<li><a class="ajax-link" href="Motivos.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Catalogo Motivos</span></a></li>-->
 							<li><a class="" href="catalogsP.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Productos Cambios</span></a></li>
 							<li><a class="" href="GSupervision.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Grupos de Supervision</span></a></li>
-							
+
 							<li><a class=""href="sClientes.php"><i class="icon-file"></i><span class="hidden-tablet">Subir Clientes</span></a></li>
 						<?php }?>
 						<?php if(/*$nivel==1 || */$nivel==2/*|| $nivel==4*/){?>
@@ -172,7 +206,7 @@ date_default_timezone_set('America/Mexico_City');
 						<?php if($nivel==1 || $nivel==4 || $nivel==3){?>
 							<li><a class="" href="consultaReportes.php"><i class="icon-print"></i><span class="hidden-tablet">Reportes</span></a></li>
 							<!--<li><a class="" href="consultaReportesIndicadores.php"><i class="icon-print"></i><span class="hidden-tablet">Reportes Indicadores</span></a></li>-->
-					        <!--<li><a class="" href="grafica.php"><i class="icon-signal"></i><span class="hidden-tablet">Graficas</span></a></li>--> 
+					        <!--<li><a class="" href="grafica.php"><i class="icon-signal"></i><span class="hidden-tablet">Graficas</span></a></li>-->
 						<?php } ?>
 						<?php //if($nivel==1 || $nivel==4){?>
 							<!--<li><a class="" href="cierreDia.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Cierre de Día</span></a></li>-->
@@ -188,7 +222,7 @@ date_default_timezone_set('America/Mexico_City');
 						<li><a href="filtroClientes.php"><i class="icon-align-justify"></i><span class="hidden-tablet"> Clientes</span></a></li>
 						<li><a class="ajax-link" href="productos.php"><i class="icon-align-justify"></i><span class="hidden-tablet"> Productos</span></a></li>
 						<li><a href="sOrdenes.php"><i class="icon-file"></i><span class="hidden-tablet">Subir Ordenes</span></a></li>-->
-						
+
 						<!--<li><a href="sProductos.php"><i class="icon-file"></i><span class="hidden-tablet">Subir Productos</span></a></li>-->
 						<!--<li><a class="ajax-link" href="sIndicadores.php"><i class="icon-file"></i><span class="hidden-tablet">Subir Indicadores</span></a></li>
 						<li><a class="ajax-link" href="sTiemposO.php"><i class="icon-file"></i><span class="hidden-tablet">Subir Tiempos de Operación</span></a></li>-->
@@ -219,14 +253,14 @@ date_default_timezone_set('America/Mexico_City');
 				</div><!--/.well -->
 			</div><!--/span-->
 			<!-- left menu ends -->
-			
+
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-			
+
 			<div id="content" class="span10">
 			<!-- content starts -->
 			<?php } ?>

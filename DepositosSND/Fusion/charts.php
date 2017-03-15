@@ -6,10 +6,7 @@ error_reporting(0);
 
 
 if(date("H:i:s") >= 15){
-
-header('Location: ../Depositos/tablaRutasVPP.php?iddeposito='.$iddeposito);
-
-
+	header('Location: ../Depositos/tablaRutasVPP.php?iddeposito='.$iddeposito);
 }
 ?>
 <!DOCTYPE HTML>

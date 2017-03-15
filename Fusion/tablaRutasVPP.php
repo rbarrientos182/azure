@@ -3,16 +3,19 @@ date_default_timezone_set('America/Mexico_City');
 // Desactivar toda notificación de error
 error_reporting(0);
 
-if(date("H:i:s") > 13){
+/*if(date("H:i:s") >= 15){
 	header('Location: ../Depositos/tablaRutasVPP.php?iddeposito='.$iddeposito);
-}
+}*/
+
 require_once("clases/class.MySQL.php");
+require_once("clases/class.Utilidades.php");
 
 $mysqli = new MySQL();
+$uti = new Utilidades();
 
+$intervalo = $uti->obtenerIntervalo();
 
 $iddeposito = $_GET['iddeposito'];
-
 
 $consulta = "SELECT deposito FROM deposito WHERE iddeposito = $iddeposito LIMIT 1";
 $resultado = $mysqli->consulta($consulta);
@@ -28,7 +31,7 @@ $row = $mysqli->fetch_assoc($resultado);
 		<!-- CSS de Bootstrap -->
    		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
    		<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-   		
+
 		<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
 		<script type="text/javascript" src="js/rainbow-custom.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
@@ -49,7 +52,7 @@ $row = $mysqli->fetch_assoc($resultado);
 						success:function function_name (nRegistro) {
 							//alert(nRegistro);
 							paginarTabla2(nRegistro,0,limit,iddeposito);
-							
+
 
 						},
 						error: function function_name (request,error) {
@@ -60,12 +63,12 @@ $row = $mysqli->fetch_assoc($resultado);
 
 					setTimeout(function(){
 						//alert('entro a redireccionar');
-			    		$(location).attr('href','charts.php?iddeposito='+iddeposito);
+			    		$(location).attr('href','tablaGS.php?iddeposito='+iddeposito);
 					},120000);
 				}
 			);
 
-			function paginarTabla2(cuantos,inicio,fin,iddeposito) 
+			function paginarTabla2(cuantos,inicio,fin,iddeposito)
 			{
 				//alert('cuantos '+cuantos+' inicio '+inicio+' fin '+fin+' iddeposito'+iddeposito);
 
@@ -73,7 +76,7 @@ $row = $mysqli->fetch_assoc($resultado);
 
 					inicio = 0;
 					fin = 0;
-						
+
 					fin = limit;
 				}
 
@@ -95,10 +98,10 @@ $row = $mysqli->fetch_assoc($resultado);
 
 			function mostrarDiv (){
 				//alert('entro a mostrarDiv');
-				$( "#div1" ).show( "blind", "slow" ); 
+				$( "#div1" ).show( "blind", "slow" );
             }
 
-          
+
 
 		</script>
 
@@ -107,15 +110,20 @@ $row = $mysqli->fetch_assoc($resultado);
 	</head>
 	<body>
 		<!--<a href="../pantalla_aeropuerto/tablavpp.php" class="btn btn-default btn-xs">Regresar</a>-->
-		<div id="div2"> 
+		<div id="div2">
 
-			<CENTER> DEPOSITO  <br> 
+			<CENTER> DEPOSITO  <br>
 			<b><?php echo $row['deposito']; ?></b> <br><br>
 			TIPO RUTA <br>
 			<b>ENTREGA </b> <br><br>
 			<b>FECHA</b> <br>
-            <?php echo $fecha=date('Y-m-d');?>
-			</CENTER> 
+            <?php
+            	$fecha = date("Y-m-d");
+				$nuevafecha = strtotime ("-$intervalo day", strtotime($fecha));
+				$nuevafecha = date ("Y-m-d",$nuevafecha);
+				echo $nuevafecha;
+            ?>
+			</CENTER>
 
 			<div class="burbujas">
 		        <img class="cuadrado" style="margin-left: 35%; margin-top: 100%; max-width: 100%" src="img/burbuja1.png" alt="Burbuja">
@@ -124,8 +132,8 @@ $row = $mysqli->fetch_assoc($resultado);
 
 		</div>
 
-		<div id="div1">	
-			 	hola mundo	
+		<div id="div1">
+			 	hola mundo
 		</div>
 	</body>
 </html>

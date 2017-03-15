@@ -113,5 +113,13 @@ class Funciones extends MySQL
 
 		return $dias;
 	}
+
+	public function getMotivoClave($idmotivo){
+
+		$arrayCvMotivos = array('31' => 'A','32'=>'B','34'=>'C','37'=>'D','80'=>'E','81'=>'F','82'=>'G','83'=>'H','84'=>'I','85'=>'J','86'=>'K');
+		$cveMotivo = $arrayCvMotivos[$idmotivo];
+
+		return $cveMotivo;
+	}
 }
 ?>

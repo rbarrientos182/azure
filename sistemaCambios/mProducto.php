@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION)) 
+if (!isset($_SESSION))
 {
 	session_start();
 }
@@ -12,7 +12,6 @@ $id = $_POST['id'];
 $id2 = $_POST['id2'];
 $idP = $_POST['idP'];
 $desIn = $_POST['desIn'];
-$idPc = $_POST['idPc'];
 $tipoM = $_POST['Mer'];
 $estatus = $_POST['estatus'];
 
@@ -24,7 +23,7 @@ $row = $db->fetch_assoc($resultado);
 
 /** si existe se actualiza**/
 if($row['cuantos']==1){
-	$consulta = "UPDATE ProductosCambios SET  DescripcionInterna = '$desIn', skuConver = $idPc, estatus = $estatus, tmercado = $tipoM  WHERE idProductoCambio = $id AND idoperacion = $idoperacion AND sku = $id2";
+	$consulta = "UPDATE ProductosCambios SET  DescripcionInterna = '$desIn', estatus = $estatus, tmercado = $tipoM  WHERE idProductoCambio = $id AND idoperacion = $idoperacion AND sku = $id2";
 	$db->consulta($consulta);
 }
 header('Location: catalogsP.php')

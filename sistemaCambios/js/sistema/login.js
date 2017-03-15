@@ -1,7 +1,7 @@
 // JavaScript Document
 $(document).ready(
 	function ()
-	{	
+	{
 		$("#cant").numeric(false, function() { alert("Integers only"); this.value = ""; this.focus(); });
 		$("#idN").numeric(false, function() { alert("Integers only"); this.value = ""; this.focus(); });
 		//levantamosusuarioclave();
@@ -17,7 +17,7 @@ $(document).ready(
 			accept:'csv|txt|zip',
 			STRING:{
 			selected:'Seleccionado: $file',
-			denied:'Invalido tipo de archivo $ext!'	
+			denied:'Invalido tipo de archivo $ext!'
 			}
 		});
 
@@ -26,7 +26,7 @@ $(document).ready(
 			accept:'xls|xlsx',
 			STRING:{
 			selected:'Seleccionado: $file',
-			denied:'Invalido tipo de archivo $ext!'	
+			denied:'Invalido tipo de archivo $ext!'
 			}
 		});
 
@@ -35,7 +35,7 @@ $(document).ready(
 			accept:'825|824',
 			STRING:{
 			selected:'Seleccionado: $file',
-			denied:'Invalido tipo de archivo $ext!'	
+			denied:'Invalido tipo de archivo $ext!'
 			}
 		});
 
@@ -43,17 +43,17 @@ $(document).ready(
 			if (event.which == 13) {
 				//alert('fue un enter en password');
 				guardarusuarioyclave();
-			}	
-			
-		});	
-		
+			}
+
+		});
+
 		$("#username").keyup(function(event){
 			if (event.which == 13) {
 				//alert('fue un enter en username');
 				guardarusuarioyclave();
-			}	
-			
-		});	
+			}
+
+		});
 
 
 		/** Area de selects de filtro de clientes**/
@@ -75,19 +75,19 @@ $(document).ready(
 				  async: true,
 				  dataType: "json",
 				  success:function(datos){
-					  
+
 						$("#idZ").empty();
 						$("#idD").empty();
 					    $("#idRu").empty();
 						//alert(datos);
 						var dataJson = eval(datos);
-						  
+
 						$("#idZ").append('<option value="">Selecciona una Zona</option>');
 						$("#idD").append('<option value="">Selecciona un Depósito</option>');
 						$("#idRu").append('<option value="">Selecciona una Ruta</option>');
 						for(var i in dataJson){
 							//alert(dataJson[i].idZona + " _ " + dataJson[i].zona);
-							$("#idZ").append('<option value="'+dataJson[i].idZona+'">'+dataJson[i].zona+'</option>');  
+							$("#idZ").append('<option value="'+dataJson[i].idZona+'">'+dataJson[i].zona+'</option>');
 						}
 						//$("#"+div).html(msj);
 				  },
@@ -117,17 +117,17 @@ $(document).ready(
 				  async: true,
 				  dataType: "json",
 				  success:function(datos){
-					  
+
 					  $("#idD").empty();
 					  $("#idRu").empty();
 					  //alert(datos);
 					  var dataJson = eval(datos);
-					  
+
 					   $("#idD").append('<option value="">Selecciona un Depósito</option>');
 					   $("#idRu").append('<option value="">Selecciona una Ruta</option>');
 					  for(var i in dataJson){
 						  //alert(dataJson[i].idZona + " _ " + dataJson[i].zona);
-						  $("#idD").append('<option value="'+dataJson[i].idDeposito+'">'+dataJson[i].deposito+'</option>');  
+						  $("#idD").append('<option value="'+dataJson[i].idDeposito+'">'+dataJson[i].deposito+'</option>');
 					  }
 					  //$("#"+div).html(msj);
 				  },
@@ -158,25 +158,25 @@ $(document).ready(
 				  async: true,
 				  dataType: "json",
 				  success:function(datos){
-					  
+
 					  $("#idRu").empty();
-					
+
 					  var dataJson = eval(datos);
 
 					  //alert(dataJson);
-					  
+
 					  $("#idRu").append('<option value="">Selecciona una Ruta</option>');
 					  for(var i in dataJson){
 						  //alert(dataJson[i].idRuta);
-						  $("#idRu").append('<option value="'+dataJson[i].idRuta+'">'+dataJson[i].idRuta+'</option>');  
+						  $("#idRu").append('<option value="'+dataJson[i].idRuta+'">'+dataJson[i].idRuta+'</option>');
 					  }
 					  //$("#"+div).html(msj);
-				  },
-				  error:function(obj, error, objError){
-					  alert("error "+error);
-					  console.log(error);
+				  	},
+				  	error:function(obj, error, objError){
+					alert("error "+error);
+					console.log(error);
 				  }
-				  });
+				});
 		  	}
 
 		});
@@ -189,6 +189,46 @@ $(document).ready(
 			else{
 				$("#divFechaFin").css('visibility','visible');
 			}
+
+		});
+
+		/*** Select para agrupamiento de motivos ***/
+
+		$("#idAM").change(function(){
+
+			//alert('cambio agrupamiento');
+			var idAM = $(this).val();
+			//alert(idAM);
+
+			if(idAM!="")
+		  	{
+			  var cadena = "idAM="+idAM;
+			  $.ajax({
+				  type:'POST',
+				  url:"list_motivos.php",
+				  data:cadena,
+				  async: true,
+				  dataType: "json",
+				  success:function(datos){
+
+					  $("#idM").empty();
+
+					  var dataJson = eval(datos);
+
+					  //alert(dataJson);
+
+					  for(var i in dataJson){
+						  //alert(dataJson[i].idRuta);
+						  $("#idM").append('<option value="'+dataJson[i].idCambiosMotivos+'">'+dataJson[i].descripcion+'</option>');
+					  }
+					  //$("#"+div).html(msj);
+				  	},
+				  	error:function(obj, error, objError){
+					alert("error "+error);
+					console.log(error);
+				  }
+				});
+		  	}
 
 		});
 
@@ -228,33 +268,29 @@ $(document).ready(
 		/**Desahabilitamos la funcion enter en el formulario de cambios de produtos**/
 
 		$("#formCambioMotivo").keypress(function(e) {
-        if (e.which == 13) {
-            return false;
-        }
+	        if (e.which == 13) {
+	            return false;
+	        }
 
-		/** input text para mostrar el cliente si existe o no **/
-		//$('#idNud').change(mostrarNombreCliente);
+			/** input text para mostrar el cliente si existe o no **/
+			//$('#idNud').change(mostrarNombreCliente);
 
-		/*$('#idNud').change(function(){
+			/*$('#idNud').change(function(){
 
 
-			alert('cambio text nud');
-		});*/
+				alert('cambio text nud');
+			});*/
 
-		/** Botón para consultar las rutas en los cambios de productos **/
-		//$('#btn_consultaR').click(consultarRuta);
+			/** Botón para consultar las rutas en los cambios de productos **/
+			//$('#btn_consultaR').click(consultarRuta);
 
-		//Botón para cambiar la contraseña del usuario cuando se loguea por primera vez
-		//$("#btn_cambiarPsw").click(cambiarPsw);
+			//Botón para cambiar la contraseña del usuario cuando se loguea por primera vez
+			//$("#btn_cambiarPsw").click(cambiarPsw);
+    	});
 
-		
-    });
-
-			
 	}
-	
 
-);
+);// fin de document ready
 
 jQuery.fn.reset = function (){
 
@@ -267,35 +303,35 @@ function guardarusuarioyclave()
 	var bandera = 0;
 	var usuario = $("#username").val();
 	var clave = $("#password").val();
-	
-	if($("#remember").is(':checked')) 
+
+	if($("#remember").is(':checked'))
 	{
-		    
+
 		   localStorage.v_usuairo_sisventas = usuario;
 		   localStorage.v_clave_sisventas = clave;
-		   
-            
-     } 
-	 else 
-	 {  
+
+
+     }
+	 else
+	 {
           delete localStorage.v_usuairo_sisventas;
 		  delete localStorage.v_clave_sisventas;
-     } 
-	 
-	 //loguearse(usuario,clave) 
+     }
+
+	 //loguearse(usuario,clave)
 }
 
 
 function levantamosusuarioclave()
 {
-	
+
 	if(localStorage.v_usuairo_sisventas)
 	{
 		$("#username").val(localStorage.v_usuairo_sisventas);
 		$("#password").val(localStorage.v_clave_sisventas);
 		$("#remember").attr('checked', true);
 	}
-	
+
 }
 
 
@@ -322,7 +358,7 @@ function loguearse(usuario,clave)
 				$("#d_aviso").addClass("alert alert-info");
 				$("#d_aviso").html('Por favor ingrese con su Usuario y Contraseña.');
 				 },3000);
-				
+
 			}
 			else if(datos==3)
 			{
@@ -379,15 +415,15 @@ function seleccionarDepositos(){
 		  async: true,
 		  dataType: "json",
 		  success:function(datos){
-			  
+
 			  $('#listadeposito').empty();
 			  //alert(datos);
 			  var dataJson = eval(datos);
-			  
+
 			   $('#listadeposito').append('<option value="">Selecciona el deposito</option>');
 			  for(var i in dataJson){
 				  //alert(dataJson[i].idestado + " _ " + dataJson[i].estado);
-				  $('#listadeposito').append('<option value="'+dataJson[i].idDeposito+'">'+dataJson[i].deposito+'</option>');  
+				  $('#listadeposito').append('<option value="'+dataJson[i].idDeposito+'">'+dataJson[i].deposito+'</option>');
 			  }
 			  //$("#"+div).html(msj);
 		  },
@@ -437,7 +473,7 @@ function guardardeposito(){
 				  		},3000);
 				 },3000);
 			}
-			 
+
 		  },
 		  error:function(obj, error, objError){
 			  alert("error "+error);
@@ -458,7 +494,7 @@ function comprobarUsuario(){
 	nombreUsuario = nombreUsuario.replace(" ","");
 	console.log(nombreUsuario);
 	$('#usuario').val(nombreUsuario);
-	
+
 	$.ajax({
 		type: "post",
 		data: "nombreUsuario="+nombreUsuario,
@@ -517,18 +553,18 @@ function subirArchivosPDF(){
 
 function ponerUpload(){
 	//alert('entro a funcion');
-			
+
 	$('#uploadFile').show(500);
-		
+
 }
 
 function borrarArchivos(total,idcliente){
-	
+
 	var valor = '';
 	//alert(idcliente);
 	for(var x=1;x<=total; x++){
-		
-		 if($("#elemento"+x).is(':checked')) {  
+
+		 if($("#elemento"+x).is(':checked')) {
 			//alert($('#elemento'+x).val());
 
 			valor += $('#elemento'+x).val()+',';
@@ -658,7 +694,7 @@ function mostrarDetalladoN(){
 	});
 
 }
-  		
+
 function mostrarConcentradoT(){
 
 	var nSemana = $("#nSemana").val();
@@ -696,7 +732,7 @@ function obtenerTiempos(rInf,eInf,cEsp,tExc,dis,tTotal){
 
 	if(rInformacion!=''){
 		validateHourMinutes(rInf);
-	}	
+	}
 
 	if (eInformacion!=''){
 
@@ -719,7 +755,7 @@ function obtenerTiempos(rInf,eInf,cEsp,tExc,dis,tTotal){
 		dataType: "json",
 		success:function(msg){
 			//alert(msg);
-			
+
 			var dataJson = eval(msg);
 
 
@@ -734,7 +770,7 @@ function obtenerTiempos(rInf,eInf,cEsp,tExc,dis,tTotal){
 		},
 	});
 }
-	
+
 function validateHourMinutes(campo){
 
 	//alert(campo);
@@ -749,7 +785,7 @@ function validateHourMinutes(campo){
 	}
 
 	//if((campo.value.match(RegExPattern)) && (campo.value!='')){
-     //	alert('Hora Correcta'); 
+     //	alert('Hora Correcta');
     //
 
     else
@@ -757,7 +793,7 @@ function validateHourMinutes(campo){
         alert(errorMessage);
         $("#"+campo).focus();
         //campo.focus();
-    } 
+    }
 
 }
 
@@ -777,7 +813,7 @@ function guardarConcentradoT(){
 	//alert(totalReg);
 
 	//se optienen 6 arrays 1.-fechas, 2.-tiempo excedido, 3.-cola de Espera, 4.-diseño, 5.-envio de informacion
-	// 6.- recibo de informacion, 7.- observaciones 
+	// 6.- recibo de informacion, 7.- observaciones
 
 	var fechas = new Array();
 	var tExc = new Array();
@@ -789,7 +825,7 @@ function guardarConcentradoT(){
 
 	//realizamos un for en donde obtenemos los datos de los campos y se llenan en los arrays recien declarados
 	for (var i = 1; i <= totalReg; i++) {
-			
+
 		fechas[i-1] = $("#fecha"+i).val();
 		//alert(fechas[i-1]);
 		tExc[i-1] = $("#tiempoE"+i).val();
@@ -839,21 +875,21 @@ function enviarProductosCambios (nombreCheck){
 
 	var producto = $('#'+nombreCheck).val();
 	if($('#'+nombreCheck).is(':checked')){
-		
+
 
 		$.ajax({
 			type:"POST",
 			url: "agregarProducto.php",
 			data:"producto="+producto,
 			success:function(msg){
-			alert("Se agrego correctamente");	
+			alert("Se agrego correctamente");
 			},
 			error:function(request,error){
 				console.log(error);
 				alert("Pasó lo siguiente: "+error);
 			}
 		});
-	} 
+	}
 	else{
 
 		$.ajax({
@@ -880,31 +916,37 @@ function buscarCliente(){
 	var cant = $('#cant').val();
 	var idN = $('#idNud').val();
 	var fechaO = $('#fechaO').val();
-	
-	//alert('idm='+idM+' idp='+idP+' cant='+cant+' nud='+idN+' fechaO='+fechaO+' dfijo='+dfijo);
 
-	/** Verificamos que primero exista el Cliente**/
-	var resultado = 0;
-	$.ajax({
-			type:"POST",
-			url: "buscarCliente.php",
-			data:"idN="+idN+"&fechaO="+fechaO+"&idP="+idP+"&idM="+idM,
-			success:function(msg){
-				//alert(msg);
-				if(msg==1){
-					agregarMotivos(idM,idP,cant,idN,fechaO);
-				}
-				
-				else{
+	if(cant>0){
 
-					alert('El cliente no se encontro');
+		//alert('idm='+idM+' idp='+idP+' cant='+cant+' nud='+idN+' fechaO='+fechaO+' dfijo='+dfijo);
+
+		/** Verificamos que primero exista el Cliente**/
+		var resultado = 0;
+		$.ajax({
+				type:"POST",
+				url: "buscarCliente.php",
+				data:"idN="+idN+"&fechaO="+fechaO+"&idP="+idP+"&idM="+idM,
+				success:function(msg){
+					//alert(msg);
+					if(msg==1){
+						agregarMotivos(idM,idP,cant,idN,fechaO);
+					}
+
+					else{
+
+						alert('El cliente no se encontro');
+					}
+				},
+				error:function(request,error){
+					console.log(error);
+					alert("Pasó lo siguiente: "+error);
 				}
-			},
-			error:function(request,error){
-				console.log(error);
-				alert("Pasó lo siguiente: "+error);
-			}
-		});
+			});
+	}
+	else{
+		alert("Cantidad debe de tener un valor númerico");
+	}
 }
 
 function agregarMotivos(idM,idP,cant,idN,fechaO){
@@ -943,7 +985,7 @@ function comprobarCierreDinamico(fechaO){
 			console.log(error);
 			alert("Pasó lo siguiente: "+error);
 		}
-	});	
+	});
 
 
 
@@ -952,7 +994,7 @@ function comprobarCierreDinamico(fechaO){
 }
 
 function eliminarMotivos(contador){
-     
+
 	var valor = $('#codigop'+contador).val();
 	//alert(valor);
 	$.ajax({
@@ -992,7 +1034,7 @@ function actualizarCantidadMotivos(contador){
 				console.log(error);
 				alert("Pasó lo siguiente: "+error);
 			}
-		}); 
+		});
 
 
 }
@@ -1008,13 +1050,13 @@ function guardarMotivos() {
 			    $("#div_motivos").html(msg);
 			    alert('Los cambios se guardaron con éxito');
 			    $("#formCambioMotivo").reset();
-			    
+
 			},
 			error:function(request,error){
 				console.log(error);
 				alert("Pasó lo siguiente: "+error);
 			}
-		}); 
+		});
 }
 
 function mostrarNombreCliente(){
@@ -1033,7 +1075,7 @@ function mostrarNombreCliente(){
 
 				var dataJson = eval(msg);
 
-				//se crea un for para el array de json 
+				//se crea un for para el array de json
 
 				$("#nomNud").val(dataJson[0].nombre);
 
@@ -1041,7 +1083,10 @@ function mostrarNombreCliente(){
 
 					if(confirm('¿Este cliente ya cuenta con cambios desea actualizarlo? En caso de que sí, estos registros se borraran de la base y se guardaran como nuevo')){
 
-						actualizarMotivos(nud,fechaP);						
+						actualizarMotivos(nud,fechaP);
+					}
+					else{
+						$('#formCambioMotivo')[0].reset();
 					}
 
 				}
@@ -1132,6 +1177,6 @@ function cambiarPsw(){
     var jt = $('#jt').val();
     var seg = $('#seg').val();
     var mot = $('#mot').val();
-    var cadena = "fechaDe="+fechaDe+"&fechaPara="+fechaPara+"&jt="+jt+"&seg="+seg+"&mot="+mot+"&cadena="+cadena; 
-	$("#div_consultaG").html("<iframe src='grafica/graficos.php?"+cadena+"' frameborder='1'></iframe>" );				
+    var cadena = "fechaDe="+fechaDe+"&fechaPara="+fechaPara+"&jt="+jt+"&seg="+seg+"&mot="+mot+"&cadena="+cadena;
+	$("#div_consultaG").html("<iframe src='grafica/graficos.php?"+cadena+"' frameborder='1'></iframe>" );
 }*/

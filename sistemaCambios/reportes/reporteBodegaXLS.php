@@ -1,5 +1,5 @@
-<?php 
-if (!isset($_SESSION)) 
+<?php
+if (!isset($_SESSION))
 {
 	session_start();
 }
@@ -33,10 +33,10 @@ $fechaDia = $dias[date('N', strtotime($fechaIni))];
 
 
 /** Query para obtener el idDeposito**/
-$consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o 
-INNER JOIN Deposito d ON d.idDeposito = o.idDeposito 
-INNER JOIN Zona z ON z.idZona = d.idZona 
-INNER JOIN Region r ON r.idRegion = z.idRegion 
+$consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o
+INNER JOIN Deposito d ON d.idDeposito = o.idDeposito
+INNER JOIN Zona z ON z.idZona = d.idZona
+INNER JOIN Region r ON r.idRegion = z.idRegion
 WHERE o.idoperacion = ".$idoperacion." LIMIT 1";
 $resultadoDep = $db->consulta($consultaDep);
 $rowDep = $db->fetch_assoc($resultadoDep);
@@ -50,7 +50,7 @@ $encabezado = '<tr>
 			      <td width="250"><tt>'.date('Y-m-d H:i:s').'</tt></td>
 			    </tr>
 			    <tr>
-			      <td><tt>Reporte de Cambios</tt></td>
+			      <td><tt>Reporte Bodega</tt></td>
 			      <td><tt>Bodega:</tt></td>
 			      <td><tt>'.$rowDep['idDeposito'].' '.$rowDep['deposito'].'</tt></td>
 			    </tr>
@@ -70,36 +70,83 @@ $encabezado = '<tr>
 			      <td><tt>'.$fechaFin.'</tt></td>
 			    </tr>';
 
-	$consulta = "SELECT 
-    pc.sku,
-    pc.DescripcionInterna,
-    pc.skuconver,
-    p.descripcion,
-    cc.nud,
-    SUM(cc.cantidad) AS cantidad,
-    FORMAT(SUM(cc.cantidad)/cavidades,0) AS cfisica,
-    cavidades
-    
+	$consulta = "SELECT
+    idruta,
+    sku,
+    idproductocambio,
+    idempaque,
+    dempaque,
+    descripcion,
+    FORMAT(SUM(cfisica),0) AS cfisica,
+    SUM(DefectoProduccion) AS DefectoProduccion,
+    SUM(MermaOperativa) AS MermaOperativa,
+    SUM(ProductoCaduco) AS ProductoCaduco,
+    SUM(RetiroParaDonativo) AS RetiroParaDonativo,
+    SUM(DefectoProduccion) + SUM(MermaOperativa) + SUM(ProductoCaduco) + SUM(RetiroParaDonativo) AS total
+FROM
+    (SELECT
+            sku,
+            idempaque,
+            dempaque,
+            descripcion,
+            idruta,
+            idproductocambio,
+            SUM(cantidad)/cavidades AS cfisica,
+            IF(agrupador = 'Defecto Produccion', SUM(cantidad), 0) AS DefectoProduccion,
+            IF(agrupador = 'Merma Operativa', SUM(cantidad), 0) AS MermaOperativa,
+            IF(agrupador = 'Producto Caduco', SUM(cantidad), 0) AS ProductoCaduco,
+            IF(agrupador = 'Retiro para donativo', SUM(cantidad), 0) AS RetiroParaDonativo
     FROM
-        CapturaCambios cc
-            INNER JOIN
-        ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio
-            INNER JOIN 
-        productos p ON pc.skuConver = p.sku
+        (SELECT
+            sku,
+            idempaque,
+            dempaque,
+            descripcion,
+            idruta,
+            idproductocambio,
+            idcambiosmotivos,
+            agrupador,
+            cavidades,
+            SUM(cantidad) cantidad
+    FROM
+        (SELECT
+            p.sku AS sku,
+            pr.idpresentacion AS idempaque,
+            pr.descripcion AS dempaque,
+            p.descripcion AS descripcion,
+            idruta,
+            cc.idproductocambio,
+            cc.idcambiosmotivos,
+            agrupador,
+            cavidades,
+            cantidad
+    FROM
+        capturacambios cc
+    INNER JOIN cambiosmotivos cm ON cm.idcambiosmotivos = cc.idcambiosmotivos
+    INNER JOIN productoscambios pc ON pc.idproductocambio = cc.idproductocambio
+    INNER JOIN productos p ON p.sku = pc.idProductoCambio
+    INNER JOIN presentacion pr ON pr.idpresentacion = p.idpresentacion
     WHERE
-        cc.FechaCambio BETWEEN '$fechaIni' AND '$fechaFin'
-        AND cc.idoperacion = $idoperacion
-        AND estatusDis !=0
-    GROUP BY pc.skuconver
-    ORDER BY pc.skuconver";
-	
+        FechaCambio = '$fechaIni'
+            AND estatusDis != 0
+            AND cc.idoperacion = (SELECT
+                idoperacion
+            FROM
+                operaciones
+            WHERE
+                iddeposito = $idDeposito)) datos
+    GROUP BY sku) datos2
+    GROUP BY sku) datos3
+GROUP BY sku
+ORDER BY sku";
+
 	$resultado = $db->consulta($consulta);
 	$row = $db->fetch_assoc($resultado);
 	$sumaTotal = 0;
 	$idruta = $row['idruta'];
 	$bandera = 0;
 	do{
-		
+
 		$idrutaIni = $row['idruta'];
 
 		if($sku!=$skuIni){
@@ -116,30 +163,41 @@ $encabezado = '<tr>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
     				</tr>';
-    		$ruta = $row['idruta'];		
+    		$ruta = $row['idruta'];
 
 		}
 
-		$sumaTotal = $sumaTotal + $row['cantidad'];
+		$sumaTotal = $sumaTotal + $row['total'];
 		$sumaTotal = $sumaTotal;
 
 		$sumaTotalF = $sumaTotalF + $row['cfisica'];
 		$sumaTotalF = $sumaTotalF;
 
+		$sumaDefectoProduccion = $sumaDefectoProduccion + $row['DefectoProduccion'];
+		$sumaDefectoProduccion = $sumaDefectoProduccion;
+
+		$sumaMermaOperativa = $sumaMermaOperativa + $row['MermaOperativa'];
+		$sumaMermaOperativa = $sumaMermaOperativa;
+
+		$sumaProductoCaduco = $sumaProductoCaduco + $row['ProductoCaduco'];
+		$sumaProductoCaduco = $sumaProductoCaduco;
+
+		$sumaRetiroParaDonativo = $sumaRetiroParaDonativo + $row['RetiroParaDonativo'];
+		$sumaRetiroParaDonativo = $sumaRetiroParaDonativo;
+
 		$tdBody .= $tr2.'<tr align="center">
-						<td><tt>'.$row['skuconver'].'</tt></td>
+						<td><tt>'.$row['sku'].'</tt></td>
 						<td><tt>'.$row['descripcion'].'</tt></td>
-						<td><tt>'.$row['cantidad'].'</tt></td>
 						<td><tt>'.$row['cfisica'].'</tt></td>
-						<td><tt>______</tt></td>
-						<td><tt>______</tt></td>
-						<td><tt>______</tt></td>
-						<td><tt>______</tt></td>
-						<td><tt>______</tt></td>
-						
+						<td><tt>'.$row['DefectoProduccion'].'</tt></td>
+						<td><tt>'.$row['MermaOperativa'].'</tt></td>
+						<td><tt>'.$row['ProductoCaduco'].'</tt></td>
+						<td><tt>'.$row['RetiroParaDonativo'].'</tt></td>
+						<td><tt>'.$row['total'].'</tt></td>
+
 					</tr>';
-		$tr2 = NULL;			
-				
+		$tr2 = NULL;
+
 	}while($row = $db->fetch_assoc($resultado));
 
 	$tr2 = '<tr>
@@ -151,26 +209,24 @@ $encabezado = '<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td>&nbsp;</td>
     		</tr><tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td align="center">'.$sumaTotal.'</td>
 				<td align="center">'.$sumaTotalF.'</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td align="center">'.$sumaDefectoProduccion.'</td>
+				<td align="center">'.$sumaMermaOperativa.'</td>
+				<td align="center">'.$sumaProductoCaduco.'</td>
+				<td align="center">'.$sumaRetiroParaDonativo.'</td>
+				<td align="center">'.$sumaTotal.'</td>
     		</tr>';
 
 	$tdBody .= $tr2;
-?>
+	?>
 	<!doctype html>
 	<html>
 	<head>
 	<meta charset="UTF-8">
-	<title>Documento sin título</title>
+	<title>Reporte Bodega</title>
 	</head>
 	<body>
 	<table width="750" height="112" border="0">
@@ -183,17 +239,16 @@ $encabezado = '<tr>
 	  <tbody>
 	  	<tr>
 	      <td colspan="3" align="center"><tt>SALIDA</tt></td>
-	      <td colspan="5" align="center"><tt>ENTRADA</tt></td>
+	      <td colspan="5" align="center"><tt>AGRUPADOR</tt></td>
 	    </tr>
 	    <tr>
-	      <td width="50"><tt>SKU Conversión</tt></td>
-	      <td width="50"><tt>Producto Conversión</tt></td>
-	      <td width="50"><tt>Cantidad Pzas</tt></td>
+	      <td width="50"><tt>SKU</tt></td>
+	      <td width="50"><tt>Producto</tt></td>
 	      <td width="50"><tt>Cajas Físicas</tt></td>
-	      <td width="50"><tt>Merma</tt></td>
-	      <td width="50"><tt>Caduco</tt></td>
-	      <td width="50"><tt>Cobro</tt></td>
-	      <td width="50"><tt>Devolución</tt></td>
+	      <td width="50"><tt>Defecto Producción</tt></td>
+	      <td width="50"><tt>Merma Operativa</tt></td>
+	      <td width="50"><tt>Producto Caduco</tt></td>
+	      <td width="50"><tt>Retiro Para Donativo</tt></td>
 	      <td width="50"><tt>Total</tt></td>
 	    </tr>
 	    <?php echo $tdBody; ?>

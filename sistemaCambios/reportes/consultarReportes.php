@@ -1,5 +1,5 @@
-<?php 
-if (!isset($_SESSION)) 
+<?php
+if (!isset($_SESSION))
 {
 	session_start();
 }
@@ -11,7 +11,7 @@ $fechaIni = $_POST['fechaIni'];
 $fechaFin = $_POST['fechaFin'];
 $tipoReporte = $_POST['tipoR'];
 
-// reporte supervisor 
+// reporte supervisor
 if ($tipoReporte==0) {
 
 	include('reporteSupervisorXLS.php');
@@ -41,7 +41,7 @@ elseif ($tipoReporte==4) {
 
 elseif ($tipoReporte==5) {
 
-	include('reporteBodegaXLS.php');
+	include('reporteBodegaAPDF.php');
 }
 
 elseif ($tipoReporte==6) {

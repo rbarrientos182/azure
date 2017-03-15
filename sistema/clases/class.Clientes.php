@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Clientes
 {
 	private $dir = NULL;
@@ -9,7 +9,7 @@ class Clientes
 	function __construct()
 	{
 
-		$this->mysqli = new mysqli('portal.pgdweb.com:4406','mercadeo','Eideud94@3','gepp');
+		$this->mysqli = new mysqli('pgdweb.cloudapp.net:4406','mercadeo','Eideud94@3','gepp');
 
 
 	}
@@ -40,6 +40,6 @@ class Clientes
 
 	return $mensaje;
 
-	}	
+	}
 }
 ?>

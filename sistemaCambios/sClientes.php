@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('header.php');
 
 if(isset($_GET['a'])){
@@ -15,7 +15,7 @@ if(isset($_GET['a'])){
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<i class="icon-info-sign"></i> <?php echo $mensaje;?>
 	</div>
-<?php 
+<?php
 }
 ?>
 <div>
@@ -39,7 +39,7 @@ if(isset($_GET['a'])){
 		<div class="box-content">
             <form class="form-horizontal" enctype="multipart/form-data" action="sFileClientes.php" method="post">
             	<fieldset>
-					<div class="control-group"> 		
+					<div class="control-group">
 						<label class="control-label" for="fileInput">Archivo</label>
 						<div class="controls">
 							<input id="action" name="action" value="upload" type="hidden">
@@ -55,14 +55,9 @@ if(isset($_GET['a'])){
 					<div class="form-actions">
 						<button type="submit" id="btn_subirFile" class="btn btn-primary">Subir Archivo</button>
 						<button type="reset" class="btn">Cancelar</button>
-					</div>      
+					</div>
             	</fieldset>
             </form>
         </div>
-	</div><!--/span-->
-    <!--<iframe class="control-label" width="60%" height="70px" id="a_subir" name="a_subir">-->
-       	<!--Aquí va el código PHP-->
-        <!--aca va el codigo-->
-    <!--</iframe>-->    
-</div><!--/row-->
+	</div>
 <?php include('footer.php'); ?>

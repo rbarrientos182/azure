@@ -11,23 +11,55 @@ header("Pragma: no-cache");
 set_time_limit(0);
 
 require_once("clases/class.MySQL.php");
+require_once("clases/class.Utilidades.php");
 
 $mysqli = new MySQL();
+$uti = new Utilidades();
 
+
+
+$intervalo = $uti->obtenerIntervalo();
 $iddeposito = $_GET['iddeposito'];
 
 $consulta = "SELECT 
-r.idruta,
-a.km AS KM_Teorico,
-r.odometrofin - r.odometroini AS KM_Real,
-IF(ISNULL(KM_ant),0,KM_ant) AS KM_ant
-FROM resumen_ruta r INNER JOIN
-(SELECT b.iddeposito AS iddeposito,fecha,idruta,km FROM orden a INNER JOIN operaciones b ON a.idoperacion = b.idoperacion WHERE fecha = DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND iddeposito = $iddeposito GROUP BY idruta) a 
-ON a.iddeposito = r.iddeposito AND a.fecha = r.fechaoperacion AND r.idruta = a.idruta
-LEFT JOIN
-(SELECT iddeposito AS iddeposito,fechaoperacion,idruta,r.odometrofin - r.odometroini AS KM_Ant FROM resumen_ruta r WHERE fechaoperacion = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) AND iddeposito = $iddeposito AND tiporuta=6 GROUP BY idruta) b
-ON r.iddeposito = b.iddeposito AND r.fechaoperacion = DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND r.idruta = b.idruta
-WHERE r.iddeposito = $iddeposito AND r.fechaOperacion = DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND tiporuta = 6 /*AND CURRENT_TIME < '13:00:00'*/
+    r.idruta,
+    a.km AS KM_Teorico,
+    r.odometrofin - r.odometroini AS KM_Real,
+    IF(ISNULL(KM_ant), 0, KM_ant) AS KM_ant
+FROM
+    resumen_ruta r
+        INNER JOIN
+    (SELECT 
+        b.iddeposito AS iddeposito, fecha, idruta, km
+    FROM
+        orden a
+    INNER JOIN operaciones b ON a.idoperacion = b.idoperacion
+    WHERE
+        fecha = DATE_SUB(CURRENT_DATE, INTERVAL $intervalo DAY)
+            AND iddeposito = $iddeposito
+    GROUP BY idruta) a ON a.iddeposito = r.iddeposito
+        AND a.fecha = r.fechaoperacion
+        AND r.idruta = a.idruta
+        LEFT JOIN
+    (SELECT 
+        iddeposito AS iddeposito,
+            fechaoperacion,
+            idruta,
+            r.odometrofin - r.odometroini AS KM_Ant
+    FROM
+        resumen_ruta r
+    WHERE
+        fechaoperacion = DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)
+            AND iddeposito = $iddeposito
+            AND tiporuta = 6
+    GROUP BY idruta) b ON r.iddeposito = b.iddeposito
+        AND r.fechaoperacion = DATE_SUB(CURRENT_DATE, INTERVAL $intervalo DAY)
+        AND r.idruta = b.idruta
+WHERE
+    r.iddeposito = $iddeposito
+        AND r.fechaOperacion = DATE_SUB(CURRENT_DATE, INTERVAL $intervalo DAY)
+        AND tiporuta = 6
+        AND ((odometrofin - odometroini) -km) BETWEEN -20 AND  200 
 ORDER BY r.idruta";
 
 $resultado = $mysqli->consulta($consulta);
