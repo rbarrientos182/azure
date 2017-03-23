@@ -9,8 +9,8 @@ class PDF extends FPDF
 {
     // Cabecera de página
     function Header()
-    {   
-        
+    {
+
         require_once('../clases/class.MySQL.php');
         $db = new MySQL();
 
@@ -33,10 +33,10 @@ class PDF extends FPDF
         $fechaEntrega = date('Y-m-d', $fechaEntrega);
 
         /** Query para obtener el idDeposito**/
-        $consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o 
-        INNER JOIN Deposito d ON d.idDeposito = o.idDeposito 
-        INNER JOIN Zona z ON z.idZona = d.idZona 
-        INNER JOIN Region r ON r.idRegion = z.idRegion 
+        $consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o
+        INNER JOIN Deposito d ON d.idDeposito = o.idDeposito
+        INNER JOIN Zona z ON z.idZona = d.idZona
+        INNER JOIN Region r ON r.idRegion = z.idRegion
         WHERE o.idoperacion = ".$idoperacion." LIMIT 1";
         $resultadoDep = $db->consulta($consultaDep);
         $rowDep = $db->fetch_assoc($resultadoDep);
@@ -44,7 +44,7 @@ class PDF extends FPDF
         // Logo
         $this->Image('../img/Pepsi-logo.png',3,8,20);
         // Arial bold 15
-        $this->SetFont('Times','',12);  
+        $this->SetFont('Times','',12);
         //Portrait
         // Movernos a la derecha
         $this->Cell(15);
@@ -82,7 +82,7 @@ class PDF extends FPDF
         // Select Arial italic 8
         $this->SetFont('Arial','I',8);
         // Print centered page number
-        $this->Cell(96,10,'Nombre y Firma del Vendedor','T',0,'C');
+        $this->Cell(96,10,'Nombre y Firma del Operador de Entrega','T',0,'C');
         $this->Cell(6,10,'',0,0,'C');
         $this->Cell(96,10,'Nombre y Firma del Verificador','T',0,'C');
     }
@@ -130,7 +130,7 @@ class PDF extends FPDF
             $this->Cell(8,6,'','R',0);
             $this->Cell(8,6,'','R',0);
             $this->Ln();
-        } 
+        }
     }
 
 
@@ -148,7 +148,7 @@ $rowDep = $db->fetch_assoc($resultadoDep);
 $idDeposito = $rowDep['idDeposito'];
 
 $consulta = "SELECT
-    cc.idProductoCambio, 
+    cc.idProductoCambio,
     cc.idruta,
     pc.sku,
     pr.descripcion AS dempaque,
@@ -157,22 +157,22 @@ $consulta = "SELECT
     pc.skuconver,
     p.descripcion,
     cc.nud,
-    SUM(cc.cantidad) AS cantidad    
+    SUM(cc.cantidad) AS cantidad
     FROM
         CapturaCambios cc
             INNER JOIN
         ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio
-            INNER JOIN 
+            INNER JOIN
         productos p ON pc.skuConver = p.sku
             INNER JOIN
         presentacion pr ON pr.idpresentacion = p.idpresentacion
-          
+
     WHERE
         cc.FechaCambio = '$fechaIni'
         AND cc.idoperacion = $idoperacion
         AND estatusDis !=0
     GROUP BY cc.idruta, pc.skuconver
-    ORDER BY cc.idruta,pr.descripcion DESC";    
+    ORDER BY cc.idruta,pr.descripcion DESC";
 
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
@@ -202,7 +202,7 @@ if($row['idruta']!=''){
         $empaqueIni = $row['idempaque'];
         $ruta = $row['idruta'];
 
-        /****** Preguntamos si la ruta cambio *******/    
+        /****** Preguntamos si la ruta cambio *******/
         if($idruta!=$idrutaIni){
             $pdf->SetX(8);
             $pdf->Cell($w[0],6,'',0,0);
@@ -223,7 +223,7 @@ if($row['idruta']!=''){
 
             $sumaTotal=0;
             $pdf->AddPage();
-            $pdf->crearEncabezado($header,$w,'');        
+            $pdf->crearEncabezado($header,$w,'');
         }
         else{
 
@@ -236,7 +236,7 @@ if($row['idruta']!=''){
             }
         }
         /*** fin de comprabacion de cambio de ruta ***/
-    
+
         /*** Comprobamos si cambio de empaque ***/
         if ($idempaque != $empaqueIni) {
 
@@ -270,7 +270,7 @@ if($row['idruta']!=''){
         $pdf->Cell($w[1],6,$row['sku'],0,0,'C');
         $pdf->SetFont('Times','',8);
         $pdf->Cell($w[2],6,substr(ucwords(strtolower($row['descripcion'])),0,38),'R',0,'C');
-        $pdf->SetFont('Times','U',10);    
+        $pdf->SetFont('Times','U',10);
         $pdf->Cell(15,6,$rowAG['cantidad'],'R',0,'C');
         $pdf->Cell(15,6,'    ','R',0,'C');//Defecto Producción
         $pdf->Cell(15,6,$rowAG['cantidad'],'R',0,'C');

@@ -150,7 +150,7 @@ $encabezado = '<tr>
 			  <tbody>
 			    <tr>
 			    		<td width="25"><tt>Fecha Cambio</tt></td>
-			      	<td width="25"><tt>VPP</tt></td>
+			      	<td width="25"><tt>OE</tt></td>
 			      	<td width="25"><tt>Grupo Supervisor</tt></td>
 			      	<td width="25"><tt>PPP</tt></td>
 			      	<td width="25"><tt>NUD</tt></td>

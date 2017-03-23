@@ -20,7 +20,7 @@ if ($tipoReporte==0) {
 // reporte vendedor
 elseif ($tipoReporte==1) {
 
-	include('reporteVendedorPDF.php');
+	include('reporteOperadorEntregaPDF.php');
 }
 
 // reporte bodega

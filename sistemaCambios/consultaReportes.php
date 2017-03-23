@@ -29,7 +29,7 @@ $idoperacion = $_SESSION['idoperacion'];
 									<div class="controls">
 										<select id="tipoR" name="tipoR" data-validation-engine="validate[required]">
 											<!--<?php if($nivel==1 || $nivel==4){?><option value="0">Reporte Supervisor (por producto)</option><?php }?>-->
-											<option value="1">Reporte Vendedor (por producto)</option>
+											<option value="1">Reporte Operador Entrega (por producto)</option>
 											<option value="2">Reporte Bodega (por producto)</option>
 											<option value="5">Reporte Bodega (acumulado)</option>
 											<!--<option value="3">Reporte Administración (por Motivo)</option>-->

@@ -1,8 +1,8 @@
 <?php
-if (!isset($_SESSION)) 
+if (!isset($_SESSION))
 {
 	session_start();
-} 
+}
 date_default_timezone_set('America/Mexico_City');
 $idoperacion = $_SESSION['idoperacion'];
 $fechaIni = $_POST['fechaIni'];
@@ -35,10 +35,10 @@ $fechaDia = $dias[date('N', strtotime($fechaIni))];
 	$fechaEntrega = date('Y-m-d', $fechaEntrega);
 
 /** Query para obtener el idDeposito**/
-$consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o 
-INNER JOIN Deposito d ON d.idDeposito = o.idDeposito 
-INNER JOIN Zona z ON z.idZona = d.idZona 
-INNER JOIN Region r ON r.idRegion = z.idRegion 
+$consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o
+INNER JOIN Deposito d ON d.idDeposito = o.idDeposito
+INNER JOIN Zona z ON z.idZona = d.idZona
+INNER JOIN Region r ON r.idRegion = z.idRegion
 WHERE o.idoperacion = ".$idoperacion." LIMIT 1";
 $resultadoDep = $db->consulta($consultaDep);
 $rowDep = $db->fetch_assoc($resultadoDep);
@@ -67,10 +67,10 @@ $encabezado = "<tr>
 			      <td><tt>Fecha Fin</tt></td>
 			      <td><tt>".$fechaFin."</tt></td>
 			    </tr>";
-			
-				
+
+
 				/** Query para obtener las rutas, clientes y fecha**/
-					$consulta = "SELECT 
+					$consulta = "SELECT
 					    cc.idruta,
 					    ppp,
 					    cc.nud,
@@ -105,7 +105,7 @@ $encabezado = "<tr>
 				$row = $db->fetch_assoc($resultado);
 
 				do{
-					
+
 					$tdBody  .= "<tr>
 									<td><tt>".$row['fechaCambio']."</tt></td>
 								    <td><tt>".$row['idruta']."</tt></td>
@@ -118,10 +118,10 @@ $encabezado = "<tr>
 								    <td><tt>".$row['skuconver']."</tt></td>
 								    <td><tt>".$row['desp']."</tt></td>
 								    <td><tt>".$row['cantidad']."</tt></td>
-								</tr>";	
+								</tr>";
 
 				}while($row = $db->fetch_assoc($resultado));
-			
+
 $html="<!doctype html>
 		<html>
 		<head>
@@ -141,7 +141,7 @@ $html="<!doctype html>
 			  <tbody>
 			    <tr>
 			    	<td width='20'><tt>Fecha Cambio</tt></td>
-			      	<td width='20'><tt>VPP</tt></td>
+			      	<td width='20'><tt>OE</tt></td>
 			      	<td width='20'><tt>PPP</tt></td>
 			      	<td width='20'><tt>Nud</tt></td>
 			      	<td width='20'><tt>Cliente</tt></td>
@@ -175,6 +175,5 @@ $mipdf ->load_html(utf8_decode($html));
 $mipdf ->render();
 
 # Enviamos el fichero PDF al navegador.
-$mipdf ->stream("reporteAdministracionDetallado_".$fechaIni.'_'.date('H:i:s')."pdf");*/	
+$mipdf ->stream("reporteAdministracionDetallado_".$fechaIni.'_'.date('H:i:s')."pdf");*/
 ?>
-

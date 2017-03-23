@@ -1,6 +1,6 @@
 <?php
 $no_visible_elements=true;
-include('header2.php'); 
+include('header2.php');
 
 $NumEmpleado = $_SESSION['NumEmpleado'];
 
@@ -10,7 +10,7 @@ $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
 ?>
 			<div class="row-fluid" style="text-align:center">
-				<img src="img/logo_gepp.jpg" alt="Gepp Pepsi" title="Gepp Pepsi">
+				<img src="img/Pepsi-logo.png" alt="Gepp Pepsi" title="Gepp Pepsi">
 			<div class="row-fluid">
 				<div class="well span5 center login-box">
 					<div id="d_aviso" class="alert alert-info">

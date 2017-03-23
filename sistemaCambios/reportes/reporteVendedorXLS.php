@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) 
+<?php
+if (!isset($_SESSION))
 {
 	session_start();
 }
 date_default_timezone_set('America/Mexico_City');
 header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=reporteVendedor.xls");
+header("Content-Disposition: attachment; filename=reporteOperadorEntrega.xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
@@ -32,10 +32,10 @@ $fechaDia = $dias[date('N', strtotime($fechaPreventa))];
 	$fechaEntrega = date('Y-m-d', $fechaEntrega);
 
 /** Query para obtener el idDeposito**/
-$consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o 
-INNER JOIN Deposito d ON d.idDeposito = o.idDeposito 
-INNER JOIN Zona z ON z.idZona = d.idZona 
-INNER JOIN Region r ON r.idRegion = z.idRegion 
+$consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o
+INNER JOIN Deposito d ON d.idDeposito = o.idDeposito
+INNER JOIN Zona z ON z.idZona = d.idZona
+INNER JOIN Region r ON r.idRegion = z.idRegion
 WHERE o.idoperacion = ".$idoperacion." LIMIT 1";
 $resultadoDep = $db->consulta($consultaDep);
 $rowDep = $db->fetch_assoc($resultadoDep);
@@ -69,7 +69,7 @@ $encabezado = '<tr>
 			      <td><tt>'.$fechaEntrega.'</tt></td>
 			    </tr>';
 
-	$consulta = "SELECT 
+	$consulta = "SELECT
     cc.idruta,
     cc.nud,
     c.nombre,
@@ -80,10 +80,10 @@ $encabezado = '<tr>
     cc.cantidad
 	FROM
 	    CapturaCambios cc
-			
+
 	        INNER JOIN
 	    ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio
-	    inner join 
+	    inner join
 	        productos pr ON pc.skuconver=pr.sku
 	        INNER JOIN
 	    Clientes c ON c.nud = cc.nud
@@ -93,14 +93,14 @@ $encabezado = '<tr>
 	        AND cc.idoperacion = $idoperacion
 	ORDER BY cc.idruta , cc.nud";
 
-	
+
 	$resultado = $db->consulta($consulta);
 	$row = $db->fetch_assoc($resultado);
 	$sumaTotal = 0;
 	$nud = $row['nud'];
 	$bandera = 0;
 	do{
-		
+
 		$nudIni = $row['nud'];
 
 		$idruta = $row['idruta'];
@@ -121,7 +121,7 @@ $encabezado = '<tr>
 				      <td><tt>Firma del Cliente</tt></td>
     				</tr>';
 
-    		$sumaTotal = 0;		
+    		$sumaTotal = 0;
 
 		}
 		else{
@@ -150,8 +150,8 @@ $encabezado = '<tr>
 						<td><tt>'.$row['Descripcion'].'</tt></td>
 						<td><tt>'.$row['cantidad'].'</tt></td>
 					</tr>';
-		$tr2 = NULL;			
-				
+		$tr2 = NULL;
+
 	}while($row = $db->fetch_assoc($resultado));
 
 	$tr2 = '<tr>
@@ -185,7 +185,7 @@ $encabezado = '<tr>
 		<meta charset="UTF-8">
 		<title>Documento sin título</title>
 	</head>
-		
+
 	<body>
 		<table width="750" height="112" border="0">
 			<tbody>
@@ -215,5 +215,3 @@ $encabezado = '<tr>
 		<p>&nbsp;</p>
 	</body>
 </html>';
-
-
