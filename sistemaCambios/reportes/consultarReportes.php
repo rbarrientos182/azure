@@ -17,7 +17,7 @@ if ($tipoReporte==0) {
 	include('reporteSupervisorXLS.php');
 }
 
-// reporte vendedor
+// reporte operador de entrega
 elseif ($tipoReporte==1) {
 
 	include('reporteOperadorEntregaPDF.php');

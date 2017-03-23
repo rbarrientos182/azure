@@ -130,19 +130,19 @@ $consulta =  "SELECT
     INNER JOIN
         CambiosMotivos cm ON cc.idCambiosMotivos = cm.idCambiosMotivos
     INNER JOIN
-        ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio and cc.idoperacion=pc.idoperacion
+        ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio AND cc.idoperacion=pc.idoperacion
     INNER JOIN
         productos p ON pc.skuConver = p.sku
     INNER JOIN
         operaciones op ON op.idoperacion=cc.idoperacion
     INNER JOIN
-        Clientes c ON c.nud = cc.nud and op.iddeposito=c.iddeposito
+        Clientes c ON c.nud = cc.nud AND op.iddeposito=c.iddeposito
     WHERE
         cc.idoperacion = (SELECT idoperacion FROM operaciones WHERE iddeposito = $idDeposito)
             AND cc.FechaCambio = '$fechaIni'
             AND estatusdis <> 0
     GROUP BY cc.idruta, cc.nud, sku
- order by cc.idruta , cc.nud";
+ ORDER BY cc.idruta , cc.nud";
 
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
@@ -156,24 +156,24 @@ if($row['idruta']!='')
     do{
     	$nudIni = $row['nud'];
     	$idruta = $row['idruta'];
-        $ppp = $row['ppp'];
+      $ppp = $row['ppp'];
     	$rutaIni = $idruta;
     	$nudC = $row['nud'];
     	$nombre = $row['nombre'];
 
     	if($nud!=$nudIni){
 
-    		$pdf->Cell($w[0],6,'',0,0,'C');
-            $pdf->Cell($w[1],6,'',0,0,'C');
-            $pdf->Cell($w[2],6,'',0,0,'C');
-            $pdf->Cell($w[3],6,'Firma del Cliente','T',0,'C',false);
-            $pdf->Cell($w[4],6,'',0,0,'C');
-            $pdf->Cell($w[5],6,'',0,0);
-            $pdf->Cell($w[6],6,'',0,0);
-            $pdf->Cell($w[7],6,'',0,0);
-            $pdf->Cell(8,6,$sumaTotal,'R',0,'C');
-            $pdf->Cell(8,6,'',0,0,'C');
-            $pdf->Cell($w[9],6,'',0,0);
+        $pdf->Cell($w[0],6,'',0,0,'C');
+        $pdf->Cell($w[1],6,'',0,0,'C');
+        $pdf->Cell($w[2],6,'',0,0,'C');
+        $pdf->Cell($w[3],6,'Firma del Cliente','T',0,'C',false);
+        $pdf->Cell($w[4],6,'',0,0,'C');
+        $pdf->Cell($w[5],6,'',0,0);
+        $pdf->Cell($w[6],6,'',0,0);
+        $pdf->Cell($w[7],6,'',0,0);
+        $pdf->Cell(8,6,$sumaTotal,'R',0,'C');
+        $pdf->Cell(8,6,'',0,0,'C');
+        $pdf->Cell($w[9],6,'',0,0);
     		$pdf->Ln();
     		$pdf->Cell(array_sum($w),0,'','T');
     		$sumaTotal=0;
@@ -190,7 +190,7 @@ if($row['idruta']!='')
     		else{
 
     			$idruta = NULL;
-                $ppp = NULL;
+          $ppp = NULL;
     			$nudC = NULL;
     			$nombre = NULL;
 

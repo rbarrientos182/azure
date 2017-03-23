@@ -2,7 +2,7 @@
 class MySQL
 {
     private $conexion = null;
-    private $host = "cedex";
+    private $host = "29.1.239.13";
     private $user = "gepp";
     private $pass = "gepp";
     private $db = "gepp";
