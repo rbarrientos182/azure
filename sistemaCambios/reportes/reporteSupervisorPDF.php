@@ -9,8 +9,8 @@ class PDF extends FPDF
 {
     // Cabecera de página
     function Header()
-    {   
-        
+    {
+
         require_once('../clases/class.MySQL.php');
         $db = new MySQL();
 
@@ -35,10 +35,10 @@ class PDF extends FPDF
         $fechaEntrega = date('Y-m-d', $fechaEntrega);
 
         /** Query para obtener el idDeposito**/
-        $consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o 
-        INNER JOIN Deposito d ON d.idDeposito = o.idDeposito 
-        INNER JOIN Zona z ON z.idZona = d.idZona 
-        INNER JOIN Region r ON r.idRegion = z.idRegion 
+        $consultaDep = "SELECT d.idDeposito, d.deposito, r.region FROM Operaciones o
+        INNER JOIN Deposito d ON d.idDeposito = o.idDeposito
+        INNER JOIN Zona z ON z.idZona = d.idZona
+        INNER JOIN Region r ON r.idRegion = z.idRegion
         WHERE o.idoperacion = ".$idoperacion." LIMIT 1";
         $resultadoDep = $db->consulta($consultaDep);
         $rowDep = $db->fetch_assoc($resultadoDep);
@@ -47,7 +47,7 @@ class PDF extends FPDF
         //$this->Image('logo_pb.png',10,8,33);
         // Arial bold 15
         $this->SetFont('Times','',12);
-         /*   
+         /*
         //Portrait
             // Movernos a la derecha
             $this->Cell(15);
@@ -73,7 +73,7 @@ class PDF extends FPDF
             // Salto de línea
             $this->Ln(20);*/
 
-        //Landscape    
+        //Landscape
             // Movernos a la derecha
             $this->Cell(30);
             // Título
@@ -104,7 +104,7 @@ class PDF extends FPDF
     // Una tabla más completa
     function ImprovedTable($header, $data)
     {
-        
+
         // Cabeceras
         for($i=0;$i<count($header);$i++)
             $this->Cell(20,7,$header[$i],0,0,'C');
@@ -128,10 +128,10 @@ class PDF extends FPDF
 $pdf = new PDF('L','mm','Letter');
 
 /** Query para obtener los productos en los cambios **/
-$consultaPro = "SELECT cc.idProductoCambio,pc.DescripcionInterna FROM CapturaCambios cc 
-INNER JOIN ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio 
-AND cc.idoperacion = $idoperacion 
-AND FechaCambio = '$fechaPreventa' 
+$consultaPro = "SELECT cc.idProductoCambio,pc.DescripcionInterna FROM CapturaCambios cc
+INNER JOIN ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio
+AND cc.idoperacion = $idoperacion
+AND FechaCambio = '$fechaPreventa'
 GROUP BY pc.idProductoCambio";
 $resultadoPro = $db->consulta($consultaPro);
 $rowPro = $db->fetch_assoc($resultadoPro);
@@ -157,10 +157,10 @@ $contador = 2;
 $tdPro = substr($tdPro,0,-1);
 
 /** Inicio un for para sacar los totales por producto y ruta **/
-for ($i=0;$i<count($arrayProductos);$i++){ 
+for ($i=0;$i<count($arrayProductos);$i++){
 
     $consulta3 = "SELECT COUNT(pc.idProductoCambio) AS cantP FROM CapturaCambios cc
-    INNER JOIN ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio 
+    INNER JOIN ProductosCambios pc ON cc.idProductoCambio = pc.idProductoCambio
     WHERE cc.idoperacion = $idoperacion AND cc.FechaCambio = '$fechaPreventa'
     AND cc.idruta = ".$row['idruta']." AND pc.idProductoCambio = ".$arrayProductos[$i];
     $resultado3 = $db->consulta($consulta3);
