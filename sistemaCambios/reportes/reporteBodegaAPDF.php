@@ -158,7 +158,8 @@ $consulta = "SELECT
     idempaque,
     dempaque,
     descripcion,
-    FORMAT(SUM(cfisica),0) AS cfisica,
+    floor(SUM(csio2)) AS Ccompletasio,
+    SUM(csio) AS SobranPzas,
     SUM(DefectoProduccion) AS DefectoProduccion,
     SUM(MermaOperativa) AS MermaOperativa,
     SUM(ProductoCaduco) AS ProductoCaduco,
@@ -172,7 +173,8 @@ FROM
             descripcion,
             idruta,
             idproductocambio,
-            SUM(cantidad)/cavidades AS cfisica,
+            SUM(cantidad) / cavidades AS csio2,
+            SUM(cantidad) mod cavidades AS csio,
             IF(agrupador = 'Defecto Produccion', SUM(cantidad), 0) AS DefectoProduccion,
             IF(agrupador = 'Merma Operativa', SUM(cantidad), 0) AS MermaOperativa,
             IF(agrupador = 'Producto Caduco', SUM(cantidad), 0) AS ProductoCaduco,
@@ -224,7 +226,7 @@ $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
 
 // Títulos de las columnas
-$header = array('SKU','Producto','C.F.','Defecto Producción','Merma Operativa','Producto Caduco','Retiro Para Donativo','Cant. Pzas');
+$header = array('SKU','Producto','CSIO','Defecto Producción','Merma Operativa','Producto Caduco','Retiro Para Donativo','Cant. Pzas');
 
 // Anchuras de las columnas
 $w = array(8,50,8,30,30,30,30,16);
@@ -232,14 +234,14 @@ $pdf->AddPage();
 $pdf->crearEncabezado($header,$w,$row['dempaque']);
 
 $subTotal=0;
-$subCF=0;
+$subCSIO=0;
 $subDP=0;
 $subMO=0;
 $subPC=0;
 $subRD=0;
 
 $sumaTotal = 0;
-$sumaCF = 0;
+$sumaCSIO = 0;
 $sumaDP = 0;
 $sumaMO = 0;
 $sumaPC = 0;
@@ -259,7 +261,7 @@ do{
       $pdf->SetX(8);
       $pdf->SetFont('Times','',10);
       $pdf->Cell($w[0]+$w[1],6,'Subtotales','TBR',0,'R');
-      $pdf->Cell($w[2],6,$subCF,'TBR',0,'C');
+      $pdf->Cell($w[2],6,$subCSIO,'TBR',0,'C');
       $pdf->Cell(15,6,$subDP,'TBR',0,'C');
       $pdf->Cell(15,6,'','TBR',0,'C');
       $pdf->Cell(15,6,$subMO,'TBR',0,'C');
@@ -274,7 +276,7 @@ do{
       $pdf->Ln();
 
       $subTotal=0;
-      $subCF=0;
+      $subCSIO=0;
       $subDP=0;
       $subMO=0;
       $subPC=0;
@@ -320,8 +322,8 @@ do{
     $subTotal = $subTotal + $row['total'];
     $subTotal = $subTotal;
 
-    $subCF = $subCF + $row['cfisica'];
-    $subCF = $subCF;
+    $subCSIO = $subCSIO + $row['cfisica'];
+    $subCSIO = $subCSIO;
 
     $subDP = $subDP + $row['DefectoProduccion'];
     $subDP = $subDP;
@@ -341,8 +343,8 @@ do{
     $sumaTotal = $sumaTotal + $row['total'];
     $sumaTotal = $sumaTotal;
 
-    $sumaCF = $sumaCF + $row['cfisica'];
-    $sumaCF = $sumaCF;
+    $sumaCSIO = $sumaCSIO + $row['Ccompletasio'];
+    $sumaCSIO = $sumaCSIO;
 
     $sumaDP = $sumaDP + $row['DefectoProduccion'];
     $sumaDP = $sumaDP;
@@ -361,7 +363,7 @@ do{
     $pdf->SetFont('Times','',8);
     $pdf->Cell($w[1],6,substr(ucwords(strtolower($row['descripcion'])),0,38),'R',0,'C');
     $pdf->SetFont('Times','U',10);
-    $pdf->Cell($w[2],6,$row['cfisica'],'R',0,'C');//Cajas Físicas
+    $pdf->Cell($w[2],6,$row['Ccompletasio'],'R',0,'C');//Cajas SIO
     $pdf->Cell(15,6," ".$row['DefectoProduccion']." ",'R',0,'C');//Defecto Producción
     $pdf->Cell(15,6,'    ','R',0,'C');
     $pdf->Cell(15,6," ".$row['MermaOperativa']." ",'R',0,'C');//Merma Operativa
@@ -383,7 +385,7 @@ do{
 $pdf->SetX(8);
 $pdf->SetFont('Times','',10);
 $pdf->Cell($w[0]+$w[1],6,'Subtotales','TBR',0,'R');
-$pdf->Cell($w[2],6,$subCF,'TBR',0,'C');
+$pdf->Cell($w[2],6,$subCSIO,'TBR',0,'C');
 $pdf->Cell(15,6,$subDP,'TBR',0,'C');
 $pdf->Cell(15,6,'','TBR',0,'C');
 $pdf->Cell(15,6,$subMO,'TBR',0,'C');
@@ -400,7 +402,7 @@ $pdf->Ln();
 $pdf->SetX(8);
 $pdf->SetFont('Times','',10);
 $pdf->Cell($w[0]+$w[1],6,'Totales','TBR',0,'R');
-$pdf->Cell($w[2],6,$sumaCF,'TBR',0);
+$pdf->Cell($w[2],6,$sumaCSIO,'TBR',0);
 $pdf->Cell(15,6,$sumaDP,'TBR',0,'C');
 $pdf->Cell(15,6,'','TBR',0,'C');
 $pdf->Cell(15,6,$sumaMO,'TBR',0,'C');
