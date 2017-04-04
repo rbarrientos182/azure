@@ -92,20 +92,20 @@ class PDF extends FPDF
     function crearEncabezado($header,$w,$empaque)
     {
 
-        $w1 = array($w[0],$w[1],$w[2]);
-        $w2 = array($w[3],$w[4],$w[5],$w[6],$w[7],$w[8]);
+        $w1 = array($w[0],$w[1],$w[2],$w[3],$w[4]);
+        $w2 = array($w[5],$w[6],$w[7],$w[8],$w[9],$w[10]);
 
-        $this->SetX(8);
+        $this->SetX(3);
         $this->SetFont('Times','',9);
         $this->Cell(array_sum($w1),6,'SALIDA',1,0,'C');
         $this->Cell(array_sum($w2),6,'AGRUPADOR',1,0,'C');
         $this->Ln();
 
-        $this->SetX(8);
+        $this->SetX(3);
         for($i=0;$i<count($header);$i++){
             $position = 'B';
 
-            if($i==3){
+            if($i==5){
                 $position = 'BR';
 
             }
@@ -116,7 +116,7 @@ class PDF extends FPDF
 
         if($empaque!='')
         {
-            $this->SetX(8);
+            $this->SetX(3);
             $this->Cell($w[0],6,'',0,0);
             $this->Cell($w[1],6,'',0,0);
             $this->SetFont('Times','B',12);
@@ -124,16 +124,18 @@ class PDF extends FPDF
             $this->Cell($w[2],6,$empaque,'R',0,'C');
             $this->SetFillColor(255,255,255);
             $this->SetFont('Times','',10);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(15,6,'','R',0);
-            $this->Cell(8,6,'','R',0);
-            $this->Cell(8,6,'','R',0);
+            $this->Cell($w[3],6,'','R',0,'C');
+            $this->Cell($w[4],6,'','R',0,'C');
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(14,6,'','R',0);
+            $this->Cell(7,6,'','R',0);
+            $this->Cell(7,6,'','R',0);
             $this->Ln();
         }
     }
@@ -158,6 +160,8 @@ $consulta = "SELECT
     idempaque,
     dempaque,
     descripcion,
+    FLOOR(SUM(csio2)) AS csio,
+    SUM(csio) AS sobra,
     SUM(DefectoProduccion) AS DefectoProduccion,
     SUM(MermaOperativa) AS MermaOperativa,
     SUM(ProductoCaduco) AS ProductoCaduco,
@@ -171,6 +175,8 @@ FROM
             descripcion,
             idruta,
             idproductocambio,
+            SUM(cantidad)/cavidades AS csio2,
+            SUM(cantidad) MOD cavidades AS csio,
             IF(agrupador = 'Defecto Produccion', SUM(cantidad), 0) AS DefectoProduccion,
             IF(agrupador = 'Merma Operativa', SUM(cantidad), 0) AS MermaOperativa,
             IF(agrupador = 'Producto Caduco', SUM(cantidad), 0) AS ProductoCaduco,
@@ -185,6 +191,7 @@ FROM
             idproductocambio,
             idcambiosmotivos,
             agrupador,
+            cavidades,
             SUM(cantidad) cantidad
     FROM
         (SELECT
@@ -196,6 +203,7 @@ FROM
             cc.idproductocambio,
             cc.idcambiosmotivos,
             agrupador,
+            cavidades,
             cantidad
     FROM
 
@@ -220,10 +228,10 @@ $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
 
 // Títulos de las columnas
-$header = array('Ruta','SKU','Producto','Defecto Producción','Merma Operativa','Producto Caduco','Retiro Para Donativo','Cant. Pzas');
+$header = array('Ruta','SKU','Producto','CSIO','Sob','Defecto Producción','Merma Operativa','Producto Caduco','Retiro Para Donativo','Cant. Pzas');
 
 // Anchuras de las columnas
-$w = array(8,8,50,30,30,30,30,16);
+$w = array(8,8,50,8,8,28,28,28,28,14);
 $pdf->AddPage();
 $pdf->crearEncabezado($header,$w,$row['dempaque']);
 
@@ -245,24 +253,26 @@ do{
     /****** Preguntamos si la ruta cambio *******/
     if($idruta!=$idrutaIni){
 
-        $pdf->SetX(8);
+        $pdf->SetX(3);
         $pdf->SetFont('Times','',12);
         $pdf->Cell($w[0]+$w[1]+$w[2],6,'Totales','TBR',0,'R');
-        /*$pdf->Cell($w[1],6,'','B',0);
-        $pdf->Cell($w[2],6,'','BR',0);*/
-        $pdf->Cell(15,6,$sumaDP,'TBR',0,'C');
-        $pdf->Cell(15,6,'','TBR',0,'C');
-        $pdf->Cell(15,6,$sumaMO,'TBR',0,'C');
-        $pdf->Cell(15,6,'','TBR',0,'C');
-        $pdf->Cell(15,6,$sumaPC,'TBR',0,'C');
-        $pdf->Cell(15,6,'','TBR',0,'C');
-        $pdf->Cell(15,6,$sumaRD,'TBR',0,'C');
-        $pdf->Cell(15,6,'','TBR',0,'C');
-        $pdf->Cell(8,6,$sumaTotal,'TBR',0,'C');
-        $pdf->Cell(8,6,'','TBR',0,'C');
+        $pdf->Cell($w[3],6,$sumaCSIO,'TBR',0,'C');
+        $pdf->Cell($w[4],6,$sumaSobrante,'TBR',0,'C');
+        $pdf->Cell(14,6,$sumaDP,'TBR',0,'C');
+        $pdf->Cell(14,6,'','TBR',0,'C');
+        $pdf->Cell(14,6,$sumaMO,'TBR',0,'C');
+        $pdf->Cell(14,6,'','TBR',0,'C');
+        $pdf->Cell(14,6,$sumaPC,'TBR',0,'C');
+        $pdf->Cell(14,6,'','TBR',0,'C');
+        $pdf->Cell(14,6,$sumaRD,'TBR',0,'C');
+        $pdf->Cell(14,6,'','TBR',0,'C');
+        $pdf->Cell(7,6,$sumaTotal,'TBR',0,'C');
+        $pdf->Cell(7,6,'','TBR',0,'C');
         //$pdf->Cell($w[8],6,'',0,0);
         $pdf->Ln();
 
+        $sumaCSIO=0;
+        $sumaSobrante=0;
         $sumaTotal=0;
         $sumaDP=0;
         $sumaMO=0;
@@ -288,7 +298,7 @@ do{
     /*** Comprobamos si cambio de empaque ***/
     if ($idempaque != $empaqueIni) {
 
-        $pdf->SetX(8);
+        $pdf->SetX(3);
         $pdf->Cell($w[0],6,'',0,0);
         $pdf->Cell($w[1],6,'',0,0);
         $pdf->SetFont('Times','B',12);
@@ -296,20 +306,29 @@ do{
         $pdf->Cell($w[2],6,$row['dempaque'],'R',0,'C');
         $pdf->SetFillColor(255,255,255);
         $pdf->SetFont('Times','U',10);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(15,6,'','R',0);
-        $pdf->Cell(8,6,'','R',0);
-        $pdf->Cell(8,6,'','R',0);
+        $pdf->Cell($w[3],6,'','R',0,'C');
+        $pdf->Cell($w[4],6,'','R',0,'C');
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(14,6,'','R',0);
+        $pdf->Cell(7,6,'','R',0);
+        $pdf->Cell(7,6,'','R',0);
         $pdf->SetFont('Times','',8);
         //$pdf->Cell($w[8],6,'',0,0);
         $pdf->Ln();
     }
+
+    $sumaCSIO = $sumaCSIO + $row['csio'];
+    $sumaCSIO = $sumaCSIO;
+
+    $sumaSobrante = $sumaSobrante + $row['sobra'];
+    $sumaSobrante = $sumaSobrante;
+
     $sumaTotal = $sumaTotal + $row['total'];
     $sumaTotal = $sumaTotal;
 
@@ -325,22 +344,24 @@ do{
     $sumaRD = $sumaRD + $row['RetiroParaDonativo'];
     $sumaRD = $sumaRD;
 
-    $pdf->SetX(8);
+    $pdf->SetX(3);
     $pdf->Cell($w[0],6,$ruta,0,0,'C');
     $pdf->Cell($w[1],6,$row['sku'],0,0,'C');
     $pdf->SetFont('Times','',8);
     $pdf->Cell($w[2],6,substr(ucwords(strtolower($row['descripcion'])),0,38),'R',0,'C');
     $pdf->SetFont('Times','U',10);
-    $pdf->Cell(15,6," ".$row['DefectoProduccion']." ",'R',0,'C');//Defecto Producción
-    $pdf->Cell(15,6,'    ','R',0,'C');
-    $pdf->Cell(15,6," ".$row['MermaOperativa']." ",'R',0,'C');//Merma Operativa
-    $pdf->Cell(15,6,'    ','R',0,'C');
-    $pdf->Cell(15,6," ".$row['ProductoCaduco']." ",'R',0,'C');//Producto Caduco
-    $pdf->Cell(15,6,'    ','R',0,'C');
-    $pdf->Cell(15,6," ".$row['RetiroParaDonativo']." ",'R',0,'C');//Retiro para Donativo
-    $pdf->Cell(15,6,'    ','R',0,'C');
-    $pdf->Cell(8,6," ".$row['total']." ",'R',0,'C');
-    $pdf->Cell(8,6,'    ','R',0,'C');
+    $pdf->Cell($w[3],6,$row['csio'],'R',0,'C');
+    $pdf->Cell($w[4],6,$row['sobra'],'R',0,'C');
+    $pdf->Cell(14,6," ".$row['DefectoProduccion']." ",'R',0,'C');//Defecto Producción
+    $pdf->Cell(14,6,'    ','R',0,'C');
+    $pdf->Cell(14,6," ".$row['MermaOperativa']." ",'R',0,'C');//Merma Operativa
+    $pdf->Cell(14,6,'    ','R',0,'C');
+    $pdf->Cell(14,6," ".$row['ProductoCaduco']." ",'R',0,'C');//Producto Caduco
+    $pdf->Cell(14,6,'    ','R',0,'C');
+    $pdf->Cell(14,6," ".$row['RetiroParaDonativo']." ",'R',0,'C');//Retiro para Donativo
+    $pdf->Cell(14,6,'    ','R',0,'C');
+    $pdf->Cell(7,6," ".$row['total']." ",'R',0,'C');
+    $pdf->Cell(7,6,'    ','R',0,'C');
     $pdf->Ln();
 
     $idruta = $idrutaIni;
@@ -348,21 +369,22 @@ do{
 
 }while($row = $db->fetch_assoc($resultado));
 
-$pdf->SetX(8);
+$pdf->SetX(3);
 $pdf->SetFont('Times','U',10);
-$pdf->Cell($w[0],6,'',0,0,'C');
-$pdf->Cell($w[1],6,'',0,0,'C');
-$pdf->Cell($w[2],6,'','R',0);
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(15,6,'','BR',0,'C');
-$pdf->Cell(8,6,$sumaTotal,'BR',0,'C');
-$pdf->Cell(8,6,'','BR',0,'C');
+$pdf->Cell($w[0]+$w[1]+$w[2],6,'Totales','TBR',0,'R');
+$pdf->Cell($w[3],6,$sumaCSIO,'TBR',0,'C');
+$pdf->Cell($w[4],6,$sumaSobrante,'TBR',0,'C');
+$pdf->Cell(14,6,$sumaDP,'TBR',0,'C');
+$pdf->Cell(14,6,'','TBR',0,'C');
+$pdf->Cell(14,6,$sumaMO,'TBR',0,'C');
+$pdf->Cell(14,6,'','TBR',0,'C');
+$pdf->Cell(14,6,$sumaPC,'TBR',0,'C');
+$pdf->Cell(14,6,'','TBR',0,'C');
+$pdf->Cell(14,6,$sumaRD,'TBR',0,'C');
+$pdf->Cell(14,6,'','TBR',0,'C');
+$pdf->Cell(7,6,$sumaTotal,'TBR',0,'C');
+$pdf->Cell(7,6,'','TBR',0,'C');
+//$pdf->Cell($w[8],6,'',0,0);
 $pdf->Ln();
 $pdf->Output('reporteBodega_'.$fechaIni.'_'.date('H:i:s').'.pdf','D');
 ?>
