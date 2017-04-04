@@ -228,7 +228,7 @@ $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
 
 // Títulos de las columnas
-$header = array('Ruta','SKU','Producto','CSIO','Sob','Defecto Producción','Merma Operativa','Producto Caduco','Retiro Para Donativo','Cant. Pzas');
+$header = array('Ruta','SKU','Producto','CSIO','Pzas','Defecto Producción','Merma Operativa','Producto Caduco','Retiro Para Donativo','Tot. Pzas');
 
 // Anchuras de las columnas
 $w = array(8,8,50,8,8,28,28,28,28,14);
