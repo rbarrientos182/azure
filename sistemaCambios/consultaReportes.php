@@ -35,9 +35,9 @@ $idoperacion = $_SESSION['idoperacion'];
 											<!--<option value="3">Reporte Administración (por Motivo)</option>-->
 											<option value="4">Reporte Administración (Detallado Excel)</option>
 											<!--<option value="6">Reporte Indicadores (Excel)</option>-->
-											<option value="7">Reporte Indicadores (por Segmento Excel)</option>
+											<!--<option value="7">Reporte Indicadores (por Segmento Excel)</option>
 											<option value="8">Reporte Indicadores (por Motivo Excel)</option>
-											<option value="9">Reporte Indicadores (por Presentación Excel)</option>
+											<option value="9">Reporte Indicadores (por Presentación Excel)</option>-->
 										</select>
 									</div>
 							  	</div>
