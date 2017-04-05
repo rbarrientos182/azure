@@ -4,6 +4,7 @@ date_default_timezone_set('America/Mexico_City');
 // Desactivar toda notificación de error
 error_reporting(0);
 
+header('Location: index.php?iddeposito='.$iddeposito);
 
 if(date("H:i:s") >= 15){
 
@@ -31,11 +32,11 @@ $idoperacion = $row['idoperacion'];
 		<!-- CSS de Bootstrap -->
    		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
    		<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
-   		
+
 		<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
 		<script type="text/javascript" src="js/rainbow-custom.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
 			var limit = 13; // variable limite para la paginacion
 			var idoperacion = <?php echo $idoperacion;?>;
@@ -53,7 +54,7 @@ $idoperacion = $row['idoperacion'];
 						success:function function_name (nRegistro) {
 							//alert(nRegistro);
 							paginarTabla2(nRegistro,0,limit,idoperacion);
-							
+
 
 						},
 						error: function function_name (request,error) {
@@ -70,7 +71,7 @@ $idoperacion = $row['idoperacion'];
 				}
 			);
 
-			function paginarTabla2(cuantos,inicio,fin,idoperacion) 
+			function paginarTabla2(cuantos,inicio,fin,idoperacion)
 			{
 				//alert('cuantos '+cuantos+' inicio '+inicio+' fin '+fin+' idoperacion'+idoperacion);
 
@@ -78,7 +79,7 @@ $idoperacion = $row['idoperacion'];
 
 					inicio = 0;
 					fin = 0;
-						
+
 					fin = limit;
 				}
 
@@ -96,12 +97,12 @@ $idoperacion = $row['idoperacion'];
 							paginarTabla2(cuantos,inicio,fin,idoperacion);
 							},30000);
 				        }
-			    });	
+			    });
 			}
 
 			function mostrarDiv (){
 				//alert('entro a mostrarDiv');
-				$( "#div1" ).show( "blind", "slow" ); 
+				$( "#div1" ).show( "blind", "slow" );
             }
 		</script>
 
@@ -109,15 +110,15 @@ $idoperacion = $row['idoperacion'];
 		<link rel="shortcut icon" href="img/logo.ico">
 	</head>
 	<body>
-		<div id="div2"> 
+		<div id="div2">
 
-			<CENTER> DEPOSITO  <br> 
+			<CENTER> DEPOSITO  <br>
 			<b><?php echo $row['deposito']; ?></b> <br><br>
 			TIPO RUTA <br>
 			<b>ENTREGA </b> <br><br>
 			<b>FECHA</b> <br>
             <?php echo $fecha=date('Y-m-d');?>
-			</CENTER> 
+			</CENTER>
 
 			<div class="burbujas">
 		        <img class="cuadrado" style="margin-left: 35%; margin-top: 100%; max-width: 100%" src="img/burbuja1.png" alt="Burbuja">
