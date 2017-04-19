@@ -1,10 +1,10 @@
 <?php
-/*include_once '../class/class.MySQL.php';
+include_once '../class/class.MySQL.php';
 
 $db = new MySQL();
 $query = "SELECT * FROM Deposito";
 $result = $db->consulta($query);
-$row = $db->fetch_assoc($result);*/
+$row = $db->fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -45,7 +45,7 @@ $row = $db->fetch_assoc($result);*/
                             <select class="form-control" name="cedis">
                                 <?php do{?>
                                   <option value="<?php echo $row['idDeposito']; ?>"><?php echo $row['deposito']; ?></option>
-                                <?php }?>
+                                <?php }while($row = $db->fetch_assoc($result));?>
                             </select>
                         </div>
                       </div>
