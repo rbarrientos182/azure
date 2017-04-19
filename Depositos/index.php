@@ -15,6 +15,8 @@ $iddeposito = $_GET['iddeposito'];
       <br>
       <br>
       <h2>Lo sentimos, el sitio ha sido movido a otro servidor.
+        Favor de ponerte en contacto con tu TI.
+        <br>
         Espere por favor mientras es redirigido</h2>
     </center>
     <script type="text/javascript">
