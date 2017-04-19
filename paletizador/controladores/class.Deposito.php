@@ -9,9 +9,12 @@ class Deposito
 
   public function Index()
   {
-     $conexion = new MySQL();
-
+     $db = new MySQL();
      $query = "SELECT * FROM Deposito";
-     
+     $result = $db->consulta($query);
+     $row = $db->fetch_assoc($result);
+
+     return $row;
+
   }
 }

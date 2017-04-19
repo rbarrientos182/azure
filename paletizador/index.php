@@ -1,10 +1,10 @@
 <?php
-include_once 'controladores/class.Paletizador.php';
+/*include_once '../class/class.MySQL.php';
 
-$pal = new Paletizador();
-
-
-
+$db = new MySQL();
+$query = "SELECT * FROM Deposito";
+$result = $db->consulta($query);
+$row = $db->fetch_assoc($result);*/
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -43,8 +43,9 @@ $pal = new Paletizador();
                           <label class="col-sm-2 control-label" for="exampleInputEmail1">CEDIS</label>
                           <div class="col-sm-8">
                             <select class="form-control" name="cedis">
-
-                                <option value=""></option>
+                                <?php do{?>
+                                  <option value="<?php echo $row['idDeposito']; ?>"><?php echo $row['deposito']; ?></option>
+                                <?php }?>
                             </select>
                         </div>
                       </div>
