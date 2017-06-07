@@ -1,5 +1,5 @@
 <?php
-include_once '../class/class.MySQL.php';
+include_once 'class/class.MySQL.php';
 
 $db = new MySQL();
 $query = "SELECT * FROM Deposito";
@@ -42,7 +42,8 @@ $row = $db->fetch_assoc($result);
                       <div class="form-group">
                           <label class="col-sm-2 control-label" for="exampleInputEmail1">CEDIS</label>
                           <div class="col-sm-8">
-                            <select class="form-control" name="cedis">
+                            <select class="form-control" id="cedis" name="cedis">
+                                <option>Seleccione un CEDIS</option>
                                 <?php do{?>
                                   <option value="<?php echo $row['idDeposito']; ?>"><?php echo $row['deposito']; ?></option>
                                 <?php }while($row = $db->fetch_assoc($result));?>

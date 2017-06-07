@@ -13,7 +13,44 @@ require_once('clases/class.MySQL.php');
 
 $db = new MySQL();
 
-date_default_timezone_set('America/Mexico_City');
+$NumEmpleado = $_SESSION['NumEmpleado'];
+$nivel = $_SESSION['nivel'];
+$idoperacion = $_SESSION['idoperacion'];
+
+
+$consulta = "SELECT
+NumEmpleado,
+Nombre,
+IF(PPP=0,'',PPP) AS PPP,
+nivel AS niv,
+CASE nivel
+WHEN 1 THEN 'Supervisor'
+WHEN 2 THEN 'Promotor'
+WHEN 3 THEN 'Consulta'
+WHEN 4 THEN 'Administrador'
+END AS nivel,
+d.idDeposito,
+deposito,
+region,
+zonaHoraria
+FROM
+UsrCambios usr
+INNER JOIN
+Operaciones o ON usr.idoperacion = O.idoperacion
+INNER JOIN
+Deposito d ON o.idDeposito = d.idDeposito
+INNER JOIN
+zona z ON d.idzona = z.idzona
+INNER JOIN
+region r ON z.idRegion = r.idRegion
+WHERE
+NumEmpleado = $NumEmpleado
+AND o.idoperacion = $idoperacion";
+
+$resultado = $db->consulta($consulta);
+$row = $db->fetch_assoc($resultado);
+
+date_default_timezone_set($row['zonaHoraria']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -97,43 +134,10 @@ date_default_timezone_set('America/Mexico_City');
 				<!-- theme selector ends -->
 
 				<!-- user dropdown starts -->
-				<?php
-	                $NumEmpleado = $_SESSION['NumEmpleado'];
-	                $nivel = $_SESSION['nivel'];
-	                $idoperacion = $_SESSION['idoperacion'];
-					$consulta = "SELECT
-    NumEmpleado,
-    Nombre,
-    IF(PPP=0,'',PPP) AS PPP,
-    nivel AS niv,
-    CASE nivel
-        WHEN 1 THEN 'Supervisor'
-        WHEN 2 THEN 'Promotor'
-        WHEN 3 THEN 'Consulta'
-        WHEN 4 THEN 'Administrador'
-    END AS nivel,
-    d.idDeposito,
-    deposito,
-    region
-FROM
-    UsrCambios usr
-        INNER JOIN
-    Operaciones o ON usr.idoperacion = O.idoperacion
-        INNER JOIN
-    Deposito d ON o.idDeposito = d.idDeposito
-        INNER JOIN
-    zona z ON d.idzona = z.idzona
-        INNER JOIN
-    region r ON z.idRegion = r.idRegion
-WHERE
-    NumEmpleado = $NumEmpleado
-        AND o.idoperacion = $idoperacion";
 
-					$resultado = $db->consulta($consulta);
-					$row = $db->fetch_assoc($resultado);
-				?>
 					<?php echo $row['region']," - ".$row['idDeposito']." - ".$row['deposito']?><br><br>
-					<?php echo $row['nivel']." - ".$row['PPP']." - ".$NumEmpleado." - ".$row['Nombre']; ?>
+					<?php echo $row['nivel']." - ".$row['PPP']." - ".$NumEmpleado." - ".$row['Nombre']; ?><br><br>
+					<?php echo date("H:i:s"); ?>
 
 
 						<!--<p><b>All pages in the menu are functional, take a look at all, please share this with your followers.</b></p>-->
