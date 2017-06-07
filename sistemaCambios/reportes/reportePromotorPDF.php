@@ -118,6 +118,18 @@ class PDF extends FPDF
         }
         $this->Ln();
     }
+
+    function Footer()
+    {
+        // Go to 1.5 cm from bottom
+        $this->SetY(-11);
+        $this->Cell(45);
+        // Select Arial italic 8
+        $this->SetFont('Arial','I',8);
+        // Print centered page number
+        $this->Cell(6,10,'',0,0,'C');
+        $this->Cell(96,10,'Nombre y Firma','T',0,'C');
+    }
 }
 
 
@@ -168,24 +180,30 @@ $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);
 
 // Títulos de las columnas
-$header = array('Piezas','SKU','Descripción','NUD','Cliente','Motivo');
+$header = array('SKU','Descripción','NUD','Cliente','Motivo','Piezas');
 
 // Anchuras de las columnas
 $w = array(14,11,55,11,55,20);
 $pdf->SetFont('Times','',8);
 $pdf->AddPage();
 $pdf->crearEncabezado($header,$w);
+$count = 0;
 
 do{
 
-    $pdf->Cell($w[0],6,$row['cantidad'],0,0,'L');
     $pdf->Cell($w[1],6,$row['sku'],0,0,'L');
     $pdf->Cell($w[2],6,$row['DescripcionInterna'],0,0,'L');
     $pdf->Cell($w[3],6,$row['nud'],0,0,'L');
     $pdf->Cell($w[4],6,$row['nombre'],0,0,'L');
     $pdf->Cell($w[5],6,$row['motivo'],0,0,'L');
+    $pdf->Cell($w[0],6,$row['cantidad'],0,0,'L');
     $pdf->Ln();
+    $count = $row['cantidad'] + $count;
 }while($row = $db->fetch_assoc($resultado));
+$pdf->Ln();
+$pdf->Cell($w[1]+$w[2]+$w[3]+$w[4]+$w[5],6,'Total de Piezas',0,0,'L');
+$pdf->Cell($w[0],6,$count,0,0,'L');
+$pdf->Ln();
 
 $pdf->Output('reportePromotor_'.$fechaPreventa.'_'.date('H:i:s').'.pdf','D');
 ?>
