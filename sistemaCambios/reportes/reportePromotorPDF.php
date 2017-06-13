@@ -183,7 +183,7 @@ $row = $db->fetch_assoc($resultado);
 $header = array('SKU','Descripción','NUD','Cliente','Motivo','Piezas');
 
 // Anchuras de las columnas
-$w = array(20,11,55,11,55,14);
+$w = array(11,55,11,55,20,14);
 $pdf->SetFont('Times','',8);
 $pdf->AddPage();
 $pdf->crearEncabezado($header,$w);
@@ -196,13 +196,13 @@ do{
     $pdf->Cell($w[2],6,$row['nud'],0,0,'L');
     $pdf->Cell($w[3],6,$row['nombre'],0,0,'L');
     $pdf->Cell($w[4],6,$row['motivo'],0,0,'L');
-    $pdf->Cell($w[5],6,$row['cantidad'],0,0,'L');
+    $pdf->Cell($w[5],6,$row['cantidad'],0,0,'C');
     $pdf->Ln();
     $count = $row['cantidad'] + $count;
 }while($row = $db->fetch_assoc($resultado));
 $pdf->Ln();
 $pdf->Cell($w[0]+$w[1]+$w[2]+$w[3]+$w[4],6,'Total de Piezas',0,0,'L');
-$pdf->Cell($w[5],6,$count,0,0,'L');
+$pdf->Cell($w[5],6,$count,0,0,'C');
 $pdf->Ln();
 
 $pdf->Output('reportePromotor_'.$fechaPreventa.'_'.date('H:i:s').'.pdf','D');

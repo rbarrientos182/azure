@@ -2,6 +2,7 @@
 class MySQL
 {
     private $conexion = null;
+    //private $host = "localhost:8889";
     private $host = "192.168.21.29";
     private $user = "gepp";
     private $pass = "gepp";

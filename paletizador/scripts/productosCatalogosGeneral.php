@@ -6,7 +6,7 @@ $query = "SELECT
     sku AS skuproducto, Descripcion AS desproducto
 FROM
     productos
-ORDER BY desproducto";
+ORDER BY sku";
 $result= $db->consulta($query);
 $obj = $db->fetch_object($result);
 

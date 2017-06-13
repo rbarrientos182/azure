@@ -18,7 +18,7 @@ WHERE
             productos.sku = pasillos.IdPaquete
                 AND IdPasillo = $pasillo
                 AND iddeposito = $idcedis)
-ORDER BY desproducto";
+ORDER BY sku";
 $result= $db->consulta($query);
 $obj = $db->fetch_object($result);
 

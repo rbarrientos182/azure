@@ -71,91 +71,91 @@ $row4 = $db->fetch_assoc($result4);
                         <input type="hidden" id="accion" name="accion">
                         <input type="hidden" id="idpaletizador" name="idpaletizador">
                         <div class="col-sm-8">
-                          <input type="text" id="largotarima" name="largotarima" value="" data-validation-engine="validate[required,custom[integer]]">
+                          <input type="text" id="largotarima" class="form-control" style="width:100px" name="largotarima" value="" data-validation-engine="validate[required,custom[integer]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Ancho de Tarima</label>
                         <div class="col-sm-8">
-                          <input type="text" id="anchotarima" name="anchotarima" value=""  data-validation-engine="validate[required,custom[integer]]">
+                          <input type="text" id="anchotarima" class="form-control" style="width:100px" name="anchotarima" value=""  data-validation-engine="validate[required,custom[integer]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Margen Interior</label>
                         <div class="col-sm-8">
-                          <input type="text" id="margen" name="margen" value="" data-validation-engine="validate[required,custom[integer]]">
+                          <input type="text" id="margen" class="form-control" style="width:100px" name="margen" value="" data-validation-engine="validate[required,custom[integer]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Margen Exterior</label>
                         <div class="col-sm-8">
-                          <input type="text" id="margen1" name="margen1" value="" data-validation-engine="validate[required,custom[integer]]">
+                          <input type="text" id="margen1" class="form-control" style="width:100px" name="margen1" value="" data-validation-engine="validate[required,custom[integer]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Tipo Tarima A</label>
                         <div class="col-sm-8">
-                          <input type="text" id="tarima1" name="tarima1" value="">
+                          <input type="text" id="tarima1" class="form-control" style="width:100px" name="tarima1" value="">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Tipo Tarima B</label>
                         <div class="col-sm-8">
-                          <input type="text" id="tarima2" name="tarima2" value="">
+                          <input type="text" id="tarima2" class="form-control" style="width:100px" name="tarima2" value="">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Tipo Tarima C</label>
                         <div class="col-sm-8">
-                          <input type="text" id="tarima3" name="tarima3" value="">
+                          <input type="text" id="tarima3" class="form-control" style="width:100px" name="tarima3" value="">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Tipo Tarima D</label>
                         <div class="col-sm-8">
-                          <input type="text" id="tarima4" name="tarima4" value="">
+                          <input type="text" id="tarima4" class="form-control" style="width:100px" name="tarima4" value="">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Tipo Tarima E</label>
                         <div class="col-sm-8">
-                          <input type="text" id="tarima5" name="tarima5" value="">
+                          <input type="text" id="tarima5" class="form-control" style="width:100px" name="tarima5" value="">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">% Min Tipo A</label>
                         <div class="col-sm-8">
-                          <input type="text" id="pcompleta" name="pcompleta" value="" data-validation-engine="validate[custom[number]]">
+                          <input type="text" id="pcompleta" class="form-control" style="width:100px" name="pcompleta" value="" data-validation-engine="validate[custom[number]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">%Min Tipo B</label>
                         <div class="col-sm-8">
-                          <input type="text" id="pbandera" name="pbandera" value="" data-validation-engine="validate[custom[number]]">
+                          <input type="text" id="pbandera" class="form-control" style="width:100px" name="pbandera" value="" data-validation-engine="validate[custom[number]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">% Min Tipo C</label>
                         <div class="col-sm-8">
-                          <input type="text" id="pescuadra" name="pescuadra" value="" data-validation-engine="validate[custom[number]]">
+                          <input type="text" id="pescuadra" class="form-control" style="width:100px" name="pescuadra" value="" data-validation-engine="validate[custom[number]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">% Min Tipo D</label>
                         <div class="col-sm-8">
-                          <input type="text" id="pcombinada" name="pcombinada" value="" data-validation-engine="validate[custom[number]]">
+                          <input type="text" id="pcombinada" class="form-control" style="width:100px" name="pcombinada" value="" data-validation-engine="validate[custom[number]]">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">SKU Garrafón</label>
                         <div class="col-sm-8">
-                          <input type="text" id="skug" name="skug" value="">
+                          <input type="text" id="skug" class="form-control" style="width:100px" name="skug" value="">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="col-sm-2 control-label" for="exampleInputEmail1">Cálculo por Pasillos</label>
                         <div class="col-sm-8">
-                          <input type="text" id="cpasillos" name="cpasillos" value="" data-validation-engine="validate[required,custom[integer]]">
+                          <input type="text" id="cpasillos" class="form-control" style="width:100px" name="cpasillos" value="" data-validation-engine="validate[required,custom[integer]]">
                         </div>
                       </div>
                       <div class="form-group">
@@ -256,7 +256,7 @@ $row4 = $db->fetch_assoc($result4);
                    <div class="form-group">
                     <label class="col-sm-2 control-label" for="exampleInputEmail1">Fecha</label>
                     <div class="col-sm-8">
-                      <input type="text" id="datepicker" name="datepicker" value="<?php echo date('Y-m-d');?>" readonly>
+                      <input type="text" id="datepicker" class="form-control" style="width:100px" name="datepicker" value="<?php echo date('Y-m-d');?>" readonly>
                     </div><!--col-sm-8-->
                   </div><!--form-group-->
                   <div class="form-group">
@@ -303,7 +303,7 @@ $row4 = $db->fetch_assoc($result4);
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="exampleInputEmail1">Fecha</label>
                     <div class="col-sm-8">
-                      <input type="text" id="datepicker2" name="datepicker2" value="<?php echo date('Y-m-d');?>" readonly>
+                      <input type="text" id="datepicker2" class="form-control" style="width:100px" name="datepicker2" value="<?php echo date('Y-m-d');?>" readonly>
                     </div><!--col-sm-8-->
                   </div><!--form-group-->
                   <div class="form-group">
@@ -320,6 +320,7 @@ $row4 = $db->fetch_assoc($result4);
                       <select class="form-control" id="tarimaconf" name="tarimaconf">
                         <option value="0">Seleccione una Tarima</option>
                       </select>
+                      <input type="hidden" id="ultimatarima" name="ultimatarima">
                     </div><!--col-sm-8-->
                   </div><!--form-group-->
                   <!--<div class="form-group">
@@ -333,6 +334,7 @@ $row4 = $db->fetch_assoc($result4);
                         <thead class="thead-inverse">
                           <tr>
                             <th>SKU</th>
+                            <th>Producto</th>
                             <th>Cajas</th>
                             <th>Mover Numero de Tarima</th>
                             <th>Cajas Asignar</th>
@@ -345,6 +347,12 @@ $row4 = $db->fetch_assoc($result4);
                       </table>
                     </div>
                   </div><!--form-group-->
+                  <div class="form-group">
+                    <div class="col-sm-8">
+                      <button type="button"  class="btn btn-default" id="btnSaveConf" name="btnSaveConf">Guardar</button>
+                    </div><!--col-sm-8-->
+                  </div><!--form-group-->
+                  <div class="form-group">
                 </div><!--box-body-->
                </form>
               </div><!-- ajuste manual -->
@@ -356,6 +364,7 @@ $row4 = $db->fetch_assoc($result4);
     <!-- jQuery 3.2.1 -->
     <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <script src="js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="js/jquery.numeric.min.js" type="text/javascript"></script>
     <script src="js/datepicker-es.js" type="text/javascript"></script>
     <!-- Validation Engine -->
     <script src="js/jquery.validationEngine-es.js" type="text/javascript"></script>
@@ -370,7 +379,7 @@ $row4 = $db->fetch_assoc($result4);
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <?php 
+    <?php
       if(isset($_GET['var1'])){
         $var1 = $_GET['var1'];
         echo "<script 'type=text/javascript'>";
