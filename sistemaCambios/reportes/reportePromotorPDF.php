@@ -129,6 +129,8 @@ class PDF extends FPDF
         // Print centered page number
         $this->Cell(6,10,'',0,0,'C');
         $this->Cell(96,10,'Nombre y Firma','T',0,'C');
+        $this->Cell(0,10,utf8_decode('Página ').$this->PageNo(),0,0,'R');
+
     }
 }
 
@@ -172,9 +174,9 @@ $consulta = "SELECT
             INNER JOIN
         clientes cl ON cl.nud = cc.nud AND cl.iddeposito = d.idDeposito
     WHERE
-        cc.FechaCambio = '$fechaPreventa'
-        AND cc.idoperacion = $idoperacion
-        AND cc.NumEmpleado = $numEmpleado
+      cc.FechaCambio = '2017-06-12'
+      AND cc.idoperacion = 8
+      AND cc.NumEmpleado = 50014466
     ORDER BY idcambios";
 $resultado = $db->consulta($consulta);
 $row = $db->fetch_assoc($resultado);

@@ -79,6 +79,17 @@ class PDF extends FPDF
         $this->Ln(20);
     }
 
+    function Footer()
+    {
+        // Go to 1.5 cm from bottom
+        $this->SetY(-11);
+        // Select Arial italic 8
+        $this->SetFont('Arial','I',8);
+        // Print centered page number
+        $this->Cell(0,10,utf8_decode('Página ').$this->PageNo(),0,0,'R');
+
+    }
+
     function crearEncabezado($header,$w){
 
     	for($i=0;$i<count($header);$i++){

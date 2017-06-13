@@ -77,17 +77,15 @@ class PDF extends FPDF
         $this->Ln(20);
     }
 
-    /*function Footer()
+    function Footer()
     {
         // Go to 1.5 cm from bottom
         $this->SetY(-11);
         // Select Arial italic 8
         $this->SetFont('Arial','I',8);
         // Print centered page number
-        $this->Cell(96,10,'Nombre y Firma del Operador de Entrega','T',0,'C');
-        $this->Cell(6,10,'',0,0,'C');
-        $this->Cell(96,10,'Nombre y Firma del Verificador','T',0,'C');
-    }*/
+        $this->Cell(0,10,utf8_decode('Página ').$this->PageNo(),0,0,'R');
+    }
 
     function crearEncabezado($header,$w,$empaque)
     {

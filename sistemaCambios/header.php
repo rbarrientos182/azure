@@ -205,9 +205,9 @@ date_default_timezone_set($row['zonaHoraria']);
 						<?php if(/*$nivel==1 || */$nivel==2/*|| $nivel==4*/){?>
 							<li><a class="" href="AltaCambios.php"><i class="icon-align-justify"></i><span class="hidden-tablet">Captura de Cambios</span></a></li>
 						<?php }?>
-						<?php if($nivel==2){?>
+						<?php //if($nivel==2){?>
 							<li><a class="" href="consultaReportesPromotores.php"><i class="icon-print"></i><span class="hidden-tablet">Reporte</span></a></li>
-						<?php }?>
+						<?php //}?>
 						<?php if($nivel==1 || $nivel==4 || $nivel==3){?>
 							<li><a class="" href="consultaReportes.php"><i class="icon-print"></i><span class="hidden-tablet">Reportes</span></a></li>
 							<!--<li><a class="" href="consultaReportesIndicadores.php"><i class="icon-print"></i><span class="hidden-tablet">Reportes Indicadores</span></a></li>-->
