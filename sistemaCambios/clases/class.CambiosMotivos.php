@@ -4,18 +4,18 @@ class CambiosMotivos
  	private $motivo;
  	private $desMotivo;
  	private $producto;
-    private $desProducto;
+  private $desProducto;
  	private $cantidad;
-    private $nud;
-    private $desCliente;
-    private $fechaEntrega;
-    private $fijo;
-    private $productoConv;
-    private $idRuta;
+  private $nud;
+  private $desCliente;
+  private $fechaEntrega;
+  private $fijo;
+  private $productoConv;
+  private $idRuta;
 
 	function __construct()
 	{
-		if (!isset($_SESSION)) 
+		if (!isset($_SESSION))
 		{
 			session_start();
 		}
@@ -68,37 +68,37 @@ class CambiosMotivos
 	public function setMotivos($value)
 	{
 		 $this->motivo = $value;
-		 
+
 	}
 
 	public function setDesMotivo($value)
 	{
 		 $this->desMotivo = $value;
-		
+
 	}
 
 	public function setProducto($value)
 	{
 		 $this->producto = $value;
-		
+
 	}
 
 	public function setDesProducto($value)
 	{
 		 $this->desProducto = $value;
-		
+
 	}
 
 	public function setCantidad($value)
 	{
 		 $this->cantidad = $value;
-		
+
 	}
 
 	public function setNud($value)
 	{
 		 $this->nud = $value;
-		
+
 	}
 
 	public function setDesCliente($value)
@@ -132,13 +132,13 @@ class CambiosMotivos
 		{
 			$itemsEnCesta = $_SESSION['itemsEnCesta'];
 		}
-		
+
         $b = $this->motivo;
         $b .= $this->producto;
         $b .= $this->nud;
 
 		$itemsEnCesta[md5($b)] = array('id'=>md5($b),'idM'=>$this->motivo,'descripcionMotivo'=>$this->desMotivo,'sku'=>$this->producto,'descripcionProducto'=>$this->desProducto,'cantidad'=>$this->cantidad,'fechaE'=>$this->fechaEntrega,'productoConv'=>$this->productoConv, 'nud'=>$this->nud, 'desCliente'=>$this->desCliente/*, 'fijo'=>$this->fijo, 'ruta'=>$this->idRuta*/);
-		$_SESSION['itemsEnCesta'] = $itemsEnCesta; 
+		$_SESSION['itemsEnCesta'] = $itemsEnCesta;
 
 	}// fin método addCambiosMotivos
 
@@ -148,9 +148,9 @@ class CambiosMotivos
 		{
 			$itemsEnCesta = $_SESSION['itemsEnCesta'];
             unset($itemsEnCesta[md5($valor)]);
-			$_SESSION['itemsEnCesta'] = $itemsEnCesta;   
-		} 
-		  
+			$_SESSION['itemsEnCesta'] = $itemsEnCesta;
+		}
+
 	}// fin método delCambiosMotivos
 
 	public function mostrarTabla()
@@ -171,7 +171,7 @@ class CambiosMotivos
 			<div class="box-content">
 			  	<table class="table table-striped table-bordered bootstrap-datatable datatable">
 	                <tr>
-	                  <th>Cliente</th> 
+	                  <th>Cliente</th>
 					  <th>Motivo</th>
 					  <th>Producto</th>
 					  <th>Cantidad</th>
@@ -181,11 +181,11 @@ class CambiosMotivos
 					  <th>Acción</th>
 					</tr>
 					<?php
-					$contador = 0;  
+					$contador = 0;
 			   		foreach($itemsEnCesta as $k => $v)
-			   		{  
+			   		{
 		            ?>
-					<tr>		          
+					<tr>
 						<td class="center" >
 			            	<?php echo $v['desCliente']; ?>
 			            </td>
@@ -219,7 +219,7 @@ class CambiosMotivos
 			              </a>
 			            </td>
 					</tr>
-					<?php 
+					<?php
 				    	$contador++;
 			    	} // fin del for each
 					?>
@@ -230,7 +230,7 @@ class CambiosMotivos
 	            	</tr>
 				</table>
 			</div>
-		<?php 
+		<?php
 		 }
 		 else
 		 {
@@ -242,8 +242,8 @@ class CambiosMotivos
 	    			</tr>
 				</table>
 			</div>
-		<?php 
-		 
+		<?php
+
 		}
 
 	}// fin método mostrarTabla

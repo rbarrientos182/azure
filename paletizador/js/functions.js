@@ -315,6 +315,21 @@ $("#btnGuardar").click(function(){
 
 });
 
+$("#exportxls").click(function(){
+var iddeposito = $("#nocedis").val();
+//alert("cedis seleccionado es "+iddeposito);
+if (iddeposito==0){
+  showMessageAlert('Necesita seleccionar un depósito');
+}
+else {
+  //$.get( "scripts/reports/reporteXLSPasillo.php", { deposito: iddeposito } );
+  document.location.href = "scripts/reports/reporteXLSPasillo.php?deposito=" + iddeposito;
+}
+
+});
+
+
+
 $("#btnCancelar").click(function(){
     $("#pasillo").prop("disabled",false);
     $("#productos").empty();
@@ -347,9 +362,9 @@ $("#tarimaconf").change(function(){
 $("#btnSaveConf").click(function(){
     //e.preventDefault();
     //alert("entro a guardar ajustes");
-    var bandera=0;
-    var count=0;
-    var contadortr=0;
+    var bandera = 0;
+    var count = 0;
+    var contadortr = 0;
     var cadena;
     var tarima = $("#tarimaconf").val();
     $("#tablaCTarimas tr").each(function(index){

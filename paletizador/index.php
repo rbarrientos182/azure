@@ -217,6 +217,8 @@ $row4 = $db->fetch_assoc($result4);
                               <button type="button" class="btn btn-default" id="del"><==</button>
                               <br><br>
                               <button type="button" class="btn btn-default" id="add">==></button>
+                              <br><br>
+                              <button type="button" class="btn btn-default" id="exportxls">Exportar a excel</button>
                             </ul>
                           </div><!--bs-glyphicons-->
                         </div><!--col-md-2-->
